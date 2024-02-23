@@ -1,0 +1,2 @@
+# netxapp
+avalonia实现的netx前端框架，采用addon方式实现不同业务的集成
