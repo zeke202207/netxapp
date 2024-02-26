@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <AvaloniaVersion>11.0.9</AvaloniaVersion>
+    <AvaloniaEditVersion>11.0.6</AvaloniaEditVersion>
+    <MaterialIconsAvalonia>2.1.0</MaterialIconsAvalonia>
+    <SkiaSharpVersion>2.88.7</SkiaSharpVersion>
+    <ReactiveUIVersion>19.5.41</ReactiveUIVersion>
+    <MSExtensionsConfigurationJson>8.0.0</MSExtensionsConfigurationJson>
+    <MSExtensionsConfigurationVersion>8.0.0</MSExtensionsConfigurationVersion>
+    <MSExtensionsDependencyInjectionVersion>8.0.0</MSExtensionsDependencyInjectionVersion>
+    <MSExtensionsConfigurationFileExtensionsVersion>8.0.0</MSExtensionsConfigurationFileExtensionsVersion>
+    <MSExtensionsOptionsConfigurationExtensionsVersion>8.0.0</MSExtensionsOptionsConfigurationExtensionsVersion>
+  </PropertyGroup>
+
+</Project>

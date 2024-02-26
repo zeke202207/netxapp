@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "platforms", "platforms", "{4BC71BC9-C1BB-49E2-B605-EF117F22A917}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "desktop", "desktop", "{41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer", "platforms\desktop\NetX.AppContainer\NetX.AppContainer.csproj", "{5A09AE91-3384-46CB-AF0B-78504C0981FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer.Desktop", "platforms\desktop\NetX.AppContainer.Desktop\NetX.AppContainer.Desktop.csproj", "{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{BAC15688-5BEA-4611-85C4-8E9734D0CFDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SukiUI", "ui\SukiUI.csproj", "{58262DFD-F546-445E-80A3-D28A752FD6F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A09AE91-3384-46CB-AF0B-78504C0981FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A09AE91-3384-46CB-AF0B-78504C0981FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A09AE91-3384-46CB-AF0B-78504C0981FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A09AE91-3384-46CB-AF0B-78504C0981FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58262DFD-F546-445E-80A3-D28A752FD6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58262DFD-F546-445E-80A3-D28A752FD6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58262DFD-F546-445E-80A3-D28A752FD6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58262DFD-F546-445E-80A3-D28A752FD6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0} = {4BC71BC9-C1BB-49E2-B605-EF117F22A917}
+		{5A09AE91-3384-46CB-AF0B-78504C0981FF} = {41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0}
+		{21E5C374-AB3E-4B2D-A2EE-0F4A04CE4530} = {41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0}
+		{58262DFD-F546-445E-80A3-D28A752FD6F3} = {BAC15688-5BEA-4611-85C4-8E9734D0CFDD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC4FF38D-16BF-43FA-A6A2-D37DC86B8226}
+	EndGlobalSection
+EndGlobal

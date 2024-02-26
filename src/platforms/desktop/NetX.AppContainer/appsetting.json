@@ -1,0 +1,11 @@
+{
+  "windows": {
+    "icon": "icon.ico"
+  },
+  "splashscreen": {
+    "width": 800,
+    "height": 450,
+    "image": "avares://NetX.AppContainer/Assets/splash.png",
+    "fontcolor": "#ff00ff"
+  }
+}
