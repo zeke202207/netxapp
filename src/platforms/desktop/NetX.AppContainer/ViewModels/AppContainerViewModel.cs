@@ -27,19 +27,22 @@ namespace NetX.AppContainer.ViewModels
         private readonly MainViewModel _mainViewModel;
         private readonly IControlCreator _controlCreator;
         private readonly List<IStartupViewModel> _steps;
+        private readonly IDataTemplate _dataTemplate;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
 
         public AppContainerViewModel(
             IControlCreator controlCreator,
             IOptions<AppConfig> option, 
             MainViewModel mainViewModel,
-            IEnumerable<IStartupViewModel> steps)
+            IEnumerable<IStartupViewModel> steps,
+            IDataTemplate dataTemplate)
             : base(-1)
         {
             _mainViewModel = mainViewModel;
             _controlCreator = controlCreator;
-            _steps = steps.OrderBy(p=>p.Order).ToList();
+            _steps = steps.OrderBy(p => p.Order).ToList();
             _steps.ForEach(step => step.AutoResetEvent = _autoResetEvent);
+            _dataTemplate = dataTemplate;
         }
 
         public Window Init()
@@ -54,7 +57,7 @@ namespace NetX.AppContainer.ViewModels
         private Window InitFirestScreen()
         {
             var startupViewModel = _steps.FirstOrDefault() as IViewModel;
-            return startupViewModel.CreateView() as SukiWindow;
+            return _dataTemplate.Build(startupViewModel) as SukiWindow;
         }
 
         private void InitEvent()
@@ -69,8 +72,8 @@ namespace NetX.AppContainer.ViewModels
 
         private async void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            var startupViewModel = _steps[e.ProgressPercentage] as IViewModel;
-            var window = startupViewModel.CreateView() as SukiWindow;
+            var currentViewModel = _steps[e.ProgressPercentage] as IViewModel;
+            var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
             _windowSelf?.Hide();
             window.Show();
             _windowSelf = window;

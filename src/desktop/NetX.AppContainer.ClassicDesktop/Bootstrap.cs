@@ -12,23 +12,10 @@ namespace NetX.AppContainer.ClassicDesktop
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>(()=> CreateApp())
+            => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
                 .UseReactiveUI();
-
-        /// <summary>
-        /// 构建App
-        /// </summary>
-        /// <returns></returns>
-        private static App CreateApp()
-        {
-            var services = new ServiceCollection();
-            var addoneType = Assembly.GetEntryAssembly()!.EntryPoint!.DeclaringType;
-            if(null == addoneType)
-                throw new EntryPointNotFoundException("未找到入口类型");
-            return new App(addoneType!, services);
-        }
     }
 }

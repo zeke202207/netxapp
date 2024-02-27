@@ -14,8 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj" />
     <ProjectReference Include="..\..\..\contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj" />
-    <ProjectReference Include="..\..\..\desktop\NetX.AppContainer.ClassicDesktop\NetX.AppContainer.ClassicDesktop.csproj" />
-    <ProjectReference Include="..\..\..\platforms\desktop\NetX.AppContainer.Desktop\NetX.AppContainer.Desktop.csproj" />
+    <ProjectReference Include="..\..\..\platforms\desktop\NetX.AppContainer\NetX.AppContainer.csproj" />
     <ProjectReference Include="..\..\..\ui\SukiUI.csproj" />
   </ItemGroup>
 

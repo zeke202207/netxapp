@@ -26,7 +26,6 @@ public abstract class ViewModelBase : ReactiveObject, IStartupViewModel, IViewMo
         var name = fullName.Replace("ViewModel", "View");
         View = CreateView(name);
         View.DataContext = this;
-        ViewLocator.Instance.Register(this, View);
         return View;
     }
 

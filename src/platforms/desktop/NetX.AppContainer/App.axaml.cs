@@ -23,16 +23,14 @@ using System.Threading.Tasks;
 namespace NetX.AppContainer;
 
 public partial class App : Application
-{    
-    private readonly Type _addOneType;
+{
     private readonly ServiceCollection _services;
     private ServiceProvider _serviceProvider;
     private IConfiguration _configuration;
 
-    public App(Type addOneType, ServiceCollection services)
+    public App()
     {
-        _addOneType = addOneType;
-        _services = services;
+        _services = new ServiceCollection();
     }
 
     public override void Initialize()
@@ -58,11 +56,20 @@ public partial class App : Application
         _services.Configure<AppConfig>(_configuration)
             .AddOptions<AppConfig>();
         // viewlocator
+
+        var viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
+        if (viewlocator is not null)
+            _services.AddSingleton(viewlocator);
+
         _services.AddSingleton<IControlCreator, ControlCreator>();
         //viewmodel
         _services.AddSingleton<AppContainerViewModel>();
         _services.AddSingleton<MainViewModel>();
         _services.AddSingleton<IStartupViewModel,MainViewModel>();
+
+        //DEMO
+        _services.AddSingleton<DemoPageA>();
+        _services.AddSingleton<DemoPageB>();
     }
 
     private void ConfigAddOneServices()
@@ -100,14 +107,14 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var controlCreator = _serviceProvider?.GetRequiredService<IControlCreator>();
-        var splashScreenViewModel = _serviceProvider?.GetRequiredService<AppContainerViewModel>();
-        var splashScreenWindows = splashScreenViewModel.CreateView() as SukiWindow;
+        var dataTemplate = _serviceProvider?.GetRequiredService<IDataTemplate>();
+        var appContainerViewModel = _serviceProvider?.GetRequiredService<AppContainerViewModel>();
+        var splashScreenWindows = dataTemplate.Build(appContainerViewModel) as SukiWindow;
         if (null == splashScreenWindows)
             return;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = splashScreenViewModel!.Init();
+            desktop.MainWindow = appContainerViewModel!.Init();
         }
 
         base.OnFrameworkInitializationCompleted();
