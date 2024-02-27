@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "platforms", "platforms", "{4BC71BC9-C1BB-49E2-B605-EF117F22A917}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "desktop", "desktop", "{41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0}"
-	ProjectSection(SolutionItems) = preProject
-		desktop\NetX.AppContainer.ClassicDesktop\Bootstrap.cs = desktop\NetX.AppContainer.ClassicDesktop\Bootstrap.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer", "platforms\desktop\NetX.AppContainer\NetX.AppContainer.csproj", "{5A09AE91-3384-46CB-AF0B-78504C0981FF}"
 EndProject

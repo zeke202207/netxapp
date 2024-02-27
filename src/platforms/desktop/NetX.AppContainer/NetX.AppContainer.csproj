@@ -55,9 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AppContainerWindow.axaml.cs">
-      <DependentUpon>AppContainerWindow.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\MainWindow.axaml.cs">
       <DependentUpon>MainWindow.axaml</DependentUpon>
     </Compile>

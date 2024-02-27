@@ -20,26 +20,20 @@ using System.Threading.Tasks;
 
 namespace NetX.AppContainer.ViewModels
 {
-    public class AppContainerViewModel : StartupWindowViewModel
+    public class AppBootstrap
     {
         private Window? _windowSelf;
         private BackgroundWorker _worker;
-        private readonly MainViewModel _mainViewModel;
-        private readonly IControlCreator _controlCreator;
         private readonly List<IStartupWindowViewModel> _steps;
         private readonly IDataTemplate _dataTemplate;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
+        private Stack<Window> sukiWindows = new Stack<Window>();
 
-        public AppContainerViewModel(
-            IControlCreator controlCreator,
+        public AppBootstrap(
             IOptions<AppConfig> option, 
-            MainViewModel mainViewModel,
             IEnumerable<IStartupWindowViewModel> steps,
             IDataTemplate dataTemplate)
-            : base(controlCreator,typeof(AppContainerWindow),-1)
         {
-            _mainViewModel = mainViewModel;
-            _controlCreator = controlCreator;
             _steps = steps.OrderBy(p => p.Order).ToList();
             _steps.ForEach(step => step.AutoResetEvent = _autoResetEvent);
             _dataTemplate = dataTemplate;
@@ -72,11 +66,43 @@ namespace NetX.AppContainer.ViewModels
 
         private async void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            var currentViewModel = _steps[e.ProgressPercentage] as IViewModel;
-            var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
-            _windowSelf?.Hide();
-            window.Show();
-            _windowSelf = window;
+            try
+            {
+                if (_steps.Count > e.ProgressPercentage)
+                {
+                    var currentViewModel = _steps[e.ProgressPercentage] as IViewModel;
+                    var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
+                    _windowSelf?.Hide();
+                    sukiWindows.Push(_windowSelf);
+                    window.Show();
+                    _windowSelf = window;
+                }
+                else if (e.ProgressPercentage == 1000)
+                {
+                    _windowSelf.Closed += WindowSelf_Closed;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void WindowSelf_Closed(object? sender, EventArgs e)
+        {
+            try
+            {
+                foreach(var window in sukiWindows)
+                {
+                    window.Close();
+                }
+                sukiWindows.Clear();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private void Worker_DoWork(object? sender, DoWorkEventArgs e)
@@ -88,6 +114,7 @@ namespace NetX.AppContainer.ViewModels
                     _autoResetEvent.WaitOne();
                     _worker.ReportProgress(i);
                 }
+                _worker.ReportProgress(1000);
             }
             catch (Exception ex)
             {
@@ -106,7 +133,5 @@ namespace NetX.AppContainer.ViewModels
                 throw;
             }
         }
-
-        public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
     }
 }

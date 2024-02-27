@@ -61,8 +61,8 @@ public partial class App : Application
             _services.AddSingleton(viewlocator);
 
         _services.AddSingleton<IControlCreator, ActivatorControlCreator>();
+        _services.AddSingleton<AppBootstrap>();
         //viewmodel
-        _services.AddSingleton<AppContainerViewModel>();
         _services.AddSingleton<MainViewModel>();
         _services.AddSingleton<IStartupWindowViewModel,MainViewModel>();
     }
@@ -122,15 +122,9 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         var dataTemplate = _serviceProvider?.GetRequiredService<IDataTemplate>();
-        var appContainerViewModel = _serviceProvider?.GetRequiredService<AppContainerViewModel>();
-        var splashScreenWindows = dataTemplate.Build(appContainerViewModel) as SukiWindow;
-        if (null == splashScreenWindows)
-            return;
+        var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
             desktop.MainWindow = appContainerViewModel!.Init();
-        }
-
         base.OnFrameworkInitializationCompleted();
     }
 }
