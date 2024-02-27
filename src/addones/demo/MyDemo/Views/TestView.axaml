@@ -2,11 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-        xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="NetX.AppContainer.Views.LoginView"
-        Title="LoginView">
-  hi, i'm the login view
+        x:Class="MyDemo.Views.TestView"
+        Title="TestView">
+  Welcome to Avalonia!
 </suki:SukiWindow>

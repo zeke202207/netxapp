@@ -1,12 +1,16 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using SukiUI.Controls;
 
 namespace NetX.AppContainer.Views
 {
-    public partial class LoginView : Window
+    public partial class LoginView : SukiWindow
     {
         public LoginView()
         {
-            InitializeComponent();
+            this.AttachDevTools();
+            AvaloniaXamlLoader.Load(this);
         }
     }
 }

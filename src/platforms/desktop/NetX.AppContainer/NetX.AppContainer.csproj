@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -9,6 +9,20 @@
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaXaml Remove="Views\LoginView.axaml" />
+    <AvaloniaXaml Remove="Views\SplashScreenView.axaml" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <Compile Remove="ViewModels\LoginViewModel.cs" />
+    <Compile Remove="ViewModels\SplashScreenViewModel.cs" />
+    <Compile Remove="Views\LoginView.axaml.cs" />
+    <Compile Remove="Views\SplashScreenView.axaml.cs" />
   </ItemGroup>
 
   
@@ -36,18 +50,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj" />
+    <ProjectReference Include="..\..\..\contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj" />
     <ProjectReference Include="..\..\..\ui\SukiUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\SplashScreenView.axaml.cs">
-      <DependentUpon>SplashScreenView.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="appsetting.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

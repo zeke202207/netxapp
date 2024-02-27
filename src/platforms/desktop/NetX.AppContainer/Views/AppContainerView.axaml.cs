@@ -5,9 +5,9 @@ using SukiUI.Controls;
 
 namespace NetX.AppContainer.Views
 {
-    public partial class MainView : SukiWindow
+    public partial class AppContainerView : SukiWindow
     {
-        public MainView()
+        public AppContainerView()
         {
             this.AttachDevTools();
             AvaloniaXamlLoader.Load(this);

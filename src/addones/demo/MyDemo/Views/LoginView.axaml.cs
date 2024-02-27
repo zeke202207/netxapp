@@ -3,11 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using SukiUI.Controls;
 
-namespace NetX.AppContainer.Views
+namespace MyDemo.Views
 {
-    public partial class MainView : SukiWindow
+    public partial class LoginView : SukiWindow
     {
-        public MainView()
+        public LoginView()
         {
             this.AttachDevTools();
             AvaloniaXamlLoader.Load(this);

@@ -1,27 +1,29 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Microsoft.Extensions.Options;
 using NetX.AppContainer.Contract;
-using NetX.AppContainer.Models;
-using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.ViewModels
+namespace MyDemo.ViewModels
 {
-    [StartStep(MainViewModel.Order)]
+    [StartStep(LoginViewModel.Order)]
     [ViewModel(ServiceLifetime.Singleton)]
-    public class MainViewModel : ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
-        public const int Order = int.MaxValue;
+        public const int Order = 1;
         private readonly IControlCreator _controlCreator;
 
-        public MainViewModel(IOptions<AppConfig> option, IControlCreator controlCreator) : base(MainViewModel.Order)
+        public LoginViewModel(IControlCreator controlCreator) : base(LoginViewModel.Order)
         {
             _controlCreator = controlCreator;
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(6000);
+                AutoResetEvent.Set();
+            });
         }
 
         protected override Control CreateView(string viewName)

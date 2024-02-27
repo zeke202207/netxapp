@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj" />
+    <ProjectReference Include="..\..\..\contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj" />
+    <ProjectReference Include="..\..\..\desktop\NetX.AppContainer.ClassicDesktop\NetX.AppContainer.ClassicDesktop.csproj" />
+    <ProjectReference Include="..\..\..\platforms\desktop\NetX.AppContainer.Desktop\NetX.AppContainer.Desktop.csproj" />
+    <ProjectReference Include="..\..\..\ui\SukiUI.csproj" />
+  </ItemGroup>
+
+</Project>
