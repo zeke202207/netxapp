@@ -82,7 +82,8 @@ public partial class App : Application
            {
                addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
                {
-                   addOne.AddServices(_services, addOneType);
+                   if (!addOne.IsDisabled())
+                       addOne.AddServices(_services, addOneType);
                });
            });
     }

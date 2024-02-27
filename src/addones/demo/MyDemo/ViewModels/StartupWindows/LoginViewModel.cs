@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyDemo.ViewModels
 {
-    [SortIndex(LoginViewModel.Order)]
+    [SortIndex(LoginViewModel.Order, true)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class LoginViewModel : StartupWindowViewModel
     {

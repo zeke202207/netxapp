@@ -25,5 +25,10 @@ namespace NetX.AppContainer.Contract
             else if(typeof(IMenuPageViewModel).IsAssignableFrom(SelftType))
                 services.AddSingleton(typeof(IMenuPageViewModel), SelftType);
         }
+
+        public bool IsDisabled()
+        {
+            return Disabled;
+        }
     }
 }
