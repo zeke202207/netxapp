@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using NetX.AppContainer.Contract;
 using ReactiveUI;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +11,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.Contract
+namespace NetX.AppContainer
 {
     public class ViewLocator : IDataTemplate
     {
@@ -25,16 +26,13 @@ namespace NetX.AppContainer.Contract
         {
             var viewModel = data as IViewModel;
             if (null == viewModel)
-                return new TextBlock { Text = "Data is null or has no name." };
+                throw new NotSupportedException($"不支持的IViewModel;{viewModel}");
             if (!_controlCache.TryGetValue(data!, out var res))
-            {
-                res = viewModel.CreateView();
-            }
+                res = viewModel.CreateView(viewModel.PageView);
             res.DataContext = data;
             return res;
         }
 
-        //public bool Match(object? data) => data is INotifyCollectionChanged;
         public bool Match(object? data) => data is IReactiveNotifyPropertyChanged<object>;
     }
 }

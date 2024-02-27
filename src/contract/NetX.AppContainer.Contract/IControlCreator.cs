@@ -9,12 +9,4 @@ namespace NetX.AppContainer.Contract
     {
         Control? CreateControl(Type controlType);
     }
-
-    public class ControlCreator : IControlCreator
-    {
-        public Control? CreateControl(Type controlType)
-        {
-            return (Control)Activator.CreateInstance(controlType);
-        }
-    }
 }

@@ -50,9 +50,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj" />
     <ProjectReference Include="..\..\..\contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj" />
     <ProjectReference Include="..\..\..\ui\SukiUI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\AppContainerWindow.axaml.cs">
+      <DependentUpon>AppContainerWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainWindow.axaml.cs">
+      <DependentUpon>MainWindow.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

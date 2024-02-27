@@ -6,7 +6,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetX.AppContainer.Common;
 using NetX.AppContainer.Contract;
 using NetX.AppContainer.Extentions;
 using NetX.AppContainer.Models;
@@ -61,15 +60,11 @@ public partial class App : Application
         if (viewlocator is not null)
             _services.AddSingleton(viewlocator);
 
-        _services.AddSingleton<IControlCreator, ControlCreator>();
+        _services.AddSingleton<IControlCreator, ActivatorControlCreator>();
         //viewmodel
         _services.AddSingleton<AppContainerViewModel>();
         _services.AddSingleton<MainViewModel>();
-        _services.AddSingleton<IStartupViewModel,MainViewModel>();
-
-        //DEMO
-        _services.AddSingleton<DemoPageA>();
-        _services.AddSingleton<DemoPageB>();
+        _services.AddSingleton<IStartupWindowViewModel,MainViewModel>();
     }
 
     private void ConfigAddOneServices()
@@ -81,11 +76,11 @@ public partial class App : Application
     private void ConfigStartStepServices()
     {
         Assembly.GetEntryAssembly()!.GetTypes()
-           .Where(type => null != type.GetCustomAttribute<StartStepAttribute>())
-           .OrderBy(type => type.GetCustomAttribute<StartStepAttribute>()!.Order)
+           .Where(type => null != type.GetCustomAttribute<SortIndexAttribute>())
+           .OrderBy(type => type.GetCustomAttribute<SortIndexAttribute>()!.Order)
            .ToList().ForEach(addOneType =>
            {
-               addOneType.GetCustomAttributes(true).OfType<StartStepAttribute>().ToList().ForEach(addOne =>
+               addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
                {
                    addOne.AddServices(_services, addOneType);
                });

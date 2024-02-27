@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using MyDemo.Views;
 using NetX.AppContainer.Contract;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace MyDemo.ViewModels
 {
-    [StartStep(LoginViewModel.Order)]
+    [SortIndex(LoginViewModel.Order)]
     [ViewModel(ServiceLifetime.Singleton)]
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : StartupWindowViewModel
     {
         public const int Order = 1;
         private readonly IControlCreator _controlCreator;
 
-        public LoginViewModel(IControlCreator controlCreator) : base(LoginViewModel.Order)
+        public LoginViewModel(IControlCreator controlCreator) : base(controlCreator, typeof(LoginWindow), LoginViewModel.Order)
         {
             _controlCreator = controlCreator;
             Task.Run(() =>
@@ -26,9 +27,6 @@ namespace MyDemo.ViewModels
             });
         }
 
-        protected override Control CreateView(string viewName)
-        {
-            return _controlCreator.CreateControl(Type.GetType(viewName));
-        }
+        public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
     }
 }

@@ -5,6 +5,7 @@ using Material.Icons;
 using Microsoft.Extensions.Options;
 using NetX.AppContainer.Contract;
 using NetX.AppContainer.Models;
+using NetX.AppContainer.Views;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
@@ -14,28 +15,23 @@ using System.Threading.Tasks;
 
 namespace NetX.AppContainer.ViewModels
 {
-    [StartStep(MainViewModel.Order)]
+    [SortIndex(MainViewModel.Order)]
     [ViewModel(ServiceLifetime.Singleton)]
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : StartupWindowViewModel
     {
         public const int Order = int.MaxValue;
-        private readonly IControlCreator _controlCreator;
 
-        public IAvaloniaReadOnlyList<DemoPage> DemoPages { get; }
+        public IAvaloniaReadOnlyList<IMenuPageViewModel> Menus { get; }
 
-        public MainViewModel(IOptions<AppConfig> option, IControlCreator controlCreator) : base(MainViewModel.Order)
+        public MainViewModel(
+            IOptions<AppConfig> option, 
+            IControlCreator controlCreator,
+            IEnumerable<IMenuPageViewModel> pages)
+            : base(controlCreator,typeof(MainWindow), MainViewModel.Order)
         {
-            _controlCreator = controlCreator;
-            DemoPages = new AvaloniaList<DemoPage>
-            {
-                new DemoPageA(1){  DisplayName = "zeke" , Icon = MaterialIconKind.Abc},
-                new DemoPageB(1) {  DisplayName = "zeke1" , Icon = MaterialIconKind.AboutCircle}
-            };
+            Menus = new AvaloniaList<IMenuPageViewModel>(pages.OrderBy(p => p.Order));
         }
 
-        protected override Control CreateView(string viewName)
-        {
-            return _controlCreator.CreateControl(Type.GetType(viewName));
-        }
+        public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
     }
 }

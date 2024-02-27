@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "platforms", "platforms", "{4BC71BC9-C1BB-49E2-B605-EF117F22A917}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "desktop", "desktop", "{41AF8F9F-4CED-4528-BB4F-2BB0B9A1C9E0}"
+	ProjectSection(SolutionItems) = preProject
+		desktop\NetX.AppContainer.ClassicDesktop\Bootstrap.cs = desktop\NetX.AppContainer.ClassicDesktop\Bootstrap.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer", "platforms\desktop\NetX.AppContainer\NetX.AppContainer.csproj", "{5A09AE91-3384-46CB-AF0B-78504C0981FF}"
 EndProject
@@ -19,17 +22,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "addones", "addones", "{5884
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contract", "contract", "{5C0C4433-852A-4486-BED0-F199EC0B0129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetX.AppContainer.Contract", "contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj", "{6A2BBC59-A3A0-4D5B-B292-DB5ECFF1083B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer.Contract", "contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj", "{6A2BBC59-A3A0-4D5B-B292-DB5ECFF1083B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{351D8CBB-82F0-4EDF-839F-3D7E4BA8C7A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetX.AppContainer.Common", "common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj", "{04653EA3-7DB9-409D-8AAB-48CBEAECF55B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer.Common", "common\NetX.AppContainer.Common\NetX.AppContainer.Common.csproj", "{04653EA3-7DB9-409D-8AAB-48CBEAECF55B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDemo", "addones\demo\MyDemo\MyDemo.csproj", "{01E3287A-3453-425D-98CB-F2A4661551B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDemo", "addones\demo\MyDemo\MyDemo.csproj", "{01E3287A-3453-425D-98CB-F2A4661551B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "desktop", "desktop", "{184E49BE-821C-4532-BB4A-E63811BFA223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetX.AppContainer.ClassicDesktop", "desktop\NetX.AppContainer.ClassicDesktop\NetX.AppContainer.ClassicDesktop.csproj", "{797906D6-3C0A-4755-827B-199088F21721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetX.AppContainer.ClassicDesktop", "desktop\NetX.AppContainer.ClassicDesktop\NetX.AppContainer.ClassicDesktop.csproj", "{797906D6-3C0A-4755-827B-199088F21721}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

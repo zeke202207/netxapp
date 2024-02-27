@@ -5,10 +5,10 @@ using Avalonia.Controls.Templates;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using NetX.AppContainer.Common;
 using NetX.AppContainer.Contract;
 using NetX.AppContainer.Extentions;
 using NetX.AppContainer.Models;
+using NetX.AppContainer.Views;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
@@ -20,13 +20,13 @@ using System.Threading.Tasks;
 
 namespace NetX.AppContainer.ViewModels
 {
-    public class AppContainerViewModel : ViewModelBase
+    public class AppContainerViewModel : StartupWindowViewModel
     {
         private Window? _windowSelf;
         private BackgroundWorker _worker;
         private readonly MainViewModel _mainViewModel;
         private readonly IControlCreator _controlCreator;
-        private readonly List<IStartupViewModel> _steps;
+        private readonly List<IStartupWindowViewModel> _steps;
         private readonly IDataTemplate _dataTemplate;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
 
@@ -34,9 +34,9 @@ namespace NetX.AppContainer.ViewModels
             IControlCreator controlCreator,
             IOptions<AppConfig> option, 
             MainViewModel mainViewModel,
-            IEnumerable<IStartupViewModel> steps,
+            IEnumerable<IStartupWindowViewModel> steps,
             IDataTemplate dataTemplate)
-            : base(-1)
+            : base(controlCreator,typeof(AppContainerWindow),-1)
         {
             _mainViewModel = mainViewModel;
             _controlCreator = controlCreator;
@@ -107,9 +107,6 @@ namespace NetX.AppContainer.ViewModels
             }
         }
 
-        protected override Control CreateView(string viewName)
-        {
-            return _controlCreator.CreateControl(Type.GetType(viewName));
-        }
+        public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
     }
 }

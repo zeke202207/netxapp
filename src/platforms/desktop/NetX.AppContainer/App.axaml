@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="NetX.AppContainer.App"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             xmlns:common="clr-namespace:NetX.AppContainer.Contract;assembly=NetX.AppContainer.Contract"
+             xmlns:common="clr-namespace:NetX.AppContainer;assembly=NetX.AppContainer"
              xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->

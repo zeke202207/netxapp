@@ -5,9 +5,9 @@ using SukiUI.Controls;
 
 namespace MyDemo.Views
 {
-    public partial class TestView : SukiWindow
+    public partial class TestWindow : SukiWindow
     {
-        public TestView()
+        public TestWindow()
         {
             this.AttachDevTools();
             AvaloniaXamlLoader.Load(this);

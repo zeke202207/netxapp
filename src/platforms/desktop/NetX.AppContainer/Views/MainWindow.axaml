@@ -8,10 +8,10 @@
         xmlns:vm="clr-namespace:NetX.AppContainer.ViewModels"
         x:DataType="vm:MainViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="NetX.AppContainer.Views.MainView"
+        x:Class="NetX.AppContainer.Views.MainWindow"
         Title="MainView">
   
-  <suki:SukiSideMenu ItemsSource="{Binding DemoPages}">
+  <suki:SukiSideMenu ItemsSource="{Binding Menus}">
     <suki:SukiSideMenu.ItemTemplate>
       <DataTemplate>
         <suki:SukiSideMenuItem Header="{Binding DisplayName}">

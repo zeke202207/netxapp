@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="MyDemo.Views.LoginView"
-        Title="LoginView">
-  hi, i'm the login view
+        x:Class="MyDemo.Views.SplashScreenWindow"
+        Title="SplashScreenView">
+  hi,i'm the splash screen
 </suki:SukiWindow>
