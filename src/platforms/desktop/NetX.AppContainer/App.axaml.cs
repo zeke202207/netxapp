@@ -80,10 +80,11 @@ public partial class App : Application
            .OrderBy(type => type.GetCustomAttribute<SortIndexAttribute>()!.Order)
            .ToList().ForEach(addOneType =>
            {
+               if (!CanInjection(addOneType))
+                   return;
                addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
                {
-                   if (!addOne.IsDisabled())
-                       addOne.AddServices(_services, addOneType);
+                   addOne.AddServices(_services, addOneType);
                });
            });
     }
@@ -94,11 +95,28 @@ public partial class App : Application
             .Where(type => null != type && type.GetCustomAttribute<ViewModelAttribute>() != null)
             .ToList().ForEach(addOneType =>
             {
+                if (!CanInjection(addOneType))
+                    return;
                 addOneType.GetCustomAttributes(true).OfType<ViewModelAttribute>().ToList().ForEach(addOne =>
                 {
                     addOne.AddServices(_services, addOneType);
                 });
             });
+    }
+
+    /// <summary>
+    /// 是否可以注入
+    /// </summary>
+    /// <param name="addOneType"></param>
+    /// <returns></returns>
+    private bool CanInjection(Type addOneType)
+    {
+        foreach(var att in addOneType.GetCustomAttributes(true))
+        {
+            if (att is SortIndexAttribute sortIndexAttribute)
+                return !sortIndexAttribute.IsDisabled();
+        }
+        return true;
     }
 
     public override void OnFrameworkInitializationCompleted()
