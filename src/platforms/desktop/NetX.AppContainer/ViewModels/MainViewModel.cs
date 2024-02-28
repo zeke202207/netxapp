@@ -33,5 +33,12 @@ namespace NetX.AppContainer.ViewModels
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
+
+        protected override void ControlLoaded()
+        {
+            if (null != Window)
+                Window.Closed += (s, e) => base.GotoWindow(-1);
+            base.ControlLoaded();
+        }
     }
 }

@@ -1,12 +1,17 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Threading;
 using MyDemo.Views;
 using NetX.AppContainer.Contract;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MyDemo.ViewModels
 {
@@ -15,16 +20,26 @@ namespace MyDemo.ViewModels
     public class LoginViewModel : StartupWindowViewModel
     {
         public const int Order = 1;
-        private readonly IControlCreator _controlCreator;
 
-        public LoginViewModel(IControlCreator controlCreator) : base(controlCreator, typeof(LoginWindow), LoginViewModel.Order)
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand LoginCommand { get; }
+
+        public LoginViewModel(IControlCreator controlCreator) 
+            : base(controlCreator, typeof(LoginWindow), LoginViewModel.Order)
         {
-            _controlCreator = controlCreator;
-            Task.Run(() =>
-            {
-                System.Threading.Thread.Sleep(6000);
-                AutoResetEvent.Set();
-            });
+            LoginCommand = ReactiveCommand.Create(() => Login(), CanExecute());
+        }
+
+        private IObservable<bool>? CanExecute()
+        {
+            return Observable.Return(true);
+        }
+
+        private void Login()
+        {
+            GotoNextWindow();
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);

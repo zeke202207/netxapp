@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using NetX.AppContainer.Contract;
 using SukiUI.Controls;
 
 namespace MyDemo.Views

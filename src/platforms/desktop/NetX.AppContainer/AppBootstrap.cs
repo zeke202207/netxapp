@@ -9,6 +9,7 @@ using NetX.AppContainer.Contract;
 using NetX.AppContainer.Extentions;
 using NetX.AppContainer.Models;
 using NetX.AppContainer.Views;
+using Splat;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace NetX.AppContainer.ViewModels
             IDataTemplate dataTemplate)
         {
             _steps = steps.OrderBy(p => p.Order).ToList();
-            _steps.ForEach(step => step.AutoResetEvent = _autoResetEvent);
+            _steps.ForEach(step => step.SetResetEvent(_autoResetEvent));
             _dataTemplate = dataTemplate;
         }
 
@@ -44,7 +45,7 @@ namespace NetX.AppContainer.ViewModels
             _windowSelf = InitFirestScreen();
             InitEvent();
             if (!_worker.IsBusy)
-                _worker.RunWorkerAsync();
+                _worker.RunWorkerAsync(1);
             return _windowSelf;
         }
 
@@ -67,39 +68,10 @@ namespace NetX.AppContainer.ViewModels
         private async void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             try
-            {
-                if (_steps.Count > e.ProgressPercentage)
-                {
-                    var currentViewModel = _steps[e.ProgressPercentage] as IViewModel;
-                    var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
-                    _windowSelf?.Hide();
-                    sukiWindows.Push(_windowSelf);
-                    window.Show();
-                    _windowSelf = window;
-                }
-                else if (e.ProgressPercentage == 1000)
-                {
-                    _windowSelf.Closed += WindowSelf_Closed;
-                }
+            { 
+                OpenStartupWindow(e.ProgressPercentage);
             }
             catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void WindowSelf_Closed(object? sender, EventArgs e)
-        {
-            try
-            {
-                foreach(var window in sukiWindows)
-                {
-                    window.Close();
-                }
-                sukiWindows.Clear();
-            }
-            catch (Exception)
             {
                 throw;
             }
@@ -109,12 +81,12 @@ namespace NetX.AppContainer.ViewModels
         {
             try
             {
-                for(int i=1; i < _steps.Count; i++)
+                int startIndex = (int)e.Argument;
+                for (int i = startIndex; i < _steps.Count; i++)
                 {
                     _autoResetEvent.WaitOne();
-                    _worker.ReportProgress(i);
+                    _worker.ReportProgress(_steps[i].Order);
                 }
-                _worker.ReportProgress(1000);
             }
             catch (Exception ex)
             {
@@ -126,9 +98,62 @@ namespace NetX.AppContainer.ViewModels
         {
             try
             {
-                
             }
             catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private void OpenStartupWindow(int order)
+        {
+            var currentViewModel = _steps.FirstOrDefault(p=>p.Order == order) as IViewModel;
+            if (null == currentViewModel)
+                return;
+            var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
+            _windowSelf?.Hide();
+            _windowSelf.Closed -= WindowSelf_Closed;
+            sukiWindows.Push(_windowSelf);
+            window.Show();
+            _windowSelf = window;
+            _windowSelf.Closed += WindowSelf_Closed;
+        }
+
+        private void WindowSelf_Closed(object? sender, EventArgs e)
+        {
+            try
+            {
+                var window = sender as SukiWindow;
+                var closeModel = window?.DataContext as ICloseWindowViewModel;
+                if (null == closeModel || closeModel.GotoStep == -1)
+                {
+                    foreach (var win in sukiWindows)
+                    {
+                        closeModel = win.DataContext as ICloseWindowViewModel;
+                        win.Close();
+                    }
+                    sukiWindows.Clear();
+                }
+                else
+                {
+                    while (sukiWindows.Count() > 0)
+                    {
+                        var win = sukiWindows.Pop();
+                        if (null == win)
+                            continue;
+                        var startupModel = win.DataContext as IStartupWindowViewModel;
+                        if (null != startupModel && startupModel.Order == closeModel.GotoStep)
+                        {
+                            win.Close(); 
+                            _autoResetEvent.Set();
+                            if (!_worker.IsBusy)
+                                _worker.RunWorkerAsync(1);
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
             {
                 throw;
             }

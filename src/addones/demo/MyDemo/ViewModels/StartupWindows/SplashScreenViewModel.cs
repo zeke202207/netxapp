@@ -18,16 +18,22 @@ namespace MyDemo.ViewModels
         public const int Order = 0;
         private readonly IControlCreator _controlCreator;
 
-        public SplashScreenViewModel(IControlCreator controlCreator) : base(controlCreator, typeof(SplashScreenWindow), SplashScreenViewModel.Order)
+        public SplashScreenViewModel(IControlCreator controlCreator)
+            : base(controlCreator, typeof(SplashScreenWindow), SplashScreenViewModel.Order)
         {
             _controlCreator = controlCreator;
             Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(3000);
-                AutoResetEvent.Set();
+                base.GotoNextWindow();
             });
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
+
+        protected override void ControlLoaded()
+        {
+            base.ControlLoaded();
+        }
     }
 }

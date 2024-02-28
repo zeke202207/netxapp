@@ -9,6 +9,7 @@ namespace NetX.AppContainer.Contract;
 public abstract partial class BaseViewModel : ReactiveObject, IViewModel
 {
     protected readonly IControlCreator _controlCreator;
+    private Control _view;
 
     public BaseViewModel(IControlCreator controlCreator, Type pageView)
     {
@@ -16,13 +17,27 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
         PageView = pageView;
     }
 
-    public Control View {get; private set;}
+    public Control View
+    {
+        get { return _view; }
+        private set
+        {
+            _view = value;
+            ControlLoaded();
+        }
+    }
     public Type PageView { get; private set; }
 
     public abstract Control CreateView(IControlCreator controlCreator, Type pageView);
 
     public Control CreateView(Type pageView)
     {
-        return CreateView(_controlCreator, pageView);
+        View = CreateView(_controlCreator, pageView);
+        return View;
+    }
+
+    protected virtual void ControlLoaded()
+    {
+
     }
 }

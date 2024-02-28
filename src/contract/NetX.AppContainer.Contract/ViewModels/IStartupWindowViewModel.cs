@@ -10,6 +10,8 @@ namespace NetX.AppContainer.Contract
     {
         public int Order { get; }
 
-        public AutoResetEvent AutoResetEvent { get; set; }
+        void SetResetEvent(AutoResetEvent resetEvent);
+
+        void GotoNextWindow();
     }
 }
