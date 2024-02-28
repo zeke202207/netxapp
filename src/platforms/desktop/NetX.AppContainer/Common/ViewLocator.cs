@@ -28,8 +28,14 @@ namespace NetX.AppContainer
             if (null == viewModel)
                 throw new NotSupportedException($"不支持的IViewModel;{viewModel}");
             if (!_controlCache.TryGetValue(data!, out var res))
+            {
                 res = viewModel.CreateView(viewModel.PageView);
-            res.DataContext = data;
+                if (null != res)
+                {
+                    res.DataContext = data;
+                    _controlCache.Add(data!, res);
+                }
+            }
             return res;
         }
 

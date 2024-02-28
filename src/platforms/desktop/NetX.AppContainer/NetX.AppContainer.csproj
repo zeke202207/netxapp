@@ -13,6 +13,11 @@
 
   
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\default_avatar.png" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
     <AvaloniaXaml Remove="Views\LoginView.axaml" />
     <AvaloniaXaml Remove="Views\SplashScreenView.axaml" />
   </ItemGroup>
@@ -27,7 +32,13 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\default_avatar.png" />
     <None Remove="Assets\splash.png" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\default_avatar.png" />
   </ItemGroup>
 
   <ItemGroup>

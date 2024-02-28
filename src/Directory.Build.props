@@ -11,6 +11,7 @@
     <MSExtensionsDependencyInjectionVersion>8.0.0</MSExtensionsDependencyInjectionVersion>
     <MSExtensionsConfigurationFileExtensionsVersion>8.0.0</MSExtensionsConfigurationFileExtensionsVersion>
     <MSExtensionsOptionsConfigurationExtensionsVersion>8.0.0</MSExtensionsOptionsConfigurationExtensionsVersion>
+    <MediatRVersion>12.2.0</MediatRVersion>
   </PropertyGroup>
 
 </Project>

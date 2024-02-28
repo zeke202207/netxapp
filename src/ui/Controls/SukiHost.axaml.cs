@@ -89,7 +89,7 @@ public class SukiHost : ContentControl
         base.OnAttachedToVisualTree(e);
         if (VisualRoot is not Window w) return;
         Instances.Add(w, this);
-        _mainWindow ??= w;
+        _mainWindow = w;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

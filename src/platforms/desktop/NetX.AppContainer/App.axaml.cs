@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetX.AppContainer.Contract;
@@ -11,6 +12,7 @@ using NetX.AppContainer.Extentions;
 using NetX.AppContainer.Models;
 using NetX.AppContainer.ViewModels;
 using NetX.AppContainer.Views;
+using SukiUI;
 using SukiUI.Controls;
 using System;
 using System.IO;
@@ -36,8 +38,8 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
         ConfigureJsonConfig();
-        ConfigureServices();
-        ConfigAddOneServices();
+        ConfigureServices(_services);
+        ConfigAddOneServices(_services);
         _serviceProvider = _services.BuildServiceProvider();
     }
 
@@ -49,31 +51,54 @@ public partial class App : Application
         _configuration = builder.Build();
     }
 
-    private void ConfigureServices()
+    private void ConfigureServices(ServiceCollection services)
     {
         // add gloable config
-        _services.Configure<AppConfig>(_configuration)
+        services.Configure<AppConfig>(_configuration)
             .AddOptions<AppConfig>();
-        // viewlocator
 
+        // event bus
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblies(new[] { Assembly.GetExecutingAssembly(), typeof(App).Assembly });
+        });
+        services.AddSingleton<IEventBus, EventBus>();
+
+        // viewlocator
         var viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
         if (viewlocator is not null)
-            _services.AddSingleton(viewlocator);
+            services.AddSingleton(viewlocator);
 
-        _services.AddSingleton<IControlCreator, ActivatorControlCreator>();
-        _services.AddSingleton<AppBootstrap>();
+        services.AddSingleton<IControlCreator, ActivatorControlCreator>();
+        services.AddSingleton<AppBootstrap>();
         //viewmodel
-        _services.AddSingleton<MainViewModel>();
-        _services.AddSingleton<IStartupWindowViewModel,MainViewModel>();
+        services.AddSingleton<CustomThemeDialogViewModel>();
+        services.AddSingleton<SukiTheme>();
+        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<IStartupWindowViewModel,MainViewModel>();
     }
 
-    private void ConfigAddOneServices()
+    private void ConfigAddOneServices(ServiceCollection services)
     {
-        ConfigStartStepServices();
-        ConfigViewModelServices();
+        ConfigStartStepServices(services);
+        ConfigViewModelServices(services);
+        ConfigEventBusServices(services);
     }
 
-    private void ConfigStartStepServices()
+    private void ConfigEventBusServices(ServiceCollection services)
+    {
+        var types = Assembly.GetEntryAssembly()!.GetTypes();
+        foreach (var type in types)
+        {
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(INotificationHandler<>))
+                    services.AddSingleton(interfaceType, type);
+            }
+        }
+    }
+
+    private void ConfigStartStepServices(ServiceCollection services)
     {
         Assembly.GetEntryAssembly()!.GetTypes()
            .Where(type => null != type.GetCustomAttribute<SortIndexAttribute>())
@@ -84,12 +109,12 @@ public partial class App : Application
                    return;
                addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
                {
-                   addOne.AddServices(_services, addOneType);
+                   addOne.AddServices(services, addOneType);
                });
            });
     }
 
-    private void ConfigViewModelServices()
+    private void ConfigViewModelServices(ServiceCollection services)
     {
         Assembly.GetEntryAssembly()!.GetTypes()
             .Where(type => null != type && type.GetCustomAttribute<ViewModelAttribute>() != null)
@@ -99,7 +124,7 @@ public partial class App : Application
                     return;
                 addOneType.GetCustomAttributes(true).OfType<ViewModelAttribute>().ToList().ForEach(addOne =>
                 {
-                    addOne.AddServices(_services, addOneType);
+                    addOne.AddServices(services, addOneType);
                 });
             });
     }
@@ -121,7 +146,6 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var dataTemplate = _serviceProvider?.GetRequiredService<IDataTemplate>();
         var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.MainWindow = appContainerViewModel!.Init();
