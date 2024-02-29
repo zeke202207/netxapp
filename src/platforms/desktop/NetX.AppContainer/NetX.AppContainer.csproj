@@ -33,7 +33,7 @@
   
   <ItemGroup>
     <None Remove="Assets\default_avatar.png" />
-    <None Remove="Assets\splash.png" />
+    <None Remove="Assets\fonts\SourceHanSerifSC-VF.ttf" />
   </ItemGroup>
 
   
@@ -63,6 +63,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\contract\NetX.AppContainer.Contract\NetX.AppContainer.Contract.csproj" />
     <ProjectReference Include="..\..\..\ui\SukiUI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\fonts\SourceHanSerifSC-VF.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 
   <ItemGroup>
