@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        xmlns:vm="clr-namespace:NetX.AppContainer.ViewModels"
+        x:DataType="vm:CustomThemeDialogViewModel"
+             xmlns:common="clr-namespace:NetX.AppContainer;assembly=NetX.AppContainer"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="NetX.AppContainer.Views.CustomThemeDialogView">
+  
+  <!--<UserControl.DataTemplates>
+    <common:ViewLocator />
+  </UserControl.DataTemplates>-->
+
+  <controls:GroupBox Header="Create Custom Theme">
+    <StackPanel Spacing="20">
+      <TextBox Text="{Binding DisplayName}" />
+      <ColorPicker Color="{Binding PrimaryColor}" />
+      <ColorPicker Color="{Binding AccentColor}" />
+      <Button Command="{Binding TryCreateThemeCommand}" Content="Create" />
+    </StackPanel>
+  </controls:GroupBox>
+</UserControl>
