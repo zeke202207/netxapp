@@ -9,7 +9,9 @@ namespace MyDemo.Views
     {
         public TestWindow()
         {
+#if DEBUG
             this.AttachDevTools();
+#endif
             AvaloniaXamlLoader.Load(this);
         }
     }

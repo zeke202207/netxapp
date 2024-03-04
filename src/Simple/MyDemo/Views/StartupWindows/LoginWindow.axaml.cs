@@ -10,7 +10,9 @@ namespace MyDemo.Views
     {
         public LoginWindow()
         {
+#if DEBUG
             this.AttachDevTools();
+#endif
             AvaloniaXamlLoader.Load(this);
         }
     }

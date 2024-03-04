@@ -8,10 +8,6 @@
              xmlns:common="clr-namespace:NetX.AppContainer;assembly=NetX.AppContainer"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="NetX.AppContainer.Views.CustomThemeDialogView">
-  
-  <!--<UserControl.DataTemplates>
-    <common:ViewLocator />
-  </UserControl.DataTemplates>-->
 
   <controls:GroupBox Header="Create Custom Theme">
     <StackPanel Spacing="20">

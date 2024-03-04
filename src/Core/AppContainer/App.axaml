@@ -15,7 +15,6 @@
         <!-- add resource dictionary -->
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
-    <FontFamily x:Key="Serif">avares://GoogleFonts/Assets/Fonts#SourceHanSerifSC-VF</FontFamily>
   </Application.Resources>
   
     <Application.Styles>
@@ -25,7 +24,7 @@
       <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 
       <!-- add style -->
-      <StyleInclude Source="avares://NetX.AppContainer/Styles/TextStyles.axaml"/>
+      <StyleInclude Source="avares://NetX.AppContainer/Styles/FontStyles.axaml"/>
       <avalonia:MaterialIconStyles/>
     </Application.Styles>
 </Application>

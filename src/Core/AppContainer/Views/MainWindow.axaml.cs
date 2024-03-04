@@ -13,7 +13,9 @@ namespace NetX.AppContainer.Views
     {
         public MainWindow()
         {
+#if DEBUG
             this.AttachDevTools();
+#endif
             AvaloniaXamlLoader.Load(this);
         }
 

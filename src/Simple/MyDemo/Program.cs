@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using NetX.AppContainer;
+using NetX.AppContainer.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,9 @@ public class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<MyDemoApp>()
-            .UsePlatformDetect()
-            .WithInterFont()
-            .LogToTrace()
-            .UseReactiveUI();
+        .UsePlatformDetect()
+        .UseAlibabaFont()
+        .WithInterFont()
+        .LogToTrace()
+        .UseReactiveUI();
 }

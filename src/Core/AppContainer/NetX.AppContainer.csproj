@@ -13,29 +13,16 @@
 
   
   <ItemGroup>
-    <AvaloniaResource Remove="Assets\default_avatar.png" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Black.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Bold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-ExtraBold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Heavy.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Light.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Medium.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Regular.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-SemiBold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Thin.ttf" />
   </ItemGroup>
-
-  
-  <ItemGroup>
-    <AvaloniaXaml Remove="Views\LoginView.axaml" />
-    <AvaloniaXaml Remove="Views\SplashScreenView.axaml" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <Compile Remove="ViewModels\LoginViewModel.cs" />
-    <Compile Remove="ViewModels\SplashScreenViewModel.cs" />
-    <Compile Remove="Views\LoginView.axaml.cs" />
-    <Compile Remove="Views\SplashScreenView.axaml.cs" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <None Remove="Assets\default_avatar.png" />
-    <None Remove="Assets\fonts\SourceHanSerifSC-VF.ttf" />
-  </ItemGroup>
-
   
   <ItemGroup>
     <EmbeddedResource Include="Assets\default_avatar.png" />
@@ -55,8 +42,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MSExtensionsDependencyInjectionVersion)" />
     <PackageReference Include="Material.Icons.Avalonia" Version="$(MaterialIconsAvalonia)" />
 
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MSExtensionsOptionsConfigurationExtensionsVersion)" />
   </ItemGroup>
 
@@ -64,19 +52,7 @@
     <ProjectReference Include="..\AppContract\NetX.AppContainer.Contract.csproj" />
     <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\fonts\SourceHanSerifSC-VF.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\MainWindow.axaml.cs">
-      <DependentUpon>MainWindow.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="appsetting.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
