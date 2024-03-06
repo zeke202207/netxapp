@@ -12,13 +12,18 @@ using Avalonia.Controls;
 using NetX.AppContainer.Views;
 using ReactiveUI;
 using System.Reactive;
+using Microsoft.Extensions.Options;
+using NetX.AppContainer.Models;
+using System.Xml.Linq;
 
 namespace NetX.AppContainer.ViewModels
 {
     [ViewModel(ServiceLifetime.Singleton)]
     public partial class CustomThemeDialogViewModel : BaseViewModel
     {
-        private string _displayName = "Pink";
+        public Action<SukiColorTheme> OnColorThemeChanged;
+
+        private string _displayName = "zeke";
         public string DisplayName
         {
             get => _displayName;
@@ -40,12 +45,15 @@ namespace NetX.AppContainer.ViewModels
         }
 
         private readonly SukiTheme _theme;
+        private readonly AppConfig _option;
 
         public ReactiveCommand<Unit, Unit> TryCreateThemeCommand { get; }
 
-        public CustomThemeDialogViewModel(SukiTheme theme, IControlCreator controlCreator)
+        public CustomThemeDialogViewModel(SukiTheme theme, IControlCreator controlCreator,
+            IOptions<AppConfig> option)
             : base(controlCreator, typeof(CustomThemeDialogView))
         {
+            _option = option.Value;
             _theme = theme;
             TryCreateThemeCommand = ReactiveCommand.Create(TryCreateTheme);
         }
@@ -54,10 +62,25 @@ namespace NetX.AppContainer.ViewModels
         {
             if (string.IsNullOrEmpty(DisplayName)) 
                 return;
+            ChangeColorTheme();
+            Save2Config();
+            SukiHost.CloseDialog();
+        }
+
+        private void ChangeColorTheme()
+        {
             var theme = new SukiColorTheme(DisplayName, PrimaryColor, AccentColor);
             _theme.AddColorTheme(theme);
             _theme.ChangeColorTheme(theme);
-            SukiHost.CloseDialog();
+            OnColorThemeChanged?.Invoke(theme);
+        }
+
+        private void Save2Config()
+        {
+            _option.Themes.ThemeColor.DisplayName = DisplayName;
+            _option.Themes.ThemeColor.Primary = PrimaryColor.ToString();
+            _option.Themes.ThemeColor.Accent = AccentColor.ToString();
+            _option.Save();
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);

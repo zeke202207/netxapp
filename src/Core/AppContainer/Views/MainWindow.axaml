@@ -19,15 +19,17 @@
                  IsMenuVisible="True"
                  IsTitleBarVisible="{Binding TitleBarVisible, Mode=TwoWay}"
                   >
-
+  
   <suki:SukiWindow.MenuItems>
+
     <MenuItem Header="Toggles">
       <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
         <MenuItem.Icon>
           <avalonia:MaterialIcon Kind="Lightbulb" />
         </MenuItem.Icon>
       </MenuItem>
-      <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations">
+      <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations"
+                IsVisible="False">
         <MenuItem.Icon>
           <avalonia:MaterialIcon Kind="{Binding AnimationsEnabled, Converter={x:Static converters:BoolToIconConverters.Animation}}" />
         </MenuItem.Icon>
@@ -41,32 +43,39 @@
       </MenuItem>
       <MenuItem Command="{Binding ToggleTitleBarCommand}"
                 Header="Title Bar"
-                ToolTip.Tip="Toggles the title bar.">
+                ToolTip.Tip="Toggles the title bar."
+                IsVisible="False">
         <MenuItem.Icon>
           <avalonia:MaterialIcon Kind="{Binding TitleBarVisible, Converter={x:Static converters:BoolToIconConverters.Visibility}}" />
         </MenuItem.Icon>
       </MenuItem>
       <MenuItem Header="Fullscreen"
                 Command="{Binding FullScreenCommand}"
-                ToolTip.Tip="Makes the app fullscreen." >
-          <MenuItem.Icon>
-            <avalonia:MaterialIcon Kind="{Binding FullScreenVisible, Converter={x:Static converters:BoolToIconConverters.FullScreen}}" />
-          </MenuItem.Icon>
-       </MenuItem>
+                ToolTip.Tip="Makes the app fullscreen."
+                IsVisible="False">
+        <MenuItem.Icon>
+          <avalonia:MaterialIcon Kind="{Binding FullScreenVisible, Converter={x:Static converters:BoolToIconConverters.FullScreen}}" />
+        </MenuItem.Icon>
+      </MenuItem>
     </MenuItem>
+
     <MenuItem Header="Theme">
       <MenuItem Click="MenuItem_OnClick"
                 Header="Switch To..."
                 ItemsSource="{Binding Themes}">
         <MenuItem.DataTemplates>
           <DataTemplate DataType="{x:Type models:SukiColorTheme}">
-            <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+            <StackPanel Orientation="Horizontal">
+              <RadioButton IsChecked="{Binding IsCurrentTheme}" Margin="0,0,10,0" IsEnabled="False"/>
+              <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+            </StackPanel>
           </DataTemplate>
         </MenuItem.DataTemplates>
       </MenuItem>
       <MenuItem Header="-" />
       <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="Create Custom" />
     </MenuItem>
+    
   </suki:SukiWindow.MenuItems>
 
   <suki:SukiSideMenu ItemsSource="{Binding Menus}">
@@ -86,7 +95,7 @@
                 Height="80"
                 BorderThickness="0"
                 Command="{Binding UserDetailCommand}">
-          <Image Source="{Binding Avatar}" />
+          <Image Source="{Binding Avatar}" Stretch="UniformToFill" />
         </Button>
       </StackPanel>
     </suki:SukiSideMenu.HeaderContent>

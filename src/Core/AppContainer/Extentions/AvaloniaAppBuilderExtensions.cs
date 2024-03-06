@@ -18,10 +18,7 @@ namespace NetX.AppContainer.Extentions
                 DefaultFamilyName = setting.DefaultFontFamily,
                 FontFallbacks = new[]
                 {
-                  new FontFallback
-                  {
-                      FontFamily = new FontFamily(setting.DefaultFontFamily)
-                  }
+                  new FontFallback{ FontFamily = new FontFamily(setting.DefaultFontFamily) }
                 }
             }).ConfigureFonts(manager => manager.AddFontCollection(new EmbeddedFontCollection(setting.Key, setting.Source)));
         }

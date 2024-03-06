@@ -1,0 +1,15 @@
+{
+  "themes": {
+    "theme": "Light",
+    "themecolor": {
+      "displayname": "Green",
+      "primary": "#D03A2F",
+      "accent": "#2FC5D0"
+    }
+  },
+  "layouts": {
+    "animationsenabled": true,
+    "windowlocked": false,
+    "titlebarvisible": true
+  }
+}

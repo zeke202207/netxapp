@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -47,7 +48,8 @@ public partial class App : Application
     {
         var builder = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsetting.json")} ");
+              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsetting.json")} ")
+              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsetting.ui.json")} ");
         _configuration = builder.Build();
     }
 
@@ -71,6 +73,7 @@ public partial class App : Application
 
         services.AddSingleton<IControlCreator, ActivatorControlCreator>();
         services.AddSingleton<AppBootstrap>();
+
         //viewmodel
         services.AddSingleton<CustomThemeDialogViewModel>();
         services.AddSingleton<SukiTheme>();
@@ -146,9 +149,28 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var config = _configuration.Get<AppConfig>();
+        InitTheme(config);
         var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.MainWindow = appContainerViewModel!.Init();
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void InitTheme(AppConfig config)
+    {
+        if (null == config)
+            return;
+        var theme = SukiTheme.GetInstance();
+        var colorTheme = new SukiUI.Models.SukiColorTheme(
+                                    config.Themes.ThemeColor.DisplayName,
+                                    Color.Parse(config.Themes.ThemeColor.Primary),
+                                    Color.Parse(config.Themes.ThemeColor.Accent)
+                                    );
+        if(theme.ColorThemes.FirstOrDefault(p=>p.DisplayName.ToLower() == colorTheme.DisplayName.ToLower()) == null)
+            theme.AddColorTheme(colorTheme);
+        theme.ChangeColorTheme(colorTheme);
+        Application.Current.RequestedThemeVariant = config.Themes.Theme;
+
     }
 }

@@ -38,6 +38,14 @@ public record SukiColorTheme
     {
         return DisplayName;
     }
+
+    public bool IsCurrentTheme
+    {
+        get
+        {
+            return DisplayName == SukiTheme.GetInstance().ActiveColorTheme.DisplayName;
+        }
+    }
 }
 
 internal record DefaultSukiColorTheme : SukiColorTheme

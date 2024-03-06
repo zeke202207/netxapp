@@ -136,6 +136,12 @@ public class SukiWindow : Window
             .Do(OnWindowStateChanged)
             .Select(_ => Unit.Default);
 
+        if (e.NameScope.Get<Button>("PART_Settings") is { } settings)
+        {
+            settings.ContextMenu.ItemsSource = MenuItems;
+            settings.Click += (sender, e) => settings.ContextMenu!.Open();
+        }
+
         // Create handlers for buttons
         if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
         {

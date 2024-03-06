@@ -24,7 +24,7 @@ namespace MyDemo.ViewModels
             _controlCreator = controlCreator;
             Task.Run(() =>
             {
-                return;
+                //return;
                 System.Threading.Thread.Sleep(3000);
                 base.GotoNextWindow();
             });
