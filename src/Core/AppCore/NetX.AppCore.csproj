@@ -65,7 +65,7 @@
     <None Update="appsetting.log.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="appsetting.ui.json">
+    <None Update="appsetting.user.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

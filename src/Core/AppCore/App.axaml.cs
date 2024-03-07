@@ -49,13 +49,15 @@ public partial class App : Application
         var builder = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConst.APP_CONFIG_FILE)} ")
-              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConst.APP_CONFIG_UI_FILE)} ");
+              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConst.APP_CONFIG_USER_FILE)} ");
         _configuration = builder.Build();
     }
 
     private void ConfigureServices(ServiceCollection services)
     {
         // add gloable config
+        services.Configure<AppUserConfig>(_configuration)
+            .AddOptions<AppUserConfig>();
         services.Configure<AppConfig>(_configuration)
             .AddOptions<AppConfig>();
 
@@ -149,7 +151,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var config = _configuration.Get<AppConfig>();
+        var config = _configuration.Get<AppUserConfig>();
         InitTheme(config);
         var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -157,7 +159,7 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void InitTheme(AppConfig config)
+    private void InitTheme(AppUserConfig config)
     {
         if (null == config)
             return;

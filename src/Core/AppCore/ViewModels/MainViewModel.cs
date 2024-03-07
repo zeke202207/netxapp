@@ -36,7 +36,7 @@ namespace NetX.AppCore.ViewModels
 
         private readonly IEventBus _eventBus;
         private readonly CustomThemeDialogViewModel _customTheme;
-        private readonly AppConfig _option;
+        private readonly AppUserConfig _option;
 
         private SukiTheme _theme;
         public IAvaloniaReadOnlyList<IMenuPageViewModel> Menus { get; }
@@ -131,7 +131,7 @@ namespace NetX.AppCore.ViewModels
         #endregion
 
         public MainViewModel(
-            IOptions<AppConfig> option, 
+            IOptions<AppUserConfig> option, 
             IControlCreator controlCreator,
             IEnumerable<IMenuPageViewModel> pages,
             CustomThemeDialogViewModel customTheme,
@@ -313,7 +313,7 @@ namespace NetX.AppCore.ViewModels
         /// 初始化layout配置
         /// </summary>
         /// <param name="config"></param>
-        private void InitConfig(AppConfig config)
+        private void InitConfig(AppUserConfig config)
         {
             this.AnimationsEnabled = config.Layouts.AnimationsEnabled;
             this.WindowLocked = config.Layouts.WindowLocked;

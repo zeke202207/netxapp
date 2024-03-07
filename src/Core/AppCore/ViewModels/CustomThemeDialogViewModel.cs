@@ -46,12 +46,12 @@ namespace NetX.AppCore.ViewModels
         }
 
         private readonly SukiTheme _theme;
-        private readonly AppConfig _option;
+        private readonly AppUserConfig _option;
 
         public ReactiveCommand<Unit, Unit> TryCreateThemeCommand { get; }
 
         public CustomThemeDialogViewModel(SukiTheme theme, IControlCreator controlCreator,
-            IOptions<AppConfig> option)
+            IOptions<AppUserConfig> option)
             : base(controlCreator, typeof(CustomThemeDialogView))
         {
             _option = option.Value;

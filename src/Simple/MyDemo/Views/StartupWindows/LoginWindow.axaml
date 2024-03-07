@@ -14,11 +14,11 @@
             Command="{Binding LoginCommand}" 
             Width="100" 
             Height="50" 
-            Content="login"/>
+            Content="登录"/>
     <Button Classes="Flat Accent"
             Margin="0,10,0,0"
             Width="100"
             Height="50"
-      Content="cancel"/>
+      Content="取消"/>
   </StackPanel>
 </suki:SukiWindow>

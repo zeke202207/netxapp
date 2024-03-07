@@ -14,44 +14,28 @@ namespace NetX.AppCore.Models
 {
     public class AppConfig
     {
-        public Themes Themes { get; set; }
-        public Layouts Layouts { get; set; }
+        public AppInfo Appinfo { get; set; }
+    }
 
-        public void Save() => Task.Factory.StartNew(SaveAsync);
+    public class AppInfo
+    {
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public string Description { get; set; }
+        public string Icon { get; set; }
 
-        private async Task SaveAsync()
+        public Stream GetIconStream()
         {
             try
             {
-                await File.WriteAllTextAsync(
-                     $"{Path.Combine(AppContext.BaseDirectory, AppConst.APP_CONFIG_UI_FILE)}",
-                     JsonConvert.SerializeObject(this, new JsonSerializerSettings() { Formatting = Formatting.Indented }));
+                return File.OpenRead(Icon);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "配置文件保存失败");
+                Log.Error(ex, "获取图标失败");
+                return default(Stream);
             }
         }
     }
 
-    public class Themes
-    {
-        public ThemeVariant Theme { get; set; }
-        public Themecolor ThemeColor { get; set; }
-    }
-
-    public class Themecolor
-    {
-        public string DisplayName { get; set; }
-        public string Primary { get; set; }
-        public string Accent { get; set; }
-    }
-
-    public class Layouts
-    {
-        [JsonIgnore]
-        public bool AnimationsEnabled { get; set; }
-        public bool WindowLocked { get; set; }
-        public bool TitlebarVisible { get; set; }
-    }
 }

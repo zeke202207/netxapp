@@ -2,6 +2,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -9,11 +11,13 @@ using NetX.AppCore.Contract;
 using NetX.AppCore.Extentions;
 using NetX.AppCore.Models;
 using NetX.AppCore.Views;
+using Serilog;
 using Splat;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -27,22 +31,26 @@ namespace NetX.AppCore.ViewModels
         private BackgroundWorker _worker;
         private readonly List<IStartupWindowViewModel> _steps;
         private readonly IDataTemplate _dataTemplate;
+        private readonly AppConfig _appConfig;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
         private Stack<Window> sukiWindows = new Stack<Window>();
 
         public AppBootstrap(
-            IOptions<AppConfig> option, 
+            IOptions<AppUserConfig> option, 
+            IOptions<AppConfig> appOption,
             IEnumerable<IStartupWindowViewModel> steps,
             IDataTemplate dataTemplate)
         {
             _steps = steps.OrderBy(p => p.Order).ToList();
             _steps.ForEach(step => step.SetResetEvent(_autoResetEvent));
             _dataTemplate = dataTemplate;
+            _appConfig = appOption.Value;
         }
 
         public Window Init()
         {
             _windowSelf = InitFirestScreen();
+            ConfigWindows(_windowSelf);
             InitEvent();
             if (!_worker.IsBusy)
                 _worker.RunWorkerAsync(1);
@@ -73,7 +81,7 @@ namespace NetX.AppCore.ViewModels
             }
             catch (Exception ex)
             {
-                throw;
+                Log.Error(ex, "启动过程失败");
             }
         }
 
@@ -90,7 +98,7 @@ namespace NetX.AppCore.ViewModels
             }
             catch (Exception ex)
             {
-                throw;
+                Log.Error(ex, "启动过程处理失败");
             }
         }
 
@@ -101,7 +109,7 @@ namespace NetX.AppCore.ViewModels
             }
             catch (Exception ex)
             {
-                throw;
+                Log.Error(ex, $"启动过程{nameof(Worker_RunWorkerCompleted)}失败");
             }
         }
 
@@ -111,6 +119,7 @@ namespace NetX.AppCore.ViewModels
             if (null == currentViewModel)
                 return;
             var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
+            ConfigWindows(window);
             _windowSelf?.Hide();
             _windowSelf.Closed -= WindowSelf_Closed;
             sukiWindows.Push(_windowSelf);
@@ -157,6 +166,20 @@ namespace NetX.AppCore.ViewModels
             {
                 throw;
             }
+        }
+
+        private void ConfigWindows(Window window)
+        {
+            if(null == window || window is not SukiWindow sukiWindow)
+                return;
+            sukiWindow.Title = _appConfig.Appinfo.Name;
+            sukiWindow.LogoContent = new Image 
+            { 
+                Source = new Bitmap(AssetLoader.Open(new Uri(_appConfig.Appinfo.Icon))) ,
+                Width = 20,
+                Height = 20
+            };
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }
 }
