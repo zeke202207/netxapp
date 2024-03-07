@@ -8,6 +8,7 @@ using NetX.AppContainer.ViewModels;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System;
+using System.Reactive.Linq;
 
 namespace NetX.AppContainer.Views
 {
@@ -50,6 +51,14 @@ namespace NetX.AppContainer.Views
             if (mItem.DataContext is not SukiColorTheme cTheme) 
                 return;
             vm.ChangeTheme(cTheme);
+        }
+
+        private void Avatar_Tapped(object? sender, Avalonia.Input.TappedEventArgs e)
+        {
+            if (DataContext is not MainViewModel vm) 
+                return;
+            var task = vm.UserDetailCommand?.Execute();
+            task.GetAwaiter().GetResult();
         }
     }
 }

@@ -1,39 +1,50 @@
 <suki:SukiWindow  xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
-        xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:vm="clr-namespace:NetX.AppContainer.ViewModels"
-        xmlns:converters="clr-namespace:NetX.AppContainer.Converters"
-        x:DataType="vm:MainViewModel"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="NetX.AppContainer.Views.MainWindow"
-        Title="MainView"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+                  xmlns:vm="clr-namespace:NetX.AppContainer.ViewModels"
+                  xmlns:converters="clr-namespace:NetX.AppContainer.Converters"
+                  x:DataType="vm:MainViewModel"
+                  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                  x:Class="NetX.AppContainer.Views.MainWindow"
+                  Title="MainView"
                   
-                 BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
-                 CanMinimize="{Binding !WindowLocked}"
-                 CanMove="{Binding !WindowLocked}"
-                 CanResize="{Binding !WindowLocked}"
-                 IsMenuVisible="True"
-                 IsTitleBarVisible="{Binding TitleBarVisible, Mode=TwoWay}"
+                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
+                  CanMinimize="{Binding !WindowLocked}"
+                  CanMove="{Binding !WindowLocked}"
+                  CanResize="{Binding !WindowLocked}"
+                  IsMenuVisible="True"
+                  IsTitleBarVisible="{Binding TitleBarVisible, Mode=TwoWay}"
                   >
   
+  <!-- 菜单栏自定义菜单 -->
   <suki:SukiWindow.MenuItems>
 
     <MenuItem Header="系统设置">
-      <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations"
-                IsVisible="False">
-        <MenuItem.Icon>
-          <avalonia:MaterialIcon Kind="{Binding AnimationsEnabled, Converter={x:Static converters:BoolToIconConverters.Animation}}" />
-        </MenuItem.Icon>
-      </MenuItem>
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="Tools" />
+      </MenuItem.Icon>
       <MenuItem Command="{Binding ToggleWindowLockCommand}"
                 Header="窗口锁定"
                 ToolTip.Tip="Toggles minimizing and resizing.">
         <MenuItem.Icon>
           <avalonia:MaterialIcon Kind="{Binding WindowLocked, Converter={x:Static converters:BoolToIconConverters.WindowLock}}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="全屏"
+                Command="{Binding FullScreenCommand}">
+        <MenuItem.Icon>
+          <avalonia:MaterialIcon Kind="{Binding FullScreenVisible, Converter={x:Static converters:BoolToIconConverters.FullScreen}}" />
+        </MenuItem.Icon>
+      </MenuItem>
+      
+      <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations"
+                IsVisible="False">
+        <MenuItem.Icon>
+          <avalonia:MaterialIcon Kind="{Binding AnimationsEnabled, Converter={x:Static converters:BoolToIconConverters.Animation}}" />
         </MenuItem.Icon>
       </MenuItem>
       <MenuItem Command="{Binding ToggleTitleBarCommand}"
@@ -44,23 +55,23 @@
           <avalonia:MaterialIcon Kind="{Binding TitleBarVisible, Converter={x:Static converters:BoolToIconConverters.Visibility}}" />
         </MenuItem.Icon>
       </MenuItem>
-      <MenuItem Header="全屏"
-                Command="{Binding FullScreenCommand}">
-        <MenuItem.Icon>
-          <avalonia:MaterialIcon Kind="{Binding FullScreenVisible, Converter={x:Static converters:BoolToIconConverters.FullScreen}}" />
-        </MenuItem.Icon>
-      </MenuItem>
     </MenuItem>
 
     <MenuItem Header="主题">
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="Theme" />
+      </MenuItem.Icon>
       <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
         <MenuItem.Icon>
-          <avalonia:MaterialIcon Kind="Lightbulb" />
+          <avalonia:MaterialIcon Kind="ThemeLightDark" />
         </MenuItem.Icon>
       </MenuItem>
       <MenuItem Click="MenuItem_OnClick"
                 Header="主题色"
                 ItemsSource="{Binding Themes}">
+        <MenuItem.Icon>
+          <avalonia:MaterialIcon Kind="Color" />
+        </MenuItem.Icon>
         <MenuItem.DataTemplates>
           <DataTemplate DataType="{x:Type models:SukiColorTheme}">
             <StackPanel Orientation="Horizontal">
@@ -71,12 +82,19 @@
         </MenuItem.DataTemplates>
       </MenuItem>
       <MenuItem Header="-" />
-      <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="自定义主题色" />
+      <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="自定义主题色" >
+        <MenuItem.Icon>
+          <avalonia:MaterialIcon Kind="CustomerService" />
+        </MenuItem.Icon>
+      </MenuItem>
     </MenuItem>
     
   </suki:SukiWindow.MenuItems>
 
+  <!-- 侧边栏 -->
   <suki:SukiSideMenu ItemsSource="{Binding Menus}">
+
+    <!-- 系统菜单 -->
     <suki:SukiSideMenu.ItemTemplate>
       <DataTemplate>
         <suki:SukiSideMenuItem Header="{Binding DisplayName}">
@@ -87,17 +105,22 @@
       </DataTemplate>
     </suki:SukiSideMenu.ItemTemplate>
 
+    <!-- 用户头像 -->
     <suki:SukiSideMenu.HeaderContent>
       <StackPanel HorizontalAlignment="Center">
-        <Button Width="80"
-                Height="80"
-                BorderThickness="0"
-                Command="{Binding UserDetailCommand}">
-          <Image Source="{Binding Avatar}" Stretch="UniformToFill" />
-        </Button>
+        <Border 
+          Margin="10,0,10,0"
+          Width="80" 
+          Height="80" 
+          CornerRadius="40" 
+          ClipToBounds="True" 
+          Background="{DynamicResource SukiPrimaryColor}">
+            <Image Source="{Binding Avatar}" Tapped="Avatar_Tapped" />
+        </Border>
       </StackPanel>
     </suki:SukiSideMenu.HeaderContent>
 
+    <!-- 底部菜单 -->
     <suki:SukiSideMenu.FooterContent>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
         <StackPanel.Styles>
@@ -117,6 +140,7 @@
         </Button>
       </StackPanel>
     </suki:SukiSideMenu.FooterContent>
+    
   </suki:SukiSideMenu>
   
 </suki:SukiWindow >

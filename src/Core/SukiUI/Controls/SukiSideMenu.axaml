@@ -18,17 +18,18 @@
                                                 BorderThickness="0"
                                                 CornerRadius="0" />
                                 <DockPanel>
+                                  
                                     <Button Name="PART_SidebarToggleButton"
                                             Margin="7"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
                                             Classes="Basic"
                                             DockPanel.Dock="Top">
                                         <Panel>
                                             <PathIcon Name="PART_ExpandIcon"
                                                       Width="12"
                                                       Height="12"
-                                                      Data="{x:Static content:Icons.ChevronLeft}"
+                                                      Data="{x:Static content:Icons.Menu}"
                                                       Foreground="{DynamicResource SukiText}">
                                                 <PathIcon.Transitions>
                                                     <Transitions>
@@ -38,18 +39,26 @@
                                             </PathIcon>
                                         </Panel>
                                     </Button>
+
+                                    <!-- IsVisible="{TemplateBinding IsMenuExpanded}"-->
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
                                           DockPanel.Dock="Top"
-                                          IsVisible="{TemplateBinding IsMenuExpanded}">
-                                        <ContentPresenter Content="{TemplateBinding HeaderContent}" />
+                                          IsVisible="{TemplateBinding IsMenuExpanded}"
+                                          >
+                                        <ContentPresenter Content="{TemplateBinding HeaderContent}" 
+                                                          VerticalAlignment="Center" 
+                                                          HorizontalAlignment="Center"/>
                                     </Grid>
+                                  
                                     <ContentControl Margin="0,0,0,12"
                                                     Content="{TemplateBinding FooterContent}"
                                                     DockPanel.Dock="Bottom"
                                                     IsVisible="{TemplateBinding IsMenuExpanded}" />
+                                  
                                     <Grid Name="PART_Spacer"
                                           Height="15"
                                           DockPanel.Dock="Top" />
+                                    
                                     <ScrollViewer Name="PART_ScrollViewer"
                                                   AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
                                                   Background="{TemplateBinding Background}"
