@@ -42,7 +42,6 @@ namespace NetX.AppContainer.Models
         [JsonIgnore]
         public bool AnimationsEnabled { get; set; }
         public bool WindowLocked { get; set; }
-        [JsonIgnore]
-        public bool TitlebarVisible { get; set; } = true;
+        public bool TitlebarVisible { get; set; }
     }
 }

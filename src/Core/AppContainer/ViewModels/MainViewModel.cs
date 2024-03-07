@@ -47,8 +47,8 @@ namespace NetX.AppContainer.ViewModels
             get => _baseTheme;
             set
             {
-                this.RaiseAndSetIfChanged(ref _baseTheme, value);
                 var theme = GetThemeVariant(_baseTheme);
+                this.RaiseAndSetIfChanged(ref _baseTheme, value);
                 if (_option.Themes.Theme != theme)
                 {
                     _option.Themes.Theme = theme;
@@ -124,6 +124,7 @@ namespace NetX.AppContainer.ViewModels
         public ReactiveCommand<Unit, Unit> ToggleTitleBarCommand { get; }
         public ReactiveCommand<Unit, Unit> CreateCustomThemeCommand { get; }
         public ReactiveCommand<Unit, Unit> FullScreenCommand { get; }
+        public ReactiveCommand<Unit, Unit> ExitFullScreenCommand { get; }
         public ReactiveCommand<Unit, Task> UserDetailCommand { get; }
 
         #endregion
@@ -190,17 +191,8 @@ namespace NetX.AppContainer.ViewModels
                     $"Window title bar has been {(TitleBarVisible ? "shown" : "hidden")}.");
             });
             CreateCustomThemeCommand = ReactiveCommand.Create(() => CustomerTheme());
-            FullScreenCommand = ReactiveCommand.Create(() =>
-            {
-                FullScreenVisible = !FullScreenVisible;
-                if (null != base.Window)
-                {
-                    base.Window.WindowState = base.Window.WindowState == WindowState.FullScreen ? WindowState.Normal : WindowState.FullScreen;
-                    TitleBarVisible = base.Window.WindowState != WindowState.FullScreen;
-                    SukiHost.ShowToast($"Full Screen {(FullScreenVisible ? "Enabled" : "Disabled")}",
-                                       $"Window has been {(FullScreenVisible ? "enabled" : "disabled")}.");
-                }
-            });
+            FullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(!FullScreenVisible));
+            ExitFullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(false));
             UserDetailCommand = ReactiveCommand.Create(async () => {
                 await _eventBus?.Publish(new UserInfoEvent("zeke"));
             });
@@ -209,6 +201,19 @@ namespace NetX.AppContainer.ViewModels
             _eventBus = eventBus;
 
             InitConfig(_option);
+        }
+
+        private void ToggleFullScreen(bool isFullScreen)
+        {
+            FullScreenVisible = isFullScreen;
+            TitleBarVisible = !FullScreenVisible;
+            if (null != base.Window)
+            {
+                if (FullScreenVisible && base.Window.WindowState != WindowState.FullScreen)
+                    base.Window.WindowState = WindowState.FullScreen;
+                else
+                    base.Window.WindowState = WindowState.Normal;
+            }
         }
 
         private string GetThemeVariant(ThemeVariant theme)
