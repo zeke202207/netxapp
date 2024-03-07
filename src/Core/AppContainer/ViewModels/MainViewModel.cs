@@ -11,6 +11,7 @@ using NetX.AppContainer.Contract;
 using NetX.AppContainer.Models;
 using NetX.AppContainer.Views;
 using ReactiveUI;
+using Serilog;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Enums;
@@ -138,7 +139,119 @@ namespace NetX.AppContainer.ViewModels
             : base(controlCreator, typeof(MainWindow), MainViewModel.Order)
         {
             _customTheme = customTheme;
-            _customTheme.OnColorThemeChanged += colortheme =>
+            _customTheme.OnColorThemeChanged += colortheme => ColorThemeChanged(colortheme);
+            _option = option.Value;
+            Menus = new AvaloniaList<IMenuPageViewModel>(pages.OrderBy(p => p.Order));
+            _theme = SukiTheme.GetInstance();
+            //Themes = _theme.ColorThemes;
+            Themes.AddRange(_theme.ColorThemes);
+            BaseTheme = GetThemeVariant(_theme.ActiveBaseTheme);
+            _theme.OnBaseThemeChanged += async variant => await BaseThemeChanged(variant);
+            _theme.OnColorThemeChanged += async theme => await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
+            _theme.OnBackgroundAnimationChanged += value => AnimationsEnabled = value;
+
+            ToggleBaseThemeCommand = ReactiveCommand.Create(() => ToggleBaseTheme());
+            ToggleAnimationsCommand = ReactiveCommand.Create<Task>(async () => await ToggleAnimations());
+            ToggleWindowLockCommand = ReactiveCommand.Create(() => ToggleWindowLock());
+            ToggleTitleBarCommand = ReactiveCommand.Create(() => ToggleTitleBar());
+            CreateCustomThemeCommand = ReactiveCommand.Create(() => CustomerTheme());
+            FullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(!FullScreenVisible));
+            ExitFullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(false));
+            UserDetailCommand = ReactiveCommand.Create(async () => await UserDetail());
+
+            Avatar = LoadEmbeddedImage("NetX.AppContainer.Assets.default_avatar.png");
+            _eventBus = eventBus;
+
+            InitConfig(_option);
+        }
+
+        private async Task UserDetail()
+        {
+            try
+            {
+                await _eventBus?.Publish(new UserInfoEvent("zeke"));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "点击用户信息失败");
+            }
+        }
+
+        private void ToggleTitleBar()
+        {
+            try
+            {
+                TitleBarVisible = !TitleBarVisible;
+                SukiHost.ShowToast(
+                    $"Title Bar {(TitleBarVisible ? "Visible" : "Hidden")}",
+                    $"Window title bar has been {(TitleBarVisible ? "shown" : "hidden")}.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置菜单栏可见性失败");
+            }
+        }
+
+        private void ToggleWindowLock()
+        {
+            try
+            {
+                WindowLocked = !WindowLocked;
+                SukiHost.ShowToast(
+                    $"Window {(WindowLocked ? "Locked" : "Unlocked")}",
+                    $"Window has been {(WindowLocked ? "locked" : "unlocked")}.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置菜单栏锁定失败");
+            }
+        }
+
+        private async Task ToggleAnimations()
+        {
+            try
+            {
+                AnimationsEnabled = !AnimationsEnabled;
+                var title = AnimationsEnabled ? "Animation Enabled" : "Animation Disabled";
+                var content = AnimationsEnabled
+                    ? "Background animations are now enabled."
+                    : "Background animations are now disabled.";
+                await SukiHost.ShowToast(title, content);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置动画失败");
+            }
+        }
+
+        private void ToggleBaseTheme()
+        {
+            try
+            {
+                _theme.SwitchBaseTheme();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置主题失败");
+            }
+        }
+
+        private async Task BaseThemeChanged(ThemeVariant variant)
+        {
+            try
+            {
+                BaseTheme = GetThemeVariant(variant);
+                await SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置主题失败");
+            }
+        }
+
+        private void ColorThemeChanged(SukiColorTheme colortheme)
+        {
+            try
             {
                 List<SukiColorTheme> remove = new List<SukiColorTheme>();
                 var defaultTheme = Enum.GetNames(typeof(SukiColor));
@@ -151,68 +264,30 @@ namespace NetX.AppContainer.ViewModels
                 }
                 Themes.RemoveMany(remove);
                 Themes.Add(colortheme);
-            };
-            _option = option.Value;
-            Menus = new AvaloniaList<IMenuPageViewModel>(pages.OrderBy(p => p.Order));
-            _theme = SukiTheme.GetInstance();
-            //Themes = _theme.ColorThemes;
-            Themes.AddRange(_theme.ColorThemes);
-            BaseTheme = GetThemeVariant(_theme.ActiveBaseTheme);
-            _theme.OnBaseThemeChanged += async variant =>
+            }
+            catch (Exception ex)
             {
-                BaseTheme = GetThemeVariant(variant);
-                await SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}");
-            };
-            _theme.OnColorThemeChanged += async theme => await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
-            _theme.OnBackgroundAnimationChanged += value => AnimationsEnabled = value;
-
-            ToggleBaseThemeCommand = ReactiveCommand.Create(() => _theme.SwitchBaseTheme());
-            ToggleAnimationsCommand = ReactiveCommand.Create<Task>(() =>
-            {
-                AnimationsEnabled = !AnimationsEnabled;
-                var title = AnimationsEnabled ? "Animation Enabled" : "Animation Disabled";
-                var content = AnimationsEnabled
-                    ? "Background animations are now enabled."
-                    : "Background animations are now disabled.";
-                return SukiHost.ShowToast(title, content);
-            });
-            ToggleWindowLockCommand = ReactiveCommand.Create(() =>
-            {
-                WindowLocked = !WindowLocked;
-                SukiHost.ShowToast(
-                    $"Window {(WindowLocked ? "Locked" : "Unlocked")}",
-                    $"Window has been {(WindowLocked ? "locked" : "unlocked")}.");
-            });
-            ToggleTitleBarCommand = ReactiveCommand.Create(() =>
-            {
-                TitleBarVisible = !TitleBarVisible;
-                SukiHost.ShowToast(
-                    $"Title Bar {(TitleBarVisible ? "Visible" : "Hidden")}",
-                    $"Window title bar has been {(TitleBarVisible ? "shown" : "hidden")}.");
-            });
-            CreateCustomThemeCommand = ReactiveCommand.Create(() => CustomerTheme());
-            FullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(!FullScreenVisible));
-            ExitFullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(false));
-            UserDetailCommand = ReactiveCommand.Create(async () => {
-                await _eventBus?.Publish(new UserInfoEvent("zeke"));
-            });
-
-            Avatar = LoadEmbeddedImage("NetX.AppContainer.Assets.default_avatar.png");
-            _eventBus = eventBus;
-
-            InitConfig(_option);
+                Log.Error(ex, "设置主题色失败");
+            }
         }
 
         private void ToggleFullScreen(bool isFullScreen)
         {
-            FullScreenVisible = isFullScreen;
-            TitleBarVisible = !FullScreenVisible;
-            if (null != base.Window)
+            try
             {
-                if (FullScreenVisible && base.Window.WindowState != WindowState.FullScreen)
-                    base.Window.WindowState = WindowState.FullScreen;
-                else
-                    base.Window.WindowState = WindowState.Normal;
+                FullScreenVisible = isFullScreen;
+                TitleBarVisible = !FullScreenVisible;
+                if (null != base.Window)
+                {
+                    if (FullScreenVisible && base.Window.WindowState != WindowState.FullScreen)
+                        base.Window.WindowState = WindowState.FullScreen;
+                    else
+                        base.Window.WindowState = WindowState.Normal;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "设置全屏切换失败");
             }
         }
 

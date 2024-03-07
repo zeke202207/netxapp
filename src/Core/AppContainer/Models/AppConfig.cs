@@ -1,6 +1,7 @@
 ﻿using Avalonia.Media;
 using Avalonia.Styling;
 using Newtonsoft.Json;
+using Serilog;
 using Splat.ModeDetection;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,20 @@ namespace NetX.AppContainer.Models
         public Themes Themes { get; set; }
         public Layouts Layouts { get; set; }
 
-        public void Save()
+        public void Save() => Task.Factory.StartNew(SaveAsync);
+
+        private async Task SaveAsync()
         {
-            File.WriteAllText(
-                $"{Path.Combine(AppContext.BaseDirectory, "appsetting.ui.json")}", 
-                JsonConvert.SerializeObject(this,new JsonSerializerSettings() { Formatting = Formatting.Indented}));
+            try
+            {
+                await File.WriteAllTextAsync(
+                     $"{Path.Combine(AppContext.BaseDirectory, AppConst.APP_CONFIG_UI_FILE)}",
+                     JsonConvert.SerializeObject(this, new JsonSerializerSettings() { Formatting = Formatting.Indented }));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "配置文件保存失败");
+            }
         }
     }
 

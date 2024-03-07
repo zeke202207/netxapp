@@ -48,8 +48,8 @@ public partial class App : Application
     {
         var builder = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsetting.json")} ")
-              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsetting.ui.json")} ");
+              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConst.APP_CONFIG_FILE)} ")
+              .AddJsonFile($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppConst.APP_CONFIG_UI_FILE)} ");
         _configuration = builder.Build();
     }
 

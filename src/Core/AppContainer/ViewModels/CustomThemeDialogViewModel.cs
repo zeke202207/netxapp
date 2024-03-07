@@ -15,6 +15,7 @@ using System.Reactive;
 using Microsoft.Extensions.Options;
 using NetX.AppContainer.Models;
 using System.Xml.Linq;
+using Serilog;
 
 namespace NetX.AppContainer.ViewModels
 {
@@ -58,13 +59,20 @@ namespace NetX.AppContainer.ViewModels
             TryCreateThemeCommand = ReactiveCommand.Create(TryCreateTheme);
         }
 
-        public void TryCreateTheme()
+        private void TryCreateTheme()
         {
-            if (string.IsNullOrEmpty(DisplayName)) 
-                return;
-            ChangeColorTheme();
-            Save2Config();
-            SukiHost.CloseDialog();
+            try
+            {
+                if (string.IsNullOrEmpty(DisplayName))
+                    return;
+                ChangeColorTheme();
+                Save2Config(); 
+                SukiHost.CloseDialog();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "创建主题色失败");
+            }
         }
 
         private void ChangeColorTheme()

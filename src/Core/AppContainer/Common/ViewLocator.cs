@@ -2,6 +2,7 @@
 using Avalonia.Controls.Templates;
 using NetX.AppContainer.Contract;
 using ReactiveUI;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,19 +25,27 @@ namespace NetX.AppContainer
 
         public Control Build(object? data)
         {
-            var viewModel = data as IViewModel;
-            if (null == viewModel)
-                throw new NotSupportedException($"不支持的IViewModel;{viewModel}");
-            if (!_controlCache.TryGetValue(data!, out var res))
+            try
             {
-                res = viewModel.CreateView(viewModel.PageView);
-                if (null != res)
+                var viewModel = data as IViewModel;
+                if (null == viewModel)
+                    throw new NotSupportedException($"不支持的IViewModel;{viewModel}");
+                if (!_controlCache.TryGetValue(data!, out var res))
                 {
-                    res.DataContext = data;
-                    _controlCache.Add(data!, res);
+                    res = viewModel.CreateView(viewModel.PageView);
+                    if (null != res)
+                    {
+                        res.DataContext = data;
+                        _controlCache.Add(data!, res);
+                    }
                 }
+                return res;
             }
-            return res;
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"{nameof(ViewLocator.Build)}失败");
+                return default(Control);
+            }
         }
 
         public bool Match(object? data) => data is IReactiveNotifyPropertyChanged<object>;

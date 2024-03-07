@@ -1,7 +1,10 @@
 ﻿using Avalonia;
+using Avalonia.Logging;
 using Avalonia.ReactiveUI;
 using NetX.AppContainer;
 using NetX.AppContainer.Extentions;
+using NetX.AppContainer.Logs;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +23,23 @@ public class Program
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+    public static void Main(string[] args)
+    {
+        try
+        {
+            LogHelper.RegisterLog();
+            BuildAvaloniaApp()
+            .StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex,ex.ToString());
+        }
+        finally
+        {
+            LogHelper.CloseAndFlush();
+        }
+    }
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
@@ -29,6 +47,6 @@ public class Program
         .UsePlatformDetect()
         .UseAlibabaFont()
         .WithInterFont()
-        .LogToTrace()
+        .UseLog()
         .UseReactiveUI();
 }

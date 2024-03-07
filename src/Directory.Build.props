@@ -13,6 +13,10 @@
     <MSExtensionsOptionsConfigurationExtensionsVersion>8.0.0</MSExtensionsOptionsConfigurationExtensionsVersion>
     <MediatRVersion>12.2.0</MediatRVersion>
     <NewtonsoftVesion>13.0.3</NewtonsoftVesion>
+    <SerilogVersion>3.1.1</SerilogVersion>
+    <SerilogSettingsConfigurationVersion>8.0.0</SerilogSettingsConfigurationVersion>
+    <SerilogSinksConsole>5.0.1</SerilogSinksConsole>
+    <SerilogSinksFile>5.0.0</SerilogSinksFile>
   </PropertyGroup>
 
 </Project>

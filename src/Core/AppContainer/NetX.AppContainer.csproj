@@ -47,6 +47,10 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MSExtensionsOptionsConfigurationExtensionsVersion)" />
     <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftVesion)" />
+    <PackageReference Include="Serilog" Version="$(SerilogVersion)" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfigurationVersion)" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
+    <PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +60,9 @@
   
   <ItemGroup>
     <None Update="appsetting.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsetting.log.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="appsetting.ui.json">
