@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using MyDemo.Views;
-using NetX.AppContainer.Contract;
+using NetX.AppCore.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

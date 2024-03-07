@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using NetX.AppContainer.Contract;
+using NetX.AppCore.Contract;
 using ReactiveUI;
 using Serilog;
 using System;
@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer
+namespace NetX.AppCore
 {
     public class ViewLocator : IDataTemplate
     {

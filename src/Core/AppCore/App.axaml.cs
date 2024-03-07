@@ -8,11 +8,11 @@ using Avalonia.Threading;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetX.AppContainer.Contract;
-using NetX.AppContainer.Extentions;
-using NetX.AppContainer.Models;
-using NetX.AppContainer.ViewModels;
-using NetX.AppContainer.Views;
+using NetX.AppCore.Contract;
+using NetX.AppCore.Extentions;
+using NetX.AppCore.Models;
+using NetX.AppCore.ViewModels;
+using NetX.AppCore.Views;
 using SukiUI;
 using SukiUI.Controls;
 using System;
@@ -22,7 +22,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer;
+namespace NetX.AppCore;
 
 public partial class App : Application
 {

@@ -1,9 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Logging;
 using Avalonia.ReactiveUI;
-using NetX.AppContainer;
-using NetX.AppContainer.Extentions;
-using NetX.AppContainer.Logs;
+using NetX.AppCore;
+using NetX.AppCore.Extentions;
+using NetX.AppCore.Logs;
 using Serilog;
 using System;
 using System.Collections.Generic;

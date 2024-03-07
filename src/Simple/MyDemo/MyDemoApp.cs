@@ -1,4 +1,4 @@
-﻿using NetX.AppContainer;
+﻿using NetX.AppCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

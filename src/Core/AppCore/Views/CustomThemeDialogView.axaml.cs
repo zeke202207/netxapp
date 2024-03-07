@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using NetX.AppContainer.ViewModels;
+using NetX.AppCore.ViewModels;
 
-namespace NetX.AppContainer.Views
+namespace NetX.AppCore.Views
 {
     public partial class CustomThemeDialogView : UserControl
     {

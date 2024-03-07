@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using NetX.AppContainer.Contract;
+using NetX.AppCore.Contract;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;

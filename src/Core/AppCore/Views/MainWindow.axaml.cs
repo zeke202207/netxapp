@@ -3,14 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using NetX.AppContainer.Contract;
-using NetX.AppContainer.ViewModels;
+using NetX.AppCore.Contract;
+using NetX.AppCore.ViewModels;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System;
 using System.Reactive.Linq;
 
-namespace NetX.AppContainer.Views
+namespace NetX.AppCore.Views
 {
     public partial class MainWindow : SukiWindow
     {

@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppContract\NetX.AppContainer.Contract.csproj" />
+    <ProjectReference Include="..\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
   </ItemGroup>
   

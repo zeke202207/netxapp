@@ -1,11 +1,11 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Fonts;
-using NetX.AppContainer.Models;
+using NetX.AppCore.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace NetX.AppContainer.Extentions
+namespace NetX.AppCore.Extentions
 {
     public static class AvaloniaAppBuilderExtensions
     {

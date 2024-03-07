@@ -7,17 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NetX.AppContainer.Contract;
+using NetX.AppCore.Contract;
 using Avalonia.Controls;
-using NetX.AppContainer.Views;
+using NetX.AppCore.Views;
 using ReactiveUI;
 using System.Reactive;
 using Microsoft.Extensions.Options;
-using NetX.AppContainer.Models;
+using NetX.AppCore.Models;
 using System.Xml.Linq;
 using Serilog;
 
-namespace NetX.AppContainer.ViewModels
+namespace NetX.AppCore.ViewModels
 {
     [ViewModel(ServiceLifetime.Singleton)]
     public partial class CustomThemeDialogViewModel : BaseViewModel

@@ -3,7 +3,7 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using Material.Icons;
 
-namespace NetX.AppContainer.Converters
+namespace NetX.AppCore.Converters
 {
     public static class BoolToIconConverters
     {

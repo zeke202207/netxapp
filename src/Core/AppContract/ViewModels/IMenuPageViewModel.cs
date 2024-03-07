@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace NetX.AppContainer.Contract
+namespace NetX.AppCore.Contract
 {
     public interface IMenuPageViewModel
     {

@@ -4,7 +4,7 @@ using ReactiveUI;
 using System;
 using System.Threading;
 
-namespace NetX.AppContainer.Contract;
+namespace NetX.AppCore.Contract;
 
 public abstract partial class BaseViewModel : ReactiveObject, IViewModel
 {

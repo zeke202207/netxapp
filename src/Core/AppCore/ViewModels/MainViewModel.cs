@@ -7,9 +7,9 @@ using Avalonia.Styling;
 using DynamicData;
 using Material.Icons;
 using Microsoft.Extensions.Options;
-using NetX.AppContainer.Contract;
-using NetX.AppContainer.Models;
-using NetX.AppContainer.Views;
+using NetX.AppCore.Contract;
+using NetX.AppCore.Models;
+using NetX.AppCore.Views;
 using ReactiveUI;
 using Serilog;
 using SukiUI;
@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TextMateSharp.Themes;
 
-namespace NetX.AppContainer.ViewModels
+namespace NetX.AppCore.ViewModels
 {
     [SortIndex(MainViewModel.Order)]
     [ViewModel(ServiceLifetime.Singleton)]
@@ -159,7 +159,7 @@ namespace NetX.AppContainer.ViewModels
             ExitFullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(false));
             UserDetailCommand = ReactiveCommand.Create(async () => await UserDetail());
 
-            Avatar = LoadEmbeddedImage("NetX.AppContainer.Assets.default_avatar.png");
+            Avatar = LoadEmbeddedImage("NetX.AppCore.Assets.default_avatar.png");
             _eventBus = eventBus;
 
             InitConfig(_option);

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetX.AppContainer.Contract
+namespace NetX.AppCore.Contract
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class ViewModelAttribute : Attribute

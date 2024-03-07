@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetX.AppContainer.Contract;
+namespace NetX.AppCore.Contract;
 
 public abstract class MenuPageViewModel : BaseViewModel, IMenuPageViewModel
 {

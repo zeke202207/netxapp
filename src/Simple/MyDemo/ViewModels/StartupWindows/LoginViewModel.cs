@@ -2,7 +2,7 @@
 using Avalonia.Controls.Templates;
 using Avalonia.Threading;
 using MyDemo.Views;
-using NetX.AppContainer.Contract;
+using NetX.AppCore.Contract;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;

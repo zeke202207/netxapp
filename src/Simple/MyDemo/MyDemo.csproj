@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\AppContainer\NetX.AppContainer.csproj" />
-    <ProjectReference Include="..\..\Core\AppContract\NetX.AppContainer.Contract.csproj" />
+    <ProjectReference Include="..\..\Core\AppCore\NetX.AppCore.csproj" />
+    <ProjectReference Include="..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\..\Core\SukiUI\SukiUI.csproj" />
   </ItemGroup>
   

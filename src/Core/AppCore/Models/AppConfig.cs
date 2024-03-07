@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.Models
+namespace NetX.AppCore.Models
 {
     public class AppConfig
     {

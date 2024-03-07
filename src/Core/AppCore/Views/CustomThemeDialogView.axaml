@@ -3,11 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-        xmlns:vm="clr-namespace:NetX.AppContainer.ViewModels"
+        xmlns:vm="clr-namespace:NetX.AppCore.ViewModels"
         x:DataType="vm:CustomThemeDialogViewModel"
-             xmlns:common="clr-namespace:NetX.AppContainer;assembly=NetX.AppContainer"
+             xmlns:common="clr-namespace:NetX.AppCore;assembly=NetX.AppCore"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="NetX.AppContainer.Views.CustomThemeDialogView">
+             x:Class="NetX.AppCore.Views.CustomThemeDialogView">
 
   <controls:GroupBox Header="Create Custom Theme">
     <StackPanel Spacing="20">

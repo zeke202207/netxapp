@@ -1,8 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="NetX.AppContainer.App"
+             x:Class="NetX.AppCore.App"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             xmlns:common="clr-namespace:NetX.AppContainer;assembly=NetX.AppContainer"
+             xmlns:common="clr-namespace:NetX.AppCore;assembly=NetX.AppCore"
              xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -24,7 +24,7 @@
       <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 
       <!-- add style -->
-      <StyleInclude Source="avares://NetX.AppContainer/Styles/FontStyles.axaml"/>
+      <StyleInclude Source="avares://NetX.AppCore/Styles/FontStyles.axaml"/>
       <avalonia:MaterialIconStyles/>
     </Application.Styles>
 </Application>

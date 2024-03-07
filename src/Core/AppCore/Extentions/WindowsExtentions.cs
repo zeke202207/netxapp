@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.Extentions
+namespace NetX.AppCore.Extentions
 {
     internal static class WindowsExtentions
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.Contract
+namespace NetX.AppCore.Contract
 {
     public interface IEventBus
     {

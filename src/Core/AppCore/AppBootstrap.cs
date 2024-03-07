@@ -5,10 +5,10 @@ using Avalonia.Controls.Templates;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using NetX.AppContainer.Contract;
-using NetX.AppContainer.Extentions;
-using NetX.AppContainer.Models;
-using NetX.AppContainer.Views;
+using NetX.AppCore.Contract;
+using NetX.AppCore.Extentions;
+using NetX.AppCore.Models;
+using NetX.AppCore.Views;
 using Splat;
 using SukiUI.Controls;
 using System;
@@ -19,7 +19,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NetX.AppContainer.ViewModels
+namespace NetX.AppCore.ViewModels
 {
     public class AppBootstrap
     {

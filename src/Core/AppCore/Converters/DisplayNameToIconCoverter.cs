@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TextMateSharp.Themes;
 
-namespace NetX.AppContainer.Converters
+namespace NetX.AppCore.Converters
 {
     public static class DisplayNameToIconConverters
     {
