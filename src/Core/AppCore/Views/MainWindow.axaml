@@ -19,6 +19,10 @@
                   IsMenuVisible="True"
                   IsTitleBarVisible="{Binding TitleBarVisible, Mode=TwoWay}"
                   >
+
+  <suki:SukiWindow.Resources>
+    <converters:ThemeVariantToDisplayCoverter x:Key="themeConverter"/>
+  </suki:SukiWindow.Resources>
   
   <!-- 菜单栏自定义菜单 -->
   <suki:SukiWindow.MenuItems>
@@ -61,7 +65,7 @@
       <MenuItem.Icon>
         <avalonia:MaterialIcon Kind="Theme" />
       </MenuItem.Icon>
-      <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
+      <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme,Converter={StaticResource themeConverter}}">
         <MenuItem.Icon>
           <avalonia:MaterialIcon Kind="ThemeLightDark" />
         </MenuItem.Icon>

@@ -44,19 +44,18 @@ namespace NetX.AppCore.ViewModels
         public IAvaloniaReadOnlyList<IMenuPageViewModel> Menus { get; }
         public ObservableCollection<SukiColorTheme> Themes { get; } = new();
 
-        private string _baseTheme = ThemeVariant.Default.ToString();
-        public string BaseTheme
+        private ThemeVariant _baseTheme = ThemeVariant.Default;
+        public ThemeVariant BaseTheme
         {
             get => _baseTheme;
             set
             {
-                var theme = GetThemeVariant(_baseTheme);
-                this.RaiseAndSetIfChanged(ref _baseTheme, value);
-                if (_option.Themes.Theme != theme)
+                if(_option.Themes.Theme != value)
                 {
-                    _option.Themes.Theme = theme;
+                    _option.Themes.Theme = value;
                     _option.Save();
                 }
+                this.RaiseAndSetIfChanged(ref _baseTheme, value);
             }
         }
 
@@ -167,7 +166,7 @@ namespace NetX.AppCore.ViewModels
             _theme = SukiTheme.GetInstance();
             //Themes = _theme.ColorThemes;
             Themes.AddRange(_theme.ColorThemes);
-            BaseTheme = GetThemeVariant(_theme.ActiveBaseTheme);
+            BaseTheme = _theme.ActiveBaseTheme;
             _theme.OnBaseThemeChanged += async variant => await BaseThemeChanged(variant);
             _theme.OnColorThemeChanged += async theme => await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
             _theme.OnBackgroundAnimationChanged += value => AnimationsEnabled = value;
@@ -186,6 +185,8 @@ namespace NetX.AppCore.ViewModels
 
             InitConfig(_option);
         }
+
+        #region Method
 
         private async Task UserDetail()
         {
@@ -262,7 +263,7 @@ namespace NetX.AppCore.ViewModels
         {
             try
             {
-                BaseTheme = GetThemeVariant(variant);
+                BaseTheme = variant;
                 await SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}");
             }
             catch (Exception ex)
@@ -313,24 +314,6 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
-        private string GetThemeVariant(ThemeVariant theme)
-        {
-            if(theme == ThemeVariant.Dark)
-                return ThemeVariant.Light.ToString();
-            else 
-                return ThemeVariant.Dark.ToString();
-        }
-
-        private ThemeVariant GetThemeVariant(string theme)
-        {
-            return theme switch
-            {
-                "Light" => ThemeVariant.Light,
-                "Dark" => ThemeVariant.Dark,
-                _ => ThemeVariant.Default
-            };
-        }
-
         /// <summary>
         /// 初始化layout配置
         /// </summary>
@@ -359,6 +342,8 @@ namespace NetX.AppCore.ViewModels
             }
             return null;
         }
+
+        #endregion
 
         public void ChangeTheme(SukiColorTheme theme)
         {
