@@ -1,6 +1,8 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
@@ -115,6 +117,26 @@ namespace NetX.AppCore.ViewModels
         {
             get => this._avatar;
             set => this.RaiseAndSetIfChanged(ref this._avatar, value);
+        }
+
+        private int _avatarSize = 80;
+        public int AvatarSize
+        {
+            get => _avatarSize;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _avatarSize, value);
+            }
+        }
+
+        private Orientation _footerOrientation = Orientation.Horizontal;
+        public Orientation FooterOrientation
+        {
+            get => _footerOrientation;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _footerOrientation, value);
+            }
         }
 
         #region Command

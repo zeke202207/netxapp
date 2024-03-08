@@ -10,11 +10,23 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using Avalonia.Data;
+using System.Windows.Input;
 
 namespace SukiUI.Controls;
 
 public class SukiSideMenu : SelectingItemsControl
 {
+    public static readonly RoutedEvent<RoutedEventArgs> MenuExpandedChangedEvent =
+        RoutedEvent.Register<SukiSideMenu, RoutedEventArgs>(nameof(MenuExpandedChanged), RoutingStrategies.Direct);
+
+    public event EventHandler<RoutedEventArgs> MenuExpandedChanged
+    {
+        add => AddHandler(MenuExpandedChangedEvent, value);
+        remove => RemoveHandler(MenuExpandedChangedEvent, value);
+    }
+
+
     public static readonly StyledProperty<bool> IsMenuExpandedProperty =
         AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsMenuExpanded), defaultValue: true);
 
@@ -23,8 +35,6 @@ public class SukiSideMenu : SelectingItemsControl
         get => GetValue(IsMenuExpandedProperty);
         set => SetValue(IsMenuExpandedProperty, value);
     }
-
- 
 
     public static readonly StyledProperty<double> HeaderMinHeightProperty =
         AvaloniaProperty.Register<SukiSideMenu, double>(nameof(HeaderMinHeight));
@@ -63,7 +73,6 @@ public class SukiSideMenu : SelectingItemsControl
         SelectionMode = SelectionMode.Single | SelectionMode.AlwaysSelected;
     }
 
-
     private void MenuExpandedClicked()
     {
         IsMenuExpanded = !IsMenuExpanded;
@@ -75,6 +84,8 @@ public class SukiSideMenu : SelectingItemsControl
         else if(Items.First() is SukiSideMenuItem)
             foreach (SukiSideMenuItem item in Items)
                 item.IsTopMenuExpanded = IsMenuExpanded;
+        RoutedEventArgs args = new RoutedEventArgs(MenuExpandedChangedEvent);
+        RaiseEvent(args);
     }
     
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
