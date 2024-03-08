@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace MyDemo.Views.Menus
+namespace DemoAddone.Menus
 {
     public partial class DemoTextView : UserControl
     {

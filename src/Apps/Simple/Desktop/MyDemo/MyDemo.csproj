@@ -16,6 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\..\..\Core\AppCore\appsetting.addone.json" Link="appsetting.addone.json" />
+    <Content Include="..\..\..\Core\AppCore\appsetting.json" Link="appsetting.json" />
+    <Content Include="..\..\..\Core\AppCore\appsetting.log.json" Link="appsetting.log.json" />
+    <Content Include="..\..\..\Core\AppCore\appsetting.user.json" Link="appsetting.user.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
   </ItemGroup>
 
@@ -23,6 +30,7 @@
     <ProjectReference Include="..\..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\..\..\Core\AppCore\NetX.AppCore.csproj" />
     <ProjectReference Include="..\..\..\Core\SukiUI\SukiUI.csproj" />
+    <ProjectReference Include="..\DemoAddone\DemoAddone.csproj" />
     <ProjectReference Include="..\RBAC\NetX.RBAC.csproj" />
   </ItemGroup>
   

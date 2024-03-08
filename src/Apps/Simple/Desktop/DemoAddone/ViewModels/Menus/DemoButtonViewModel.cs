@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
+using DemoAddone.Menus;
 using Material.Icons;
-using MyDemo.Views.Menus;
 using NetX.AppCore.Contract;
 using System;
 using System.Collections.Generic;
@@ -8,14 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDemo.ViewModels.Menus
+namespace DemoAddone
 {
-    [SortIndex(1 , false)]
+    [SortIndex(0)]
     [ViewModel(ServiceLifetime.Singleton)]
-    public class DemoTextViewModel : MenuPageViewModel
+    public class DemoButtonViewModel : MenuPageViewModel
     {
-        public DemoTextViewModel(IControlCreator controlCreator)
-            : base(controlCreator, typeof(DemoTextView), "文本框示例", MaterialIconKind.Text, 1)
+        public DemoButtonViewModel(IControlCreator controlCreator)
+            : base(controlCreator, typeof(DemoButtonView), "按钮示例", MaterialIconKind.Button, 0)
         {
 
         }

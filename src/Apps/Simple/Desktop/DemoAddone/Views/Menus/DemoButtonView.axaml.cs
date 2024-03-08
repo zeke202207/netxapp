@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System.Diagnostics;
 
-namespace MyDemo.Views.Menus
+namespace DemoAddone.Menus
 {
     public partial class DemoButtonView : UserControl
     {
