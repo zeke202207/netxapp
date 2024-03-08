@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDemo.EventBusHandlers
+namespace NetX.RBAC.EventBusHandlers
 {
+    [EventBusHander]
     public class UserInfoEventHandler : INotificationHandler<UserInfoEvent>
     {
         public Task Handle(UserInfoEvent notification, CancellationToken cancellationToken)

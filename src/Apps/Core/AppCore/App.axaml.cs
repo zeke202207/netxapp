@@ -98,7 +98,7 @@ public partial class App : Application
 
     private void ConfigEventBusServices(ServiceCollection services)
     {
-        var types = Assembly.GetEntryAssembly()!.GetTypes();
+        var types = GetAllTypes<EventBusHanderAttribute>();
         foreach (var type in types)
         {
             foreach (var interfaceType in type.GetInterfaces())
@@ -144,16 +144,16 @@ public partial class App : Application
         where TAttribute : Attribute
     {
         var allType = new List<Type>();
-        var coreTypes = Assembly.GetEntryAssembly()!.GetTypesWithAttribute<SortIndexAttribute>();
+        var coreTypes = Assembly.GetEntryAssembly()!.GetTypesWithAttribute<TAttribute>();
         allType.AddRange(coreTypes);
         foreach (var assembly in _addoneAssemblies)
         {
-            var addoneTypes = Assembly.Load(assembly).GetTypesWithAttribute<SortIndexAttribute>();
+            var addoneTypes = Assembly.Load(assembly).GetTypesWithAttribute<TAttribute>();
             if (addoneTypes.Any())
                 allType.AddRange(addoneTypes);
         }
-        return allType;
-    }   
+        return allType.Distinct();
+    }
 
     /// <summary>
     /// 是否可以注入

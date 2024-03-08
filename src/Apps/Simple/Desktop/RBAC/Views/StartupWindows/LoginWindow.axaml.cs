@@ -4,15 +4,12 @@ using Avalonia.Markup.Xaml;
 using NetX.AppCore.Contract;
 using SukiUI.Controls;
 
-namespace MyDemo.Views
+namespace NetX.RBAC
 {
     public partial class LoginWindow : SukiWindow
     {
         public LoginWindow()
         {
-#if DEBUG
-            this.AttachDevTools();
-#endif
             AvaloniaXamlLoader.Load(this);
         }
     }

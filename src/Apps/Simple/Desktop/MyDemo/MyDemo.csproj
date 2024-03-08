@@ -27,9 +27,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Views\StartupWindows\LoginWindow.axaml.cs">
-      <DependentUpon>LoginWindow.axaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\StartupWindows\SplashScreenWindow.axaml.cs">
       <DependentUpon>SplashScreenWindow.axaml</DependentUpon>
     </Compile>

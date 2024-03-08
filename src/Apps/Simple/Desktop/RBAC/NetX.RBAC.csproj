@@ -14,5 +14,11 @@
     <ProjectReference Include="..\..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\..\..\Core\SukiUI\SukiUI.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Views\StartupWindows\LoginWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

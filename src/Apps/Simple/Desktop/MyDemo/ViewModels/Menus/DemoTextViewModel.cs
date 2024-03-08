@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyDemo.ViewModels.Menus
 {
-    [SortIndex(LoginViewModel.Order , false)]
+    [SortIndex(1 , false)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class DemoTextViewModel : MenuPageViewModel
     {
