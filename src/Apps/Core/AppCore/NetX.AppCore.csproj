@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Black.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Bold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-ExtraBold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Heavy.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Light.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Medium.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Regular.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-SemiBold.ttf" />
+    <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Thin.ttf" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\default_avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
+
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="$(AvaloniaEditVersion)" />
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="$(AvaloniaEditVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MSExtensionsConfigurationVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="$(MSExtensionsConfigurationFileExtensionsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(MSExtensionsConfigurationJson)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MSExtensionsDependencyInjectionVersion)" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="$(MaterialIconsAvalonia)" />
+
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MSExtensionsOptionsConfigurationExtensionsVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftVesion)" />
+    <PackageReference Include="Serilog" Version="$(SerilogVersion)" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfigurationVersion)" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
+    <PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppContract\NetX.AppCore.Contract.csproj" />
+    <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="appsetting.addone.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsetting.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsetting.log.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsetting.user.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+</Project>

@@ -17,6 +17,14 @@
     <SerilogSettingsConfigurationVersion>8.0.0</SerilogSettingsConfigurationVersion>
     <SerilogSinksConsole>5.0.1</SerilogSinksConsole>
     <SerilogSinksFile>5.0.0</SerilogSinksFile>
+
+
+
+
+    <GoogleProtobufVersion>3.25.3</GoogleProtobufVersion>
+    <GrpcAspNetCoreServerVersion>2.61.0</GrpcAspNetCoreServerVersion>
+    <GrpcCoreApiVersion>2.61.0</GrpcCoreApiVersion>
+    <GrpcToolsVersion>2.62.0</GrpcToolsVersion>
   </PropertyGroup>
 
 </Project>

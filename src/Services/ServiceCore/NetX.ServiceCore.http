@@ -1,0 +1,6 @@
+@NetX.ServiceCore_HostAddress = http://localhost:5283
+
+GET {{NetX.ServiceCore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

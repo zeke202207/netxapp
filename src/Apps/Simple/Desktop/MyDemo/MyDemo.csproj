@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
+    <ProjectReference Include="..\..\..\Core\AppCore\NetX.AppCore.csproj" />
+    <ProjectReference Include="..\..\..\Core\SukiUI\SukiUI.csproj" />
+    <ProjectReference Include="..\RBAC\NetX.RBAC.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Views\StartupWindows\LoginWindow.axaml.cs">
+      <DependentUpon>LoginWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\StartupWindows\SplashScreenWindow.axaml.cs">
+      <DependentUpon>SplashScreenWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
