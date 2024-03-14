@@ -25,6 +25,7 @@
     <GrpcAspNetCoreServerVersion>2.61.0</GrpcAspNetCoreServerVersion>
     <GrpcCoreApiVersion>2.61.0</GrpcCoreApiVersion>
     <GrpcToolsVersion>2.62.0</GrpcToolsVersion>
+	<MSAspNetCoreAuthenticationJwtBearerVersion>8.0.2</MSAspNetCoreAuthenticationJwtBearerVersion>
   </PropertyGroup>
 
 </Project>
