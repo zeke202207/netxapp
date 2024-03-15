@@ -28,7 +28,7 @@ namespace NetX.ServiceCore
             return grpcContext;
         }
 
-        public static async Task<TResponse> ApplicationPipline<TRequest, TResponse>(
+        public static async Task<GrpcResponse<TResponse>> ApplicationPipline<TRequest, TResponse>(
             this ServerCallContext context,
             TRequest request,
             IServiceProvider _appServices,
@@ -49,10 +49,10 @@ namespace NetX.ServiceCore
             }
             catch (Exception ex)
             {
-                grpcContext.Response.IsSuccess = true;
+                grpcContext.Response.IsSuccess = false;
                 grpcContext.Response.Error = ex;
             }
-            return await Task.FromResult(grpcContext.Response.Response);
+            return grpcContext.Response;
         }
     }
 }

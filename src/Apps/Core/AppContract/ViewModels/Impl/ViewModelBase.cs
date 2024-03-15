@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using ReactiveUI;
 using System;
@@ -39,5 +41,11 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
     protected virtual void ControlLoaded()
     {
 
+    }
+
+    protected virtual void CloseApplication()
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
+            desktopApp.Shutdown();
     }
 }

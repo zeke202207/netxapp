@@ -27,6 +27,7 @@ public class ExceptionMiddleware<TRequest, TReponse> : IApplicationMiddleware<Gr
         catch (Exception ex)
         {
             _logger.LogError(ex, "中间间处理异常");
+            throw ex;
         }
     }
 }

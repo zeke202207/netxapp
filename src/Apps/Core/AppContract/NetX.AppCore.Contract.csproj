@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,20 @@
     <PackageReference Include="Material.Icons.Avalonia" Version="$(MaterialIconsAvalonia)" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
     <PackageReference Include="MediatR" Version="$(MediatRVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MSExtensionsConfigurationVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MSExtensionsDependencyInjectionVersion)" />
+  
+    <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobufVersion)" />
+    <PackageReference Include="Grpc.Net.Client" Version="$(GrpcNetClient)" />
+    <PackageReference Include="Grpc.Tools" Version="$(GrpcToolsVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog" Version="$(SerilogVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
   </ItemGroup>
 
 </Project>

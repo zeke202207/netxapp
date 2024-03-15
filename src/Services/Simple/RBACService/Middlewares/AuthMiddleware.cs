@@ -13,9 +13,13 @@ public class AuthMiddleware<TRequest, TReponse> : IApplicationMiddleware<GrpcCon
 
     public async Task InvokeAsync(ApplicationDelegate<GrpcContext<TRequest, TReponse>> next, GrpcContext<TRequest, TReponse> context)
     {
-        var canAccess = true;
+        var canAccess = false;
         if (!canAccess)
-            throw new UnauthorizedAccessException("未授权");
+        {
+            Thread.Sleep(2 * 1000);
+            context.Response.Error = new UnauthorizedAccessException("未授权");
+            throw context.Response.Error;
+        }
         await next?.Invoke(context);
     }
 }

@@ -65,6 +65,7 @@ public partial class App : Application
             .AddOptions<AppConfig>();
         services.Configure<AppAddoneConfig>(_configuration)
             .AddOptions<AppAddoneConfig>();
+        services.AddSingleton<IConfiguration>(_configuration);
         _addoneAssemblies = _configuration.Get<AppAddoneConfig>()?.AddoneAssembly;
 
         // event bus
@@ -91,9 +92,21 @@ public partial class App : Application
 
     private void ConfigAddOneServices(ServiceCollection services)
     {
+        ConfigInitialize(services);
         ConfigStartStepServices(services);
         ConfigViewModelServices(services);
         ConfigEventBusServices(services);
+    }
+
+    private void ConfigInitialize(ServiceCollection services)
+    {
+        var types = GetAllType<IAddoneInitializer>();
+        foreach (var type in types)
+        {
+            var instance = Activator.CreateInstance(type);
+            if (instance is IAddoneInitializer initializer)
+                initializer.ConfigureServices(services);
+        }
     }
 
     private void ConfigEventBusServices(ServiceCollection services)
@@ -149,6 +162,18 @@ public partial class App : Application
         foreach (var assembly in _addoneAssemblies)
         {
             var addoneTypes = Assembly.Load(assembly).GetTypesWithAttribute<TAttribute>();
+            if (addoneTypes.Any())
+                allType.AddRange(addoneTypes);
+        }
+        return allType.Distinct();
+    }
+
+    private IEnumerable<Type> GetAllType<TInterface>()
+    {
+        var allType = new List<Type>();
+        foreach (var assembly in _addoneAssemblies)
+        {
+            var addoneTypes = Assembly.Load(assembly).GetTypeWithInterface<TInterface>();
             if (addoneTypes.Any())
                 allType.AddRange(addoneTypes);
         }

@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobufVersion)" />
+    <PackageReference Include="Grpc.Net.Client" Version="$(GrpcNetClient)" />
+    <PackageReference Include="Grpc.Tools" Version="$(GrpcToolsVersion)">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
@@ -19,6 +25,15 @@
     <Compile Update="Views\StartupWindows\LoginWindow.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="RPCService\WebApiClients\" />
+    <Folder Include="RPCService\GrpcClients\Protos\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Protobuf Include="..\..\..\..\Services\Simple\RBACService\Protos\RBACService.proto" Link="RPCService\GrpcClients\Protos\RBACService.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

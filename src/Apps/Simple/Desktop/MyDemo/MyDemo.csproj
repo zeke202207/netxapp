@@ -39,5 +39,11 @@
       <DependentUpon>SplashScreenWindow.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="test.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>

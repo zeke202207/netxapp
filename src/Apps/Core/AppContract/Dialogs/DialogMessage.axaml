@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:avaicon="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+                  xmlns:c="clr-namespace:NetX.AppCore.Contract.Converters;assembly=NetX.AppCore.Contract"
+                  xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" 
+             d:DesignHeight="150"
+             Width="400"
+             Height="150"
+             x:Class="NetX.AppCore.Contract.DialogMessage">
+
+  <UserControl.Resources>
+    <c:MessageTypeToIconCoverter x:Key="type2icon"/>
+    <c:MessageTypeToInfoCoverter x:Key="type2message"/>
+  </UserControl.Resources>
+  
+  <Grid ShowGridLines="False">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="60"/>
+    </Grid.RowDefinitions>
+
+    <StackPanel
+      Grid.Row="0"
+      Grid.Column="0"
+      Orientation="Horizontal"
+      VerticalAlignment="Center">
+      <avaicon:MaterialIcon 
+        Kind="{Binding MessageType,Converter={StaticResource type2icon}}" 
+        Width="20" 
+        Height="20" 
+        Margin="5"/>
+      <Label Content="{Binding MessageType,Converter= {StaticResource type2message}}" FontSize="18" />
+    </StackPanel>
+    
+    <StackPanel
+      Grid.Row="1"
+      Grid.Column="0">
+      <Border Height="1"
+                               Margin="0,0,0,10"
+                               Background="{DynamicResource SukiControlBorderBrush}"
+                               BorderThickness="0" />
+      <TextBlock
+        Margin="10,0,10,10"
+        Text="{Binding Message}" 
+        TextWrapping="Wrap"/>
+    </StackPanel>
+    
+    <StackPanel
+      Grid.Row="2"
+      Grid.Column="0"
+      Orientation="Horizontal"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center">
+        <Button 
+          Width="70" 
+          Margin="5" 
+          Classes="Flat Accent" 
+          Command="{Binding OkCommand}">确定</Button>
+        <Button 
+          Width="70" 
+          Margin="5" 
+          Classes="Flat" 
+         IsVisible="{Binding ShowCancel}"
+          Command="{Binding CancelCommand}">取消</Button>
+    </StackPanel>
+    </Grid>
+</UserControl>

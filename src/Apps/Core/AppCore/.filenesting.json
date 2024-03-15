@@ -1,0 +1,30 @@
+{
+  "help": "https://go.microsoft.com/fwlink/?linkid=866610",
+  "root": true,
+  "dependentFileProviders": {
+    "add": {
+      "fileToFile": {
+        "add": {
+          "appsetting.user.json": [
+            "appsetting.json"
+          ],
+          "appsetting.log.json": [
+            "appsetting.json"
+          ],
+          "appsetting.addone.json": [
+            "appsetting.json"
+          ],
+          "AppUserConfig.cs": [
+            "AppConfig.cs"
+          ],
+          "AppAddoneConfig.cs": [
+            "AppConfig.cs"
+          ],
+          "AppServiceConfig.cs": [
+            "AppConfig.cs"
+          ]
+        }
+      }
+    }
+  }
+}

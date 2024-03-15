@@ -16,6 +16,11 @@ namespace NetX.AppCore.Extentions
             return assembly.GetTypes().Where(type => type.GetCustomAttributes(typeof(TAttribute), true).Any());
         }
 
+        public static IEnumerable<Type> GetTypeWithInterface<TInterface>(this Assembly assembly)
+        {
+            return assembly.GetTypes().Where(type => typeof(TInterface).IsAssignableFrom(type) && type.IsClass);
+        }
+
         /// <summary>
         /// 获取全部程序集
         /// </summary>

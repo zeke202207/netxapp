@@ -16,10 +16,14 @@ namespace NetX.RBAC.Service
 
         public override async Task<LoginResponse> Login(LoginRequest request, ServerCallContext context)
         {
-            return await context.ApplicationPipline<LoginRequest, LoginResponse>(request, _appServices, builder =>
+            var result = await context.ApplicationPipline<LoginRequest, LoginResponse>(request, _appServices, builder =>
             {
                 builder.Use<AuthMiddleware<LoginRequest, LoginResponse>>();
             });
+            if (result.IsSuccess)
+                return result.Response;
+            else
+                throw result.Error;
         }
     }
 }

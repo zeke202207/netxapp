@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <Nullable>enable</Nullable>
-    <AvaloniaVersion>11.0.9</AvaloniaVersion>
+    <AvaloniaVersion>11.0.10</AvaloniaVersion>
     <AvaloniaEditVersion>11.0.6</AvaloniaEditVersion>
     <MaterialIconsAvalonia>2.1.0</MaterialIconsAvalonia>
     <SkiaSharpVersion>2.88.7</SkiaSharpVersion>
@@ -17,11 +17,8 @@
     <SerilogSettingsConfigurationVersion>8.0.0</SerilogSettingsConfigurationVersion>
     <SerilogSinksConsole>5.0.1</SerilogSinksConsole>
     <SerilogSinksFile>5.0.0</SerilogSinksFile>
-
-
-
-
-    <GoogleProtobufVersion>3.25.3</GoogleProtobufVersion>
+    <GrpcNetClient>2.61.0</GrpcNetClient>
+    <GoogleProtobufVersion>3.26.0</GoogleProtobufVersion>
     <GrpcAspNetCoreServerVersion>2.61.0</GrpcAspNetCoreServerVersion>
     <GrpcCoreApiVersion>2.61.0</GrpcCoreApiVersion>
     <GrpcToolsVersion>2.62.0</GrpcToolsVersion>
