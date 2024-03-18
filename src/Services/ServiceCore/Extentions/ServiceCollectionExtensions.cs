@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddServiceCore(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<ServiceAddoneConfig>(configuration)
+            .AddOptions<ServiceAddoneConfig>();
+
         services.AddHttpContextAccessor();
         services.AddControllers();
 
@@ -42,15 +46,14 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddServiceAddone(configuration);
+        services.AddServiceAddoneInitializer(configuration);
+        services.AddAutoMapper(configuration);
 
         return services;
     }
 
     private static IServiceCollection AddServiceAddone(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<ServiceAddoneConfig>(configuration)
-            .AddOptions<ServiceAddoneConfig>();
-
         var addones = configuration.GetSection("addoneassembly")
             .Get<string[]>();
 
@@ -163,4 +166,44 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddServiceAddoneInitializer(this IServiceCollection services, IConfiguration configuration)
+    {
+        var addones = configuration.GetSection("addoneassembly")
+            .Get<string[]>();
+        foreach (var addone in addones)
+        {
+            var assembly = Assembly.Load(addone);
+            var types = assembly.GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IAddoneInitializer)));
+            foreach (var type in types)
+            {
+                var initializer = (IAddoneInitializer)Activator.CreateInstance(type);
+                initializer.ConfigureServices(services);
+            }
+        }
+
+        return services;
+    }
+
+    public static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration configuration)
+    {
+        var config = new MapperConfiguration(cfg =>
+        {
+            var addones = configuration.GetSection("addoneassembly")
+            .Get<string[]>();
+
+            foreach (var addone in addones)
+            {
+                var assembly = Assembly.Load(addone);
+                var types = assembly.GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IMapperConfig)));
+                foreach (var type in types)
+                {
+                    var initializer = (IMapperConfig)Activator.CreateInstance(type);
+                    initializer.Bind(cfg);
+                }
+            }
+        });
+        services.AddSingleton(config.CreateMapper());
+
+        return services;
+    }
 }

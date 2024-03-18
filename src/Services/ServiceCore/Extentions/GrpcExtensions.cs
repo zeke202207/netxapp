@@ -32,12 +32,14 @@ namespace NetX.ServiceCore
             this ServerCallContext context,
             TRequest request,
             IServiceProvider _appServices,
-            Action<ApplicationBuilder<GrpcContext<TRequest, TResponse>>> useMiddleware
+            Action<ApplicationBuilder<GrpcContext<TRequest, TResponse>>> useMiddleware,
+            Func<TRequest, Task<TResponse>> @hander
             )
             where TRequest : class
             where TResponse : class, new()
         {
             var grpcContext = context.CreateGrpcContext<TRequest, TResponse>(request, new TResponse());
+            grpcContext.Handler = @hander;
             try
             {
                 var appBuilder = new ApplicationBuilder<GrpcContext<TRequest, TResponse>>(_appServices)

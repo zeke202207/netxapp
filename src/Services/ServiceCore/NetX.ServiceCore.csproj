@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="$(AutoMapperVersion)" />
     <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobufVersion)" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="$(GrpcAspNetCoreServerVersion)" />
     <PackageReference Include="Grpc.Core.Api" Version="$(GrpcCoreApiVersion)" />

@@ -4,16 +4,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
         mc:Ignorable="d" 
-                 d:DesignWidth="650" 
-                 d:DesignHeight="400"
                  x:Class="MyDemo.Views.SplashScreenWindow"
                  Width="650"
                  Height="400"
                  IsTitleBarVisible="False"
                  >
-  <StackPanel>
+  <DockPanel LastChildFill="False">
 
-   
-  </StackPanel>
+    <ProgressBar 
+      DockPanel.Dock="Bottom" 
+      Classes="Accent" 
+      IsIndeterminate="False"
+      ShowProgressText="False"
+      Minimum="0"
+      Maximum="100"
+      Value="{Binding InitProgress}"
+      />
+    
+    <TextBlock 
+      DockPanel.Dock="Bottom" 
+      TextAlignment="Center" 
+      Margin="0,0,0,10"
+      Text="{Binding Info}"/>
+  </DockPanel>
   
 </suki:SukiWindow>

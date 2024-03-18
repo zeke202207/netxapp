@@ -23,6 +23,8 @@ public static class ApplicationBuilderExtensions
             endpoints.MapControllers();
         });
 
+        app.AddServicesFromAssembly(configuration);
+
         return app;
     }
 
@@ -48,6 +50,23 @@ public static class ApplicationBuilderExtensions
             }
         }
 
+        return app;
+    }
+
+    private static IApplicationBuilder AddServicesFromAssembly(this IApplicationBuilder app, IConfiguration configuration)
+    {
+        var addones = configuration.GetSection("addoneassembly")
+         .Get<string[]>();
+        foreach (var addone in addones)
+        {
+            var assembly = Assembly.Load(addone);
+            var types = assembly.GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IAddoneInitializer)));
+            foreach (var type in types)
+            {
+                var initializer = (IAddoneInitializer)Activator.CreateInstance(type);
+                initializer.ConfigureApp(app);
+            }
+        }
         return app;
     }
 }

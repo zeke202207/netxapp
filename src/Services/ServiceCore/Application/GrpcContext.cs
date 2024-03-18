@@ -24,6 +24,8 @@ public sealed class GrpcContext<TRequest, TResponse> : ApplicationContext
     /// </summary>
     public CancellationToken CancellationToken { get; set; }
 
+    public Func<TRequest,Task<TResponse>> Handler { get; set; }
+
     /// <summary>
     /// Grpc上下文
     /// </summary>
