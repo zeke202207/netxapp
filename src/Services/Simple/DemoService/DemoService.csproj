@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\RBACService.proto" />
+    <None Remove="Protos\DemoCService.proto" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ServiceCore\NetX.ServiceCore.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="$(AutoMapperVersion)" />
     <PackageReference Include="Grpc.Tools" Version="$(GrpcToolsVersion)">
@@ -23,12 +18,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(MSEFCoreVersion)" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="$(PomeloEFCoreMySqlVersion)" />
   </ItemGroup>
-
   <ItemGroup>
-    <Protobuf Include="Protos\RBACService.proto" GrpcServices="Server" />
+    <ProjectReference Include="..\..\ServiceCore\NetX.ServiceCore.csproj" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Facade\WebApiFacade\" />
+    <Protobuf Include="Protos\DemoCService.proto" GrpcServices="Server" />
   </ItemGroup>
 </Project>

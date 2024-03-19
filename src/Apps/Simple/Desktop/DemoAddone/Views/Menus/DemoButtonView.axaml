@@ -11,7 +11,8 @@
             Width="100"
             Height="50"
             FontFamily="{StaticResource Serif}"
-            Content="中文字体"/>
+            Content="Rpc Call"
+            Command="{Binding RPCCallCommand}"/>
     <Button Classes="Flat Accent"
             Margin="0,10,0,0"
             Width="100"

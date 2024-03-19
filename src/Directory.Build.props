@@ -24,6 +24,8 @@
     <GrpcToolsVersion>2.62.0</GrpcToolsVersion>
 	  <MSAspNetCoreAuthenticationJwtBearerVersion>8.0.2</MSAspNetCoreAuthenticationJwtBearerVersion>
     <AutoMapperVersion>13.0.1</AutoMapperVersion>
+    <MSEFCoreVersion>8.0.3</MSEFCoreVersion>
+    <PomeloEFCoreMySqlVersion>8.0.2</PomeloEFCoreMySqlVersion>
   </PropertyGroup>
 
 </Project>

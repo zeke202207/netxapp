@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+package DEMO;
+
+
+service DEMOService {
+  rpc Test (TestRequest) returns (TestResponse);
+}
+
+message TestRequest {
+	string userName = 1;
+	string password = 2;
+}
+
+message TestResponse {
+  bool isSuccess = 1;
+  string errorMessage = 2;
+  string Token = 3;
+}

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +49,7 @@ public static class ServiceCollectionExtensions
         services.AddServiceAddone(configuration);
         services.AddServiceAddoneInitializer(configuration);
         services.AddAutoMapper(configuration);
+        services.AddDbContexts(configuration);
 
         return services;
     }
@@ -166,7 +168,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddServiceAddoneInitializer(this IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// 注册AddoneInitializer
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    private static IServiceCollection AddServiceAddoneInitializer(this IServiceCollection services, IConfiguration configuration)
     {
         var addones = configuration.GetSection("addoneassembly")
             .Get<string[]>();
@@ -184,7 +192,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// 注册AutoMapper
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    private static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration configuration)
     {
         var config = new MapperConfiguration(cfg =>
         {
@@ -204,6 +218,50 @@ public static class ServiceCollectionExtensions
         });
         services.AddSingleton(config.CreateMapper());
 
+        return services;
+    }
+
+    /// <summary>
+    /// 注册DbContext
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    private static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
+    {
+        var addones = configuration.GetSection("addoneassembly")
+           .Get<string[]>();
+        foreach (var addone in addones)
+        {
+            var assembly = Assembly.Load(addone);
+            var dbContextTypes = assembly.GetTypes().Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(DbContext)));
+            foreach (var dbContextType in dbContextTypes)
+            {
+                var connectionString = configuration["connections:connstr"];
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    // 更精确地寻找AddDbContext方法
+                    var addDbContextMethod = typeof(EntityFrameworkServiceCollectionExtensions)
+                        .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                        .FirstOrDefault(method => method.Name == "AddDbContext" &&
+                                                  method.GetGenericArguments().Length == 1 && // 确保是泛型方法
+                                                  method.GetParameters().Any(p => p.ParameterType == typeof(Action<DbContextOptionsBuilder>))); // 检查是否接受Action<DbContextOptionsBuilder>
+
+                    if (addDbContextMethod != null)
+                    {
+                        var genericMethod = addDbContextMethod.MakeGenericMethod(dbContextType);
+                        genericMethod.Invoke(null, 
+                            new object[] 
+                            { 
+                                services, 
+                                new Action<DbContextOptionsBuilder>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))),
+                                ServiceLifetime.Scoped,
+                                ServiceLifetime.Scoped
+                            });
+                    }
+                }
+            }
+        }
         return services;
     }
 }
