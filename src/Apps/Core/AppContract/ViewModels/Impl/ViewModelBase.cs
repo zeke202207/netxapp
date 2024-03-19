@@ -35,6 +35,7 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
     public Control CreateView(Type pageView)
     {
         View = CreateView(_controlCreator, pageView);
+        View.DataContext = this;
         return View;
     }
 
@@ -45,7 +46,12 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
 
     protected virtual void CloseApplication()
     {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
-            desktopApp.Shutdown();
+        if(View is Window window)
+        {
+            window.Close();
+        }
+
+        //if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
+        //    desktopApp.Shutdown();
     }
 }

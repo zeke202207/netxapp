@@ -81,6 +81,24 @@ public class SukiWindow : Window
         set => SetValue(MenuItemsProperty, value);
     }
 
+    public static readonly StyledProperty<bool> IsUserVisibleProperty =
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsUserVisible), defaultValue: false);
+
+    public bool IsUserVisible
+    {
+        get => GetValue(IsUserVisibleProperty);
+        set => SetValue(IsUserVisibleProperty, value);
+    }
+
+    public static readonly StyledProperty<AvaloniaList<MenuItem>?> UserMenuItemsProperty =
+        AvaloniaProperty.Register<SukiWindow, AvaloniaList<MenuItem>?>(nameof(UserMenuItems));
+
+    public AvaloniaList<MenuItem>? UserMenuItems
+    {
+        get => GetValue(UserMenuItemsProperty);
+        set => SetValue(UserMenuItemsProperty, value);
+    }
+
     public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
 
@@ -99,6 +117,14 @@ public class SukiWindow : Window
         set => SetValue(CanMinimizeProperty, value);
     }
 
+    public static StyledProperty<bool> CanMaximizeProperty =
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMaximize), defaultValue: true);
+    public bool CanMaximize
+    {
+        get => GetValue(CanMaximizeProperty);
+        set => SetValue(CanMaximizeProperty, value);
+    }
+
     public static readonly StyledProperty<bool> CanMoveProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMove), defaultValue: true);
 
@@ -111,6 +137,7 @@ public class SukiWindow : Window
     public SukiWindow()
     {
         MenuItems = new AvaloniaList<MenuItem>();
+        UserMenuItems = new AvaloniaList<MenuItem>();
     }
 
     private IDisposable? _subscriptionDisposables;
@@ -135,6 +162,12 @@ public class SukiWindow : Window
         var stateObs = this.GetObservable(WindowStateProperty)
             .Do(OnWindowStateChanged)
             .Select(_ => Unit.Default);
+
+        if(e.NameScope.Get<Button>("PART_User") is { } user)
+        {
+            user.ContextMenu.ItemsSource = UserMenuItems;
+            user.Click += (sender, e) => user.ContextMenu!.Open();
+        }
 
         if (e.NameScope.Get<Button>("PART_Settings") is { } settings)
         {
@@ -178,10 +211,13 @@ public class SukiWindow : Window
 
     private void OnWindowStateChanged(WindowState state)
     {
+        /*
         if (state == WindowState.FullScreen)
             CanResize = CanMove = false;
         else
             CanResize = CanMove = true;
+        */
+        CanMove = state != WindowState.FullScreen;
     }
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)

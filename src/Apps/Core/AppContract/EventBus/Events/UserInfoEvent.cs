@@ -5,12 +5,24 @@ using System.Text;
 
 namespace NetX.AppCore.Contract;
 
+/*
+ 未来扩展
+ */
 public class UserInfoEvent : INotification
 {
-    public string Message { get; set; }
+    public InfoType InfoType { get; private set; }
+    public dynamic ViewModel { get; private set; }
 
-    public UserInfoEvent(string message)
+    public UserInfoEvent(InfoType infoType ,dynamic viewModel)
     {
-        Message = message;
+        InfoType = infoType;
+        ViewModel = viewModel;
     }
+}
+
+public enum InfoType
+{
+    ChangePassword,
+    UserInfo,
+    Relogin,
 }

@@ -50,7 +50,7 @@
                                                           </Button>
                                                           <Button Name="PART_MaximizeButton"
                                                                   Classes="Basic Rounded WindowControlsButton"
-                                                                  IsVisible="{TemplateBinding CanResize}">
+                                                                  IsVisible="{TemplateBinding CanMaximize}">
                                                             <PathIcon x:Name="MaximizeIcon" Data="{x:Static icons:Icons.WindowMaximize}" />
                                                           </Button>
                                                           <Button Name="PART_MinimizeButton"
@@ -63,14 +63,29 @@
                                                           </Button>
                                                         </StackPanel>
 
-                                                      <StackPanel DockPanel.Dock="Right" Spacing="7" Margin="0,0,10,0">
+                                                      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="5" Margin="0,0,5,0">
+
+                                                        <Button
+                                                          Padding="1"
+                                                          x:Name="PART_User"
+                                                          BorderThickness="0"
+                                                          IsVisible="{TemplateBinding IsUserVisible}">
+                                                            <PathIcon x:Name="UserIcon" Data="{x:Static icons:Icons.User}" Width="15" Height="15" Margin="5" />
+                                                            <Button.ContextMenu>
+                                                              <ContextMenu
+                                                                 PlacementMode="Bottom"
+                                                                ItemsSource="{TemplateBinding UserMenuItems}">
+                                                              </ContextMenu>
+                                                              </Button.ContextMenu>
+                                                        </Button>
+                                                        
                                                         <Button 
                                                           Width="20"
                                                           Height="20"
                                                            x:Name="PART_Settings"
                                                            BorderThickness="0"
                                                            IsVisible="{TemplateBinding IsMenuVisible}">
-                                                          <PathIcon x:Name="SettingsIcon" Data="{x:Static icons:Icons.Setting}" Width="12" Height="12" Margin="-20,5,0,0" />
+                                                          <PathIcon x:Name="SettingsIcon" Data="{x:Static icons:Icons.Setting}" Width="15" Height="15" Margin="-20,3,0,0" />
                                                           <Button.ContextMenu>
                                                             <ContextMenu
                                                                PlacementMode="Bottom"

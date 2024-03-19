@@ -35,6 +35,7 @@ namespace NetX.AppCore.ViewModels
     public class MainViewModel : StartupWindowViewModel
     {
         public const int Order = int.MaxValue;
+        private Guid id;
 
         private readonly IEventBus _eventBus;
         private readonly CustomThemeDialogViewModel _customTheme;
@@ -128,6 +129,13 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
+        private string _userName = "zeke";
+        public string UserName
+        {
+            get => _userName;
+            set => this.RaiseAndSetIfChanged(ref _userName, value);
+        }
+
         private Orientation _footerOrientation = Orientation.Horizontal;
         public Orientation FooterOrientation
         {
@@ -148,6 +156,9 @@ namespace NetX.AppCore.ViewModels
         public ReactiveCommand<Unit, Unit> FullScreenCommand { get; }
         public ReactiveCommand<Unit, Unit> ExitFullScreenCommand { get; }
         public ReactiveCommand<Unit, Task> UserDetailCommand { get; }
+        public ReactiveCommand<Unit, Task> ChangePasswordCommand { get; }
+        public ReactiveCommand<Unit, Task> ReLoginCommand { get; }
+        public ReactiveCommand<Unit, Task> ExitAppCommand { get; }
 
         #endregion
 
@@ -159,6 +170,7 @@ namespace NetX.AppCore.ViewModels
             IEventBus eventBus)
             : base(controlCreator, typeof(MainWindow), MainViewModel.Order)
         {
+            id= Guid.NewGuid();
             _customTheme = customTheme;
             _customTheme.OnColorThemeChanged += colortheme => ColorThemeChanged(colortheme);
             _option = option.Value;
@@ -179,6 +191,9 @@ namespace NetX.AppCore.ViewModels
             FullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(!FullScreenVisible));
             ExitFullScreenCommand = ReactiveCommand.Create(() => ToggleFullScreen(false));
             UserDetailCommand = ReactiveCommand.Create(async () => await UserDetail());
+            ChangePasswordCommand = ReactiveCommand.Create(() => ChangePassword());
+            ReLoginCommand = ReactiveCommand.Create(() => ReLogin());
+            ExitAppCommand = ReactiveCommand.Create(() => ExitApp());
 
             Avatar = LoadEmbeddedImage("NetX.AppCore.Assets.default_avatar.png");
             _eventBus = eventBus;
@@ -188,11 +203,59 @@ namespace NetX.AppCore.ViewModels
 
         #region Method
 
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <returns></returns>
+        private async Task ChangePassword()
+        {
+            try
+            {
+                await _eventBus?.Publish(new UserInfoEvent(InfoType.ChangePassword,this));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "修改密码失败");
+            }
+        }
+
+        /// <summary>
+        /// 重新登录
+        /// </summary>
+        /// <returns></returns>
+        private async Task ReLogin()
+        {
+            try
+            {
+                await _eventBus?.Publish(new UserInfoEvent(InfoType.Relogin, this));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "重新登录失败");
+            }
+        }
+
+        /// <summary>
+        /// 退出程序
+        /// </summary>
+        /// <returns></returns>
+        private async Task ExitApp()
+        {
+            try
+            {
+                base.CloseApplication();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "退出应用失败");
+            }
+        }
+
         private async Task UserDetail()
         {
             try
             {
-                await _eventBus?.Publish(new UserInfoEvent("zeke"));
+                await _eventBus?.Publish(new UserInfoEvent(InfoType.UserInfo, this));
             }
             catch (Exception ex)
             {
@@ -345,6 +408,12 @@ namespace NetX.AppCore.ViewModels
 
         #endregion
 
+        public void GotoStartupWindow(int step)
+        {
+            base.GotoWindow(step);
+            base.CloseApplication();
+        }
+
         public void ChangeTheme(SukiColorTheme theme)
         {
             _theme.ChangeColorTheme(theme);
@@ -362,7 +431,7 @@ namespace NetX.AppCore.ViewModels
         protected override void ControlLoaded()
         {
             if (null != Window)
-                Window.Closed += (s, e) => base.GotoWindow(-1);
+                Window.Closed += (s, e) => base.GotoWindow(base.GotoStep);
             base.ControlLoaded();
         }
     }

@@ -87,7 +87,7 @@ public partial class App : Application
         services.AddSingleton<CustomThemeDialogViewModel>();
         services.AddSingleton<SukiTheme>();
         services.AddSingleton<MainViewModel>();
-        services.AddSingleton<IStartupWindowViewModel,MainViewModel>();
+        services.AddTransient<IStartupWindowViewModel,MainViewModel>();
     }
 
     private void ConfigAddOneServices(ServiceCollection services)

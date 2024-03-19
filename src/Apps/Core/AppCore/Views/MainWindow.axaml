@@ -17,12 +17,38 @@
                   CanMove="{Binding !WindowLocked}"
                   CanResize="{Binding !WindowLocked}"
                   IsMenuVisible="True"
+                  IsUserVisible="True"
                   IsTitleBarVisible="{Binding TitleBarVisible, Mode=TwoWay}"
                   >
 
   <suki:SukiWindow.Resources>
     <converters:ThemeVariantToDisplayCoverter x:Key="themeConverter"/>
   </suki:SukiWindow.Resources>
+
+  <!-- 菜单栏用户信息 -->
+  <suki:SukiWindow.UserMenuItems>
+    <MenuItem Header="{Binding UserName}" IsEnabled="False">
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="User" />
+      </MenuItem.Icon>
+    </MenuItem>
+    <MenuItem Header="修改密码"  Command="{Binding ChangePasswordCommand}">
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="Password" />
+      </MenuItem.Icon>
+    </MenuItem>
+    <MenuItem Header="-" />
+    <MenuItem Header="重新登录"  Command="{Binding ReLoginCommand}">
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="Login" />
+      </MenuItem.Icon>
+    </MenuItem>
+    <MenuItem Header="退出系统"  Command="{Binding ExitAppCommand}">
+      <MenuItem.Icon>
+        <avalonia:MaterialIcon Kind="Logout" />
+      </MenuItem.Icon>
+    </MenuItem>
+  </suki:SukiWindow.UserMenuItems>
   
   <!-- 菜单栏自定义菜单 -->
   <suki:SukiWindow.MenuItems>
@@ -127,7 +153,8 @@
       </DataTemplate>
     </suki:SukiSideMenu.ItemTemplate>
 
-    <!-- 用户头像 -->
+    <!-- 用户头像 将头像移至菜单栏顶部
+    
     <suki:SukiSideMenu.HeaderContent>
       <StackPanel HorizontalAlignment="Center">
         <Border 
@@ -141,7 +168,9 @@
         </Border>
       </StackPanel>
     </suki:SukiSideMenu.HeaderContent>
-
+ 
+    -->
+ 
     <!-- 底部菜单 -->
     <suki:SukiSideMenu.FooterContent>
       <StackPanel Orientation="{Binding FooterOrientation}" HorizontalAlignment="Center">

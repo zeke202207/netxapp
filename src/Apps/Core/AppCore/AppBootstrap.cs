@@ -29,7 +29,8 @@ namespace NetX.AppCore.ViewModels
     {
         private Window? _windowSelf;
         private BackgroundWorker _worker;
-        private readonly List<IStartupWindowViewModel> _steps;
+        private List<IStartupWindowViewModel> _steps;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDataTemplate _dataTemplate;
         private readonly AppConfig _appConfig;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
@@ -38,10 +39,15 @@ namespace NetX.AppCore.ViewModels
         public AppBootstrap(
             IOptions<AppUserConfig> option, 
             IOptions<AppConfig> appOption,
-            IEnumerable<IStartupWindowViewModel> steps,
-            IDataTemplate dataTemplate)
+            //IEnumerable<IStartupWindowViewModel> steps,
+            IDataTemplate dataTemplate,
+            IServiceProvider serviceProvider)
         {
-            _steps = steps.OrderBy(p => p.Order).ToList();
+            _serviceProvider = serviceProvider;
+            _steps = _serviceProvider
+                .GetServices<IStartupWindowViewModel>()
+                .OrderBy(p => p.Order)
+                .ToList();
             _steps.ForEach(step => step.SetResetEvent(_autoResetEvent));
             _dataTemplate = dataTemplate;
             _appConfig = appOption.Value;
@@ -132,15 +138,18 @@ namespace NetX.AppCore.ViewModels
         {
             try
             {
+                ((ViewLocator)_dataTemplate).ClearCache();
+                _steps = _serviceProvider
+                .GetServices<IStartupWindowViewModel>()
+                .OrderBy(p => p.Order)
+                .ToList();
+
                 var window = sender as SukiWindow;
                 var closeModel = window?.DataContext as ICloseWindowViewModel;
                 if (null == closeModel || closeModel.GotoStep == -1)
                 {
-                    foreach (var win in sukiWindows)
-                    {
-                        closeModel = win.DataContext as ICloseWindowViewModel;
-                        win.Close();
-                    }
+                    if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
+                        desktopApp.Shutdown();
                     sukiWindows.Clear();
                 }
                 else
@@ -153,7 +162,7 @@ namespace NetX.AppCore.ViewModels
                         var startupModel = win.DataContext as IStartupWindowViewModel;
                         if (null != startupModel && startupModel.Order == closeModel.GotoStep)
                         {
-                            win.Close(); 
+                            win.Close();
                             _autoResetEvent.Set();
                             if (!_worker.IsBusy)
                                 _worker.RunWorkerAsync(1);
@@ -162,9 +171,9 @@ namespace NetX.AppCore.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Log.Error(ex, "关闭窗口失败");
             }
         }
 

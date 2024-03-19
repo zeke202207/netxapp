@@ -4,6 +4,7 @@ using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,6 +14,8 @@ namespace NetX.AppCore.Contract
     public class DialogMessageViewModel : BaseViewModel
     {
         public bool IsOk { get; private set; }
+
+        public Action<bool> Close;
 
         private DialogMessageType _dialogMessageType;
         public DialogMessageType MessageType
@@ -48,6 +51,7 @@ namespace NetX.AppCore.Contract
         private void CloseDialog(bool result)
         {
             IsOk = result;
+            Close?.Invoke(result);
             SukiHost.CloseDialog();
         }
 

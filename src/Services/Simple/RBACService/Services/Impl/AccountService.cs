@@ -16,7 +16,7 @@ namespace NetX.RBAC.Service
 
         public async Task<LoginResultModel> Login(LoginModel userModel)
         {
-            await Task.Delay(2 * 1000);
+            await Task.Delay(1 * 1000);
             return new LoginResultModel
             {
                 IsSuccess = true,

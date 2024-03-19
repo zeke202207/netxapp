@@ -16,7 +16,7 @@ using System.Windows.Input;
 namespace NetX.RBAC
 {
     [SortIndex(LoginViewModel.Order, false)]
-    [ViewModel(ServiceLifetime.Singleton)]
+    [ViewModel(ServiceLifetime.Transient)]
     public class LoginViewModel : StartupWindowViewModel
     {
         public const int Order = 1;

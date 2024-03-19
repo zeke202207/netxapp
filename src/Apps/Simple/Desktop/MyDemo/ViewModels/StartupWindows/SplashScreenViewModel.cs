@@ -16,7 +16,7 @@ using System.Xml.Linq;
 namespace MyDemo.ViewModels
 {
     [SortIndex(SplashScreenViewModel.Order)]
-    [ViewModel(ServiceLifetime.Singleton)]
+    [ViewModel(ServiceLifetime.Transient)]
     public class SplashScreenViewModel : StartupWindowViewModel
     {
         public const int Order = 0;
@@ -56,7 +56,7 @@ namespace MyDemo.ViewModels
                 for(int i=0;i<100;i++)
                 {
                     bgWorker.ReportProgress(i, "正在加载资源...");
-                    Thread.Sleep(50);
+                    Thread.Sleep(10);
                 }
                 bgWorker.ReportProgress(100, "资源加载完成");
                 _isSuccess = true;

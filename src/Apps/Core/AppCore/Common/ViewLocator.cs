@@ -23,6 +23,17 @@ namespace NetX.AppCore
             _controlCache = new Dictionary<object, Control>();
         }
 
+        public bool RemoveCache(object key)
+        {
+            return _controlCache.Remove(key);
+        }
+
+        public bool ClearCache()
+        {
+            _controlCache.Clear();
+            return true;
+        }
+
         public Control Build(object? data)
         {
             try
