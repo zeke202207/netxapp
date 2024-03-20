@@ -145,11 +145,39 @@
     <!-- 系统菜单 -->
     <suki:SukiSideMenu.ItemTemplate>
       <DataTemplate>
+        <!-- 不支持二级菜单模式 -->
         <suki:SukiSideMenuItem Header="{Binding DisplayName}">
           <suki:SukiSideMenuItem.Icon>
             <avalonia:MaterialIcon Kind="{Binding Icon}" />
           </suki:SukiSideMenuItem.Icon>
         </suki:SukiSideMenuItem>
+
+        <!-- 支持二级菜单模式 -->
+        <!--
+        <StackPanel Orientation="Vertical" Background="Transparent">
+            <Expander
+              Header="{Binding DisplayName}"
+              Classes="NavMenu">
+              <ItemsControl ItemsSource="{Binding Children}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <RadioButton
+                      GroupName="ZEKE_NAV"
+                      Margin="30,0,0,10"
+                      Classes="NavMenu">
+                      <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <Image Source="avares://MyDemo/Assets/icon.png" Width="16" Height="16"/>
+                        <TextBlock Text="{Binding DisplayName}" />
+                      </StackPanel>
+                    </RadioButton>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Expander>
+        </StackPanel>
+      -->
       </DataTemplate>
     </suki:SukiSideMenu.ItemTemplate>
 

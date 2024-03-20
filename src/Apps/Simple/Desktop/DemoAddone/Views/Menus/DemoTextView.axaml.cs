@@ -8,6 +8,9 @@ namespace DemoAddone.Menus
         public DemoTextView()
         {
             AvaloniaXamlLoader.Load(this);
+#if DEBUG
+            this.DataContext = new DemoTextViewModel(null);
+#endif
         }
     }
 }

@@ -25,6 +25,7 @@
 
       <!-- add style -->
       <StyleInclude Source="avares://NetX.AppCore/Styles/FontStyles.axaml"/>
+      <StyleInclude Source="avares://NetX.AppCore/Styles/NavMenuStyle.axaml"/>
       <avalonia:MaterialIconStyles/>
     </Application.Styles>
 </Application>

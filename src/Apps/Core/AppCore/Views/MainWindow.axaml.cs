@@ -10,6 +10,8 @@ using Serilog;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 
 namespace NetX.AppCore.Views

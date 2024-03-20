@@ -12,6 +12,8 @@ public abstract class MenuPageViewModel : BaseViewModel, IMenuPageViewModel
     public int Order { get; private set; }
     public string DisplayName { get; private set; }
     public MaterialIconKind Icon { get; private set; }
+    //暂时不支持子菜单
+    //public IEnumerable<IMenuPageViewModel> Children { get ; private set; }
 
     public MenuPageViewModel(
         IControlCreator controlCreator, 
@@ -24,5 +26,6 @@ public abstract class MenuPageViewModel : BaseViewModel, IMenuPageViewModel
         Order = order;
         DisplayName = displayName;
         Icon = icon;
+        //Children = new List<IMenuPageViewModel>() { this };
     }
 }
