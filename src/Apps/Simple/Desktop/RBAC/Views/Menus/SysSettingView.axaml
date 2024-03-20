@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:subctl="clr-namespace:NetX.RBAC.Views.Menus"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="NetX.RBAC.Views.Menus.SysSettingView">
+  <Border Margin="5">
+    <TabControl TabStripPlacement="Bottom" >
+      <TabItem Header="用户管理">
+        <subctl:UserManagerView/>
+      </TabItem>
+      <TabItem Header="角色管理">
+        <subctl:RoleManagerView/>
+      </TabItem>
+      <TabItem Header="部门管理">
+        <subctl:DeptManagerView/>
+      </TabItem>
+    </TabControl>
+  </Border>
+</UserControl>

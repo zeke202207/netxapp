@@ -13,10 +13,10 @@ namespace NetX.RBAC.ViewModels.Menus
 {
     [SortIndex(2)]
     [ViewModel(ServiceLifetime.Singleton)]
-    public class TestZekeViewModel : MenuPageViewModel
+    public class SysSettingViewModel : MenuPageViewModel
     {
-        public TestZekeViewModel(IControlCreator controlCreator)
-            : base(controlCreator, typeof(TestZekeView), "RBAC", MaterialIconKind.UserAccessControl, 2)
+        public SysSettingViewModel(IControlCreator controlCreator)
+            : base(controlCreator, typeof(SysSettingView), "系统设置", MaterialIconKind.Settings, 2)
         {
         }
 
