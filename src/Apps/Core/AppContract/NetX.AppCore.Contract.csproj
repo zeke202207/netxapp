@@ -13,6 +13,7 @@
     <PackageReference Include="MediatR" Version="$(MediatRVersion)" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MSExtensionsConfigurationVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MSExtensionsDependencyInjectionVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftVesion)" />
   
     <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobufVersion)" />
     <PackageReference Include="Grpc.Net.Client" Version="$(GrpcNetClient)" />

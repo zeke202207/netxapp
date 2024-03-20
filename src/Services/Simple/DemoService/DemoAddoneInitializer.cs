@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetX.ServiceCore;
 using System;
@@ -11,12 +12,12 @@ namespace NetX.RBAC.Service
 {
     public class DemoAddoneInitializer : IAddoneInitializer
     {
-        public void ConfigureApp(IApplicationBuilder app)
+        public void ConfigureApp(IApplicationBuilder app, IConfiguration configuration)
         {
             
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             
         }

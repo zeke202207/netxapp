@@ -7,28 +7,44 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\RBACService.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\ServiceCore\NetX.ServiceCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="$(AutoMapperVersion)" />
+    <PackageReference Include="EasyCaching.InMemory" Version="$(EasyCachingInMemoryVersion)" />
     <PackageReference Include="Grpc.Tools" Version="$(GrpcToolsVersion)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(MSEFCoreVersion)" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="$(PomeloEFCoreMySqlVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="Protos\RBACService.proto" GrpcServices="Server" />
+    <PackageReference Include="SixLabors.Fonts" Version="$(SixLaborsFontsVersion)" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="$(SixLaborsImageSharpVersion)" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="$(SixLaborsImageSharpDrawingVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftVesion)" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Facade\WebApiFacade\" />
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\Protos\empty.proto">
+      <Link>Protos\empty.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\..\Protos\rbacservice.proto" GrpcServices="Server">
+      <Link>Protos\rbacservice.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\..\Protos\response.proto">
+      <Link>Protos\response.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.rbac.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

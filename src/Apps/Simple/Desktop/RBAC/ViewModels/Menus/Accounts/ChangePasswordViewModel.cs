@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using NetX.AppCore.Contract;
+using NetX.RBAC.RPCService;
 using NetX.RBAC.Views;
 using ReactiveUI;
 using SukiUI.Controls;
@@ -40,9 +41,12 @@ namespace NetX.RBAC.ViewModels
         public ReactiveCommand<Unit, Unit> ChangePasswordCommand { get; }
         public ReactiveCommand<Unit, Unit> CancelCommand { get; }
 
-        public ChangePasswordViewModel(IControlCreator controlCreator) 
+        private IAccountRPC _accountRPC;
+
+        public ChangePasswordViewModel(IControlCreator controlCreator, IAccountRPC accountRPC) 
             : base(controlCreator, typeof(ChangePasswordView))
         {
+            _accountRPC = accountRPC;
             ChangePasswordCommand = ReactiveCommand.Create(ChangePassword);
             CancelCommand = ReactiveCommand.Create(Cancel);
         }
@@ -53,8 +57,8 @@ namespace NetX.RBAC.ViewModels
                 window.Close(false);
         }
 
-        private void ChangePassword()
-        {
+        private async void ChangePassword()
+        {            
             //TODO: 修改密码
             bool changeResult = true;
 

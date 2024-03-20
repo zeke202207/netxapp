@@ -56,11 +56,12 @@ namespace NetX.RBAC
             set => this.RaiseAndSetIfChanged(ref captchaImage, value);
         }
 
+        private string _captchaId;
+
         /// <summary>
         /// 
         /// </summary>
         public ICommand LoginCommand { get; }
-        public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
         public ReactiveCommand<Unit, Task> RefreshCaptchaCommand { get; }
 
         private readonly IAccountRPC _accountRPC;
@@ -70,52 +71,32 @@ namespace NetX.RBAC
         {
             _accountRPC = accountRPC;
             LoginCommand = ReactiveCommand.Create(() => Login(), CanExecute());
-            LogoutCommand = ReactiveCommand.Create(() => Logout());
-            RefreshCaptchaCommand = ReactiveCommand.Create(async()=>await RefreshCaptcha());
+            RefreshCaptchaCommand = ReactiveCommand.Create(async () => await RefreshCaptcha());
         }
 
-        private void Logout()
-        {
-           base.CloseApplication();
-        }
-
-        private async Task RefreshCaptcha()
-        {
-            try
-            {
-                //TODO:remote get captcha
-                CaptchaImage = new Bitmap($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"test.png")}");
-                await Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "刷新验证码出错");
-            }
-        }
-
-        private IObservable<bool>? CanExecute()
-        {
-            return Observable.Return(true);
-        }
-
+        /// <summary>
+        /// 登陆系统
+        /// </summary>
         private async void Login()
         {
             try
             {
                 IsLoggingIn = true;
-                var loginResult = await _accountRPC.Login(new LoginModel()
+                var loginResult = await _accountRPC.LoginAsync(new LoginModel()
                 {
                     UserName = UserName,
-                    Password = Password
+                    Password = Password,
+                    Captcha = Captcha,
+                    CaptchaId = _captchaId
                 });
-                if (loginResult)
+                if (loginResult.Success)
                     GotoNextWindow();
                 else
                 {
                     SukiHost.ShowDialog(new DialogMessageViewModel(base._controlCreator)
                     {
-                         MessageType = DialogMessageType.Error,
-                         Message = "登录失败",
+                        MessageType = DialogMessageType.Error,
+                        Message = loginResult.Message,
                     }, allowBackgroundClose: false);
                 }
             }
@@ -127,6 +108,42 @@ namespace NetX.RBAC
             {
                 IsLoggingIn = false;
             }
+        }
+
+        /// <summary>
+        /// 刷新验证码
+        /// </summary>
+        /// <returns></returns>
+        private async Task RefreshCaptcha()
+        {
+            try
+            {
+                //CaptchaImage = new Bitmap($"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"test.png")}");
+                var captcha = await _accountRPC.GetCaptchaAsync();
+                _captchaId = captcha.CaptchaId;
+                CaptchaImage = Base64StringToBitmap(captcha.CaptchaBase64);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "刷新验证码出错");
+            }
+        }
+
+        private Bitmap Base64StringToBitmap(string base64String)
+        {
+            // 将Base64字符串解码为字节数组
+            byte[] bytes = Convert.FromBase64String(base64String);
+            // 使用字节数组创建一个内存流
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                // 从内存流创建Bitmap
+                return new Bitmap(ms);
+            }
+        }
+
+        private IObservable<bool>? CanExecute()
+        {
+            return Observable.Return(true);
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);

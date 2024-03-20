@@ -64,7 +64,7 @@ public static class ApplicationBuilderExtensions
             foreach (var type in types)
             {
                 var initializer = (IAddoneInitializer)Activator.CreateInstance(type);
-                initializer.ConfigureApp(app);
+                initializer.ConfigureApp(app,configuration);
             }
         }
         return app;

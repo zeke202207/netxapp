@@ -36,7 +36,15 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Protobuf Include="..\..\..\..\Services\Simple\RBACService\Protos\RBACService.proto" Link="RPCService\GrpcClients\Protos\RBACService.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\..\Protos\empty.proto" GrpcServices="Client">
+      <Link>RPCService\GrpcClients\Protos\empty.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\..\..\Protos\rbacservice.proto" GrpcServices="Client">
+      <Link>RPCService\GrpcClients\Protos\rbacservice.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\..\..\Protos\response.proto" GrpcServices="Client">
+      <Link>RPCService\GrpcClients\Protos\response.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

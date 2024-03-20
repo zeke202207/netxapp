@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace NetX.ServiceCore
 {
     public interface IAddoneInitializer
     {
-        void ConfigureServices(IServiceCollection services);
+        void ConfigureServices(IServiceCollection services, IConfiguration configuration);
 
-        void ConfigureApp(IApplicationBuilder app);
+        void ConfigureApp(IApplicationBuilder app, IConfiguration configuration);
     }
 }

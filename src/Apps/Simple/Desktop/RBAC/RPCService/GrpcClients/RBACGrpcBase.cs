@@ -3,6 +3,7 @@ using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using NetX.AppCore.Contract;
 using NetX.AppCore.Contract.RPCService;
+using NetX.RBAC.RPCService.GrpcClients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,14 @@ namespace NetX.RBAC.RPCService
             : base(configuration)
         {
             base._channel.Intercept();
+        }
+
+        protected override IEnumerable<Interceptor> CustomerInterceptors()
+        {
+            return new List<Interceptor>()
+            {
+                new JwtInterceptor(Persional.Instance.JwtToken)
+            };
         }
     }
 }

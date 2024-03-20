@@ -11,3 +11,18 @@
         .LogToTrace()
         .UseReactiveUI();
 ```
+
+
+# Grpc ÎÄµµÉú³ÉÆ÷
+
+``` md
+
+protoc --doc_out=.\docs --doc_opt=grpc-md.tmpl,api.md .\Protos\*.proto --proto_path=.\Protos
+
+```
+
+``` html
+
+protoc --doc_out=.\docs --doc_opt=html,api.html .\Protos\*.proto --proto_path=.\Protos
+
+```

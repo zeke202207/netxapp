@@ -185,7 +185,7 @@ public static class ServiceCollectionExtensions
             foreach (var type in types)
             {
                 var initializer = (IAddoneInitializer)Activator.CreateInstance(type);
-                initializer.ConfigureServices(services);
+                initializer.ConfigureServices(services,configuration);
             }
         }
 

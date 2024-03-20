@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetX.RBAC.RPCService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace NetX.RBAC.RPCService
 {
     public interface IAccountRPC
     {
-        Task<bool> Login(LoginModel loginModel);
+        Task<CaptchaModel> GetCaptchaAsync();
+
+        Task<LoginResult> LoginAsync(LoginModel loginModel);
+
+        Task LogoutAsync();
     }
 }

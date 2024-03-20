@@ -1,0 +1,47 @@
+﻿syntax = "proto3";
+
+import "empty.proto";
+import "response.proto";
+
+package netx.rbac.v1;
+
+/****************************************
+ * AccountService
+ ****************************************/
+
+// AccountService 是账户管理的服务。
+service AccountService {
+  // Login 是用户登录的方法。
+  // 接收 LoginRequest 作为请求，返回 netx.response.v1.Response 作为响应。
+  // 响应的 data 字段包含 LoginResponse。
+  rpc Login (LoginRequest) returns (netx.response.v1.Response);
+  
+  // GetCaptcha 用于获取验证码。
+  // 接收一个空请求，返回 netx.response.v1.Response 作为响应。
+  // 响应的 data 字段包含 CaptchaResponse。
+  rpc GetCaptcha(google.protobuf.Empty) returns (netx.response.v1.Response);
+
+ // Logout 是用户登出的方法。
+ // 接收一个空请求，返回 netx.response.v1.Response 作为响应。
+ // 响应的 data 字段为空。
+ rpc Logout(google.protobuf.Empty) returns (netx.response.v1.Response);
+}
+
+// LoginRequest 是登录请求的消息格式。
+message LoginRequest {
+  string userName = 1; // 用户名
+  string password = 2; // 密码
+  string catpcha = 3; // 验证码
+  string captchaId = 4; // 验证码ID
+}
+
+// LoginResponse 是登录响应的消息格式。
+message LoginResponse {
+  string token = 1; // 是否成功
+}
+
+// CaptchaResponse 是获取验证码响应的消息格式。
+message CaptchaResponse{
+  string captchabase64 = 1; // 验证码的Base64编码
+  string captchaId = 2; // 验证码ID
+}

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ServiceCore\NetX.ServiceCore.csproj" />
+    <ProjectReference Include="..\RBACService\NetX.RBAC.Service.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include="Protos\DemoCService.proto" GrpcServices="Server" />

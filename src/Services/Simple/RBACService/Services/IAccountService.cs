@@ -9,6 +9,8 @@ namespace NetX.RBAC.Service
 {
     public interface IAccountService
     {
+        Task<CaptchaResultModel> GetCaptcha();
+
         Task<LoginResultModel> Login(LoginModel userModel);
     }
 }
