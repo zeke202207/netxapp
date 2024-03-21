@@ -61,7 +61,8 @@ namespace NetX.RBAC
         /// <summary>
         /// 
         /// </summary>
-        public ICommand LoginCommand { get; }
+        public ReactiveCommand<Unit,Unit> LoginCommand { get; }
+        public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
         public ReactiveCommand<Unit, Task> RefreshCaptchaCommand { get; }
 
         private readonly IAccountRPC _accountRPC;
@@ -71,7 +72,16 @@ namespace NetX.RBAC
         {
             _accountRPC = accountRPC;
             LoginCommand = ReactiveCommand.Create(() => Login(), CanExecute());
+            LogoutCommand = ReactiveCommand.Create(() => Logout());
             RefreshCaptchaCommand = ReactiveCommand.Create(async () => await RefreshCaptcha());
+        }
+
+        /// <summary>
+        /// 等出系统
+        /// </summary>
+        private void Logout()
+        {
+            base.CloseApplication();
         }
 
         /// <summary>
@@ -107,6 +117,8 @@ namespace NetX.RBAC
             finally
             {
                 IsLoggingIn = false;
+                Captcha = string.Empty;
+                _captchaId = string.Empty;
             }
         }
 
@@ -142,8 +154,13 @@ namespace NetX.RBAC
         }
 
         private IObservable<bool>? CanExecute()
-        {
-            return Observable.Return(true);
+        {            
+           return this.WhenAnyValue(
+                x => x.UserName,
+                x => x.Password,
+                x => x.Captcha,
+                (u, p, c) => !string.IsNullOrWhiteSpace(u) && !string.IsNullOrWhiteSpace(p) && !string.IsNullOrWhiteSpace(c) && c.Length == 4)
+                .DistinctUntilChanged();
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);

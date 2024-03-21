@@ -27,7 +27,7 @@ public class AuthMiddleware<TRequest, TReponse> : IApplicationMiddleware<GrpcCon
             // 使用JwtSecurityTokenHandler来验证JWT令牌
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(jwtToken, _tokenValidation, out var validatedToken);
-
+            
             // 可以进一步检查principal是否有权访问
             // 例如: var hasAccess = principal.HasClaim(c => c.Type == "SomeClaimType" && c.Value == "SomeValue");
 

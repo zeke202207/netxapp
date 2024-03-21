@@ -52,7 +52,7 @@
                 <TextBox
                   Width="100"
                   Watermark="验证码"
-                  MaxLength="5"
+                  MaxLength="4"
                   Text="{Binding Captcha}" />
                 <Border Margin="10,0,0,0" Height="35">
                   <Image Stretch="Uniform" Source="{Binding CaptchaImage}" Tapped="Captcha_Tapped"/>
@@ -66,9 +66,10 @@
                   Width="90"
                   Height="40"
                   Margin="0,0,0,7"
+                  CornerRadius="10"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Bottom"
-                  Classes="Flat Rounded Accent"
+                  Classes="Flat Accent"
                   Command="{Binding LoginCommand}"
                   FontWeight="DemiBold">
             登录
@@ -77,10 +78,11 @@
             Width="90"
             Height="40"
             Margin="20,0,0,7"
+            CornerRadius="10"
+            Classes="Flat Danger"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             FontWeight="DemiBold"
-            Classes="Flat Rounded"
             Command="{Binding LogoutCommand}">
             退出
           </Button>

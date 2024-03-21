@@ -2,7 +2,24 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:SukiUI.Controls"
                     xmlns:theme="clr-namespace:SukiUI.Theme">
-    <ControlTheme x:Key="SukiButtonStyle" TargetType="Button">
+
+  <Design.PreviewWith>
+    <StackPanel Spacing="10" Margin="15">
+      <Button Classes="Flat" Content="Flat" />
+      <Button Classes="Accent" Content="Accent" />
+      <Button Classes="Basic" Content="Basic" />
+      <Button Classes="Void" Content="Void" />
+      <Button Classes="Outlined" Content="Outlined" />
+      <Button Classes="Success" Content="Success" />
+      <Button Classes="Danger" Content="Danger" />
+      <Button Classes="Round" Content="Round" />
+      <Button Classes="Card" Content="Card" />
+      <Button Classes="Hyperlink" Content="Hyperlink" />
+      <Button Classes="Large" Content="Large" />
+    </StackPanel>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="SukiButtonStyle" TargetType="Button">
         <Setter Property="BorderThickness" Value="1.2" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiMediumBorderBrush}" />
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />

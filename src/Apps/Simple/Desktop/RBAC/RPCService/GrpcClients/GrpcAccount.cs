@@ -78,9 +78,6 @@ namespace NetX.RBAC.RPCService
             }
         }
 
-        protected override AccountService.AccountServiceClient CreateClient(CallInvoker call)
-        {
-            return new AccountService.AccountServiceClient(call);
-        }
+        protected override AccountService.AccountServiceClient CreateClient(CallInvoker call) => new AccountService.AccountServiceClient(call);
     }
 }
