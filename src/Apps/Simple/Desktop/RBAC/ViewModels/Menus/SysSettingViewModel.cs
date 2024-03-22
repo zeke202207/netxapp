@@ -9,8 +9,8 @@ namespace NetX.RBAC.ViewModels.Menus
     [ViewModel(ServiceLifetime.Singleton)]
     public class SysSettingViewModel : MenuPageViewModel
     {
-        public SysSettingViewModel(IControlCreator controlCreator)
-            : base(controlCreator, typeof(SysSettingView), "系统设置", MaterialIconKind.Settings, 2)
+        public SysSettingViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider, typeof(SysSettingView), "系统设置", MaterialIconKind.Settings, 2)
         {
         }
 

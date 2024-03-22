@@ -37,8 +37,8 @@ namespace NetX.RBAC.ViewModels
 
         private IAccountRPC _accountRPC;
 
-        public ChangePasswordViewModel(IControlCreator controlCreator, IAccountRPC accountRPC)
-            : base(controlCreator, typeof(ChangePasswordView))
+        public ChangePasswordViewModel(IServiceProvider serviceProvider, IAccountRPC accountRPC)
+            : base(serviceProvider, typeof(ChangePasswordView))
         {
             _accountRPC = accountRPC;
             ChangePasswordCommand = ReactiveCommand.Create(ChangePassword);

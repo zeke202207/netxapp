@@ -1,17 +1,20 @@
 ﻿using Avalonia.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 
 namespace NetX.AppCore.Contract;
 
 public abstract partial class BaseViewModel : ReactiveObject, IViewModel
 {
-    protected readonly IControlCreator _controlCreator;
+    private readonly IControlCreator _controlCreator;
+    protected readonly IServiceProvider _serviceProvider;
     private Control _view;
 
-    public BaseViewModel(IControlCreator controlCreator, Type pageView)
+    public BaseViewModel(IServiceProvider serviceProvider ,Type pageView)
     {
-        _controlCreator = controlCreator;
         PageView = pageView;
+        _serviceProvider = serviceProvider;
+        _controlCreator = serviceProvider.GetService<IControlCreator>();
     }
 
     public Control View
@@ -42,10 +45,7 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
     protected virtual void CloseApplication()
     {
         if (View is Window window)
-        {
             window.Close();
-        }
-
         //if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
         //    desktopApp.Shutdown();
     }

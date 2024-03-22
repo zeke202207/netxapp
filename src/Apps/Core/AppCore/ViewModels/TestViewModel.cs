@@ -21,8 +21,8 @@ namespace NetX.AppCore.ViewModels
         }
 
 
-        public TestViewModel(IControlCreator controlCreator) 
-            : base(controlCreator, typeof(Test))
+        public TestViewModel(IServiceProvider serviceProvider) 
+            : base(serviceProvider, typeof(Test))
         {
             TestData = DateTime.Now.ToString();
         }

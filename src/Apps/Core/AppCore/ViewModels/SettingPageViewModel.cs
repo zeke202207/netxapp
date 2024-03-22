@@ -181,7 +181,8 @@ namespace NetX.AppCore.ViewModels
         private const string _light = "Light";
         private readonly FluentAvaloniaTheme _faTheme;
 
-        public SettingPageViewModel(IControlCreator controlCreator, IOptions<AppUserConfig> option) : base(controlCreator, typeof(SettingPage))
+        public SettingPageViewModel(IServiceProvider serviceProvider, IOptions<AppUserConfig> option) 
+            : base(serviceProvider, typeof(SettingPage))
         {
             _appUserConfig = option.Value;
             GetPredefColors();

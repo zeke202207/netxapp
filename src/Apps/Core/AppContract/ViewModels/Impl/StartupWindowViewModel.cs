@@ -10,8 +10,8 @@ namespace NetX.AppCore.Contract
 
         private AutoResetEvent AutoResetEvent { get; set; }
 
-        public StartupWindowViewModel(IControlCreator controlCreator, Type pageView, int order)
-            : base(controlCreator, pageView)
+        public StartupWindowViewModel(IServiceProvider serviceProvider, Type pageView, int order)
+            : base(serviceProvider, pageView)
         {
             Order = order;
         }

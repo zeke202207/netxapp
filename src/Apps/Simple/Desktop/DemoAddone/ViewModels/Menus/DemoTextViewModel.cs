@@ -18,8 +18,8 @@ namespace DemoAddone
     {
         public ObservableCollection<NavMenuItem> MenuItems { get; set; }
 
-        public DemoTextViewModel(IControlCreator controlCreator)
-            : base(controlCreator, typeof(DemoTextView), "文本框示例", MaterialIconKind.Text, 1)
+        public DemoTextViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider, typeof(DemoTextView), "文本框示例", MaterialIconKind.Text, 1)
         {
             // 示例：添加菜单项
             MenuItems = new ObservableCollection<NavMenuItem>

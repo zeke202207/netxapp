@@ -62,8 +62,8 @@ namespace NetX.RBAC
 
         private readonly IAccountRPC _accountRPC;
 
-        public LoginViewModel(IControlCreator controlCreator, IAccountRPC accountRPC)
-            : base(controlCreator, typeof(LoginWindow), LoginViewModel.Order)
+        public LoginViewModel(IServiceProvider serviceProvider, IAccountRPC accountRPC)
+            : base(serviceProvider, typeof(LoginWindow), LoginViewModel.Order)
         {
             _accountRPC = accountRPC;
             LoginCommand = ReactiveCommand.Create(() => Login(), CanExecute());

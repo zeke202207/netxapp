@@ -30,8 +30,8 @@ namespace MyDemo.ViewModels
             set => this.RaiseAndSetIfChanged(ref _info, value);
         }
 
-        public SplashScreenViewModel(IControlCreator controlCreator)
-            : base(controlCreator, typeof(SplashScreenWindow), SplashScreenViewModel.Order)
+        public SplashScreenViewModel(IServiceProvider serviceProvider)
+            : base(serviceProvider, typeof(SplashScreenWindow), SplashScreenViewModel.Order)
         {
             bgWorker = new BackgroundWorker();
             bgWorker.WorkerReportsProgress = true;

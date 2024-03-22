@@ -52,8 +52,8 @@ namespace NetX.AppCore.ViewModels
             set => this.RaiseAndSetIfChanged(ref _nvCanToggle, value);
         }
 
-        public WorkbenchViewModel(IControlCreator controlCreator, IDataTemplate dataTemplate, IServiceProvider serviceProvider)
-            : base(controlCreator, typeof(WorkbenchWindow), WorkbenchViewModel.Order)
+        public WorkbenchViewModel(IDataTemplate dataTemplate, IServiceProvider serviceProvider)
+            : base(serviceProvider, typeof(WorkbenchWindow), WorkbenchViewModel.Order)
         {
             _serviceProvider = serviceProvider;
             _dataTemplate = dataTemplate;

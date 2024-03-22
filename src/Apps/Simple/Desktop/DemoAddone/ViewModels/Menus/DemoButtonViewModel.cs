@@ -21,8 +21,8 @@ namespace DemoAddone
 
         public ReactiveCommand<Unit, Unit> RPCCallCommand { get; }
 
-        public DemoButtonViewModel(IControlCreator controlCreator, IDemo demo)
-            : base(controlCreator, typeof(DemoButtonView), "按钮示例", MaterialIconKind.Button, 0)
+        public DemoButtonViewModel(IServiceProvider serviceProvider, IDemo demo)
+            : base(serviceProvider, typeof(DemoButtonView), "按钮示例", MaterialIconKind.Button, 0)
         {
             _demo = demo;
 

@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Microsoft.Extensions.DependencyInjection;
 using NetX.AppCore.Contract;
 using ReactiveUI;
 using Serilog;
@@ -11,9 +12,11 @@ namespace NetX.AppCore
     public class ViewLocator : IDataTemplate
     {
         private readonly Dictionary<object, Control> _controlCache;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ViewLocator()
+        public ViewLocator(IServiceProvider sp)
         {
+            _serviceProvider = sp;
             _controlCache = new Dictionary<object, Control>();
         }
 

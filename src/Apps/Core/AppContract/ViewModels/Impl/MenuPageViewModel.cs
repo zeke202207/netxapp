@@ -13,12 +13,12 @@ public abstract class MenuPageViewModel : BaseViewModel, IMenuPageViewModel
     //public IEnumerable<IMenuPageViewModel> Children { get ; private set; }
 
     public MenuPageViewModel(
-        IControlCreator controlCreator,
+        IServiceProvider serviceProvider,
         Type pageView,
         string displayName,
         MaterialIconKind icon,
         int order)
-            : base(controlCreator, pageView)
+            : base(serviceProvider, pageView)
     {
         Order = order;
         DisplayName = displayName;
