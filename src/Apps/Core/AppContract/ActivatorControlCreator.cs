@@ -1,15 +1,15 @@
 ﻿using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.Concurrent;
 
 namespace NetX.AppCore.Contract
 {
     public class ActivatorControlCreator : IControlCreator
     {
-        public Control? CreateControl(Type controlType)
+        private ConcurrentDictionary<Type,Control> _controlCache = new ConcurrentDictionary<Type, Control>();
+
+        public Control? CreateControl(Type controlType, bool keepalive = false)
         {
-            return (Control)Activator.CreateInstance(controlType);
+            return _controlCache.GetOrAdd(controlType, (Control)Activator.CreateInstance(controlType));
         }
     }
 }

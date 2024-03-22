@@ -2,26 +2,16 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NetX.AppCore.Contract;
-using NetX.AppCore.Extentions;
 using NetX.AppCore.Models;
-using NetX.AppCore.Views;
 using Serilog;
 using Splat;
-using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NetX.AppCore.ViewModels
 {
@@ -34,12 +24,11 @@ namespace NetX.AppCore.ViewModels
         private readonly IDataTemplate _dataTemplate;
         private readonly AppConfig _appConfig;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
-        private Stack<Window> sukiWindows = new Stack<Window>();
+        private Stack<Window> windows = new Stack<Window>();
 
         public AppBootstrap(
-            IOptions<AppUserConfig> option, 
+            IOptions<AppUserConfig> option,
             IOptions<AppConfig> appOption,
-            //IEnumerable<IStartupWindowViewModel> steps,
             IDataTemplate dataTemplate,
             IServiceProvider serviceProvider)
         {
@@ -66,7 +55,7 @@ namespace NetX.AppCore.ViewModels
         private Window InitFirestScreen()
         {
             var startupViewModel = _steps.FirstOrDefault() as IViewModel;
-            return _dataTemplate.Build(startupViewModel) as SukiWindow;
+            return _dataTemplate.Build(startupViewModel) as Window;
         }
 
         private void InitEvent()
@@ -82,7 +71,7 @@ namespace NetX.AppCore.ViewModels
         private async void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
             try
-            { 
+            {
                 OpenStartupWindow(e.ProgressPercentage);
             }
             catch (Exception ex)
@@ -121,14 +110,14 @@ namespace NetX.AppCore.ViewModels
 
         private void OpenStartupWindow(int order)
         {
-            var currentViewModel = _steps.FirstOrDefault(p=>p.Order == order) as IViewModel;
+            var currentViewModel = _steps.FirstOrDefault(p => p.Order == order) as IViewModel;
             if (null == currentViewModel)
                 return;
-            var window = _dataTemplate.Build(currentViewModel) as SukiWindow;
+            var window = _dataTemplate.Build(currentViewModel) as Window;
             ConfigWindows(window);
             _windowSelf?.Hide();
             _windowSelf.Closed -= WindowSelf_Closed;
-            sukiWindows.Push(_windowSelf);
+            windows.Push(_windowSelf);
             window.Show();
             _windowSelf = window;
             _windowSelf.Closed += WindowSelf_Closed;
@@ -144,19 +133,19 @@ namespace NetX.AppCore.ViewModels
                 .OrderBy(p => p.Order)
                 .ToList();
 
-                var window = sender as SukiWindow;
+                var window = sender as Window;
                 var closeModel = window?.DataContext as ICloseWindowViewModel;
                 if (null == closeModel || closeModel.GotoStep == -1)
                 {
                     if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
                         desktopApp.Shutdown();
-                    sukiWindows.Clear();
+                    windows.Clear();
                 }
                 else
                 {
-                    while (sukiWindows.Count() > 0)
+                    while (windows.Count() > 0)
                     {
-                        var win = sukiWindows.Pop();
+                        var win = windows.Pop();
                         if (null == win)
                             continue;
                         var startupModel = win.DataContext as IStartupWindowViewModel;
@@ -179,15 +168,9 @@ namespace NetX.AppCore.ViewModels
 
         private void ConfigWindows(Window window)
         {
-            if(null == window || window is not SukiWindow sukiWindow)
+            if (null == window || window is not Window)
                 return;
-            sukiWindow.Title = _appConfig.Appinfo.Name;
-            sukiWindow.LogoContent = new Image 
-            { 
-                Source = new Bitmap(AssetLoader.Open(new Uri(_appConfig.Appinfo.Icon))) ,
-                Width = 20,
-                Height = 20
-            };
+            window.Title = _appConfig.Appinfo.Name;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }

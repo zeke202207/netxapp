@@ -1,9 +1,8 @@
 using Avalonia.Controls;
-using SukiUI.Controls;
 
 namespace NetX.RBAC.Views
 {
-    public partial class ChangePasswordView : SukiWindow
+    public partial class ChangePasswordView : Window
     {
         public ChangePasswordView()
         {

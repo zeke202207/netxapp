@@ -1,15 +1,13 @@
 {
   "themes": {
     "theme": "Light",
-    "themecolor": {
-      "displayname": "Green",
-      "primary": "#D03A2F",
-      "accent": "#2FC5D0"
-    }
+    "iscustomaccent": false,
+    "accentcolor": "#0078d7"
   },
   "layouts": {
-    "animationsenabled": true,
-    "windowlocked": false,
-    "titlebarvisible": true
-  }
+    "navigationview": {
+      "panedisplaymode": "Left",
+      "cantoggle": true
+    }
+    }
 }

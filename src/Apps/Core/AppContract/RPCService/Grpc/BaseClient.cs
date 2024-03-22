@@ -3,10 +3,6 @@ using Grpc.Core.Interceptors;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using NetX.AppCore.Contract.RPCService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 namespace NetX.AppCore.Contract
 {
 
@@ -34,7 +30,7 @@ namespace NetX.AppCore.Contract
             var interceptors = CustomerInterceptors().ToList();
             interceptors.Insert(0, new ClientErrorHandlerInterceptor());
             interceptors.Insert(1, new ClientLoggerHandlerInterceptor());
-            var callInvoker =  _channel.CreateCallInvoker().Intercept(interceptors.ToArray());
+            var callInvoker = _channel.CreateCallInvoker().Intercept(interceptors.ToArray());
             _client = CreateClient(callInvoker);
         }
 
@@ -47,7 +43,7 @@ namespace NetX.AppCore.Contract
 
         protected virtual IEnumerable<Interceptor> CustomerInterceptors()
         {
-             return Array.Empty<Interceptor>();
+            return Array.Empty<Interceptor>();
         }
 
         public void Dispose()

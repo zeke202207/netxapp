@@ -4,7 +4,6 @@ using Avalonia.Media.Fonts;
 using NetX.AppCore.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace NetX.AppCore.Extentions
 {
@@ -38,12 +37,6 @@ namespace NetX.AppCore.Extentions
         public static AppBuilder UseLog(this AppBuilder builder)
         {
             return builder.LogToTrace();
-        }
-
-        public static AppBuilder UseAddone(this AppBuilder builder)
-        {
-            var v = Assembly.Load("NetX.RBAC");
-            return builder;
         }
     }
 }

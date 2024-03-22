@@ -1,21 +1,13 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using MyDemo.Views;
 using NetX.AppCore.Contract;
 using ReactiveUI;
 using Serilog;
-using SukiUI.Controls;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MyDemo.ViewModels
 {
-    [SortIndex(SplashScreenViewModel.Order)]
+    [SortIndex(SplashScreenViewModel.Order,true)]
     [ViewModel(ServiceLifetime.Transient)]
     public class SplashScreenViewModel : StartupWindowViewModel
     {
@@ -53,7 +45,7 @@ namespace MyDemo.ViewModels
         {
             try
             {
-                for(int i=0;i<100;i++)
+                for (int i = 0; i < 100; i++)
                 {
                     bgWorker.ReportProgress(i, "正在加载资源...");
                     Thread.Sleep(10);
@@ -91,11 +83,11 @@ namespace MyDemo.ViewModels
                     base.GotoNextWindow();
                 else
                 {
-                    SukiHost.ShowDialog(new DialogMessageViewModel(_controlCreator)
-                    {
-                          MessageType = DialogMessageType.Error,
-                          Message = "程序启动失败,请联系管理员",
-                    });
+                    //SukiHost.ShowDialog(new DialogMessageViewModel(_controlCreator)
+                    //{
+                    //    MessageType = DialogMessageType.Error,
+                    //    Message = "程序启动失败,请联系管理员",
+                    //});
                     base.CloseApplication();
                 }
             }

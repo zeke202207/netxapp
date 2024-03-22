@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetX.AppCore.Contract
 {
@@ -11,7 +8,7 @@ namespace NetX.AppCore.Contract
         public int Order { get; private set; }
         public bool Disabled { get; private set; }
 
-        public SortIndexAttribute(int order, bool disabled =false)
+        public SortIndexAttribute(int order, bool disabled = false)
         {
             Order = order;
             Disabled = disabled;
@@ -22,7 +19,7 @@ namespace NetX.AppCore.Contract
             //startup singleton
             if (typeof(IStartupWindowViewModel).IsAssignableFrom(SelftType))
                 services.AddSingleton(typeof(IStartupWindowViewModel), SelftType);
-            else if(typeof(IMenuPageViewModel).IsAssignableFrom(SelftType))
+            else if (typeof(IMenuPageViewModel).IsAssignableFrom(SelftType))
                 services.AddSingleton(typeof(IMenuPageViewModel), SelftType);
         }
 

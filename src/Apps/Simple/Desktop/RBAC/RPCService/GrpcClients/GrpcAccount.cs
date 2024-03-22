@@ -22,7 +22,7 @@ namespace NetX.RBAC.RPCService
             try
             {
                 var result = await base._client.GetCaptchaAsync(new Google.Protobuf.Empty());
-                if(null == result || result.Status != Netx.Response.V1.Status.Ok)
+                if (null == result || result.Status != Netx.Response.V1.Status.Ok)
                     throw new RpcException(new Status(StatusCode.Internal, $"code->{result?.Status},Error->{result?.Message}"));
                 //data -> CaptchaModel
                 return result.Data.ToModel<CaptchaModel>();
@@ -50,17 +50,17 @@ namespace NetX.RBAC.RPCService
                     CaptchaId = loginModel.CaptchaId,
                     Catpcha = loginModel.Captcha
                 });
-                if(null == result || result.Status != Netx.Response.V1.Status.Ok)
+                if (null == result || result.Status != Netx.Response.V1.Status.Ok)
                     throw new Exception($"{result?.Message}");
                 var resultModel = result.Data.ToModel<LoginResult>();
                 resultModel.Success = true;
-                Persional.Instance.JwtToken= resultModel.Token;
+                Persional.Instance.JwtToken = resultModel.Token;
                 return resultModel;
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "LoginAsync Error");
-                return new LoginResult() { Success = false , Message = ex.Message };
+                return new LoginResult() { Success = false, Message = ex.Message };
             }
         }
 

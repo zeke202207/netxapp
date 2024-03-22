@@ -1,10 +1,5 @@
-﻿using Grpc.Core.Interceptors;
-using Grpc.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Grpc.Core;
+using Grpc.Core.Interceptors;
 
 namespace NetX.RBAC.RPCService.GrpcClients
 {
@@ -59,7 +54,7 @@ namespace NetX.RBAC.RPCService.GrpcClients
         {
             if (string.IsNullOrEmpty(jwtToken))
                 return;
-            if(null == headers)
+            if (null == headers)
                 headers = new Metadata();
             headers.Add("Authorization", $"Bearer {jwtToken}");
         }

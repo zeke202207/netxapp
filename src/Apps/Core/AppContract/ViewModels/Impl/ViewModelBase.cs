@@ -1,10 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Templates;
+﻿using Avalonia.Controls;
 using ReactiveUI;
-using System;
-using System.Threading;
 
 namespace NetX.AppCore.Contract;
 
@@ -46,7 +41,7 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
 
     protected virtual void CloseApplication()
     {
-        if(View is Window window)
+        if (View is Window window)
         {
             window.Close();
         }

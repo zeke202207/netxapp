@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\icon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AvaloniaResource Include="Assets\icon.png" />
   </ItemGroup>
 
@@ -29,21 +25,14 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\..\..\Core\AppCore\NetX.AppCore.csproj" />
-    <ProjectReference Include="..\..\..\Core\SukiUI\SukiUI.csproj" />
     <ProjectReference Include="..\DemoAddone\DemoAddone.csproj" />
     <ProjectReference Include="..\RBAC\NetX.RBAC.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Views\StartupWindows\SplashScreenWindow.axaml.cs">
-      <DependentUpon>SplashScreenWindow.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
+  
 </Project>

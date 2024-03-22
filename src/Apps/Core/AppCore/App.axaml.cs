@@ -1,10 +1,11 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Threading;
+using Avalonia.Styling;
+using DynamicData;
+using FluentAvalonia.Styling;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,16 +13,11 @@ using NetX.AppCore.Contract;
 using NetX.AppCore.Extentions;
 using NetX.AppCore.Models;
 using NetX.AppCore.ViewModels;
-using NetX.AppCore.Views;
-using SukiUI;
-using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NetX.AppCore;
 
@@ -30,7 +26,7 @@ public partial class App : Application
     private readonly ServiceCollection _services;
     private ServiceProvider _serviceProvider;
     private IConfiguration _configuration;
-    private string[] _addoneAssemblies;
+    private List<string> _addoneAssemblies;
 
     public App()
     {
@@ -40,6 +36,10 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        // Default logic doesn't auto detect windows theme anymore in designer
+        // to stop light mode, force here
+        if (Design.IsDesignMode)
+            RequestedThemeVariant = ThemeVariant.Dark;
         ConfigureJsonConfig();
         ConfigureServices(_services);
         ConfigAddOneServices(_services);
@@ -66,7 +66,10 @@ public partial class App : Application
         services.Configure<AppAddoneConfig>(_configuration)
             .AddOptions<AppAddoneConfig>();
         services.AddSingleton<IConfiguration>(_configuration);
-        _addoneAssemblies = _configuration.Get<AppAddoneConfig>()?.AddoneAssembly;
+        _addoneAssemblies = _configuration.Get<AppAddoneConfig>()?.AddoneAssembly?.ToList();
+        if(null == _addoneAssemblies)
+            _addoneAssemblies = new List<string>();
+        _addoneAssemblies.Add(Assembly.GetExecutingAssembly().GetName().Name);
 
         // event bus
         services.AddMediatR(configuration =>
@@ -84,10 +87,8 @@ public partial class App : Application
         services.AddSingleton<AppBootstrap>();
 
         //viewmodel
-        services.AddSingleton<CustomThemeDialogViewModel>();
-        services.AddSingleton<SukiTheme>();
-        services.AddSingleton<MainViewModel>();
-        services.AddTransient<IStartupWindowViewModel,MainViewModel>();
+        //services.AddTransient<IStartupWindowViewModel,WorkbenchViewModel>();
+        //services.AddSingleton<SettingPageViewModel>();
     }
 
     private void ConfigAddOneServices(ServiceCollection services)
@@ -187,7 +188,7 @@ public partial class App : Application
     /// <returns></returns>
     private bool CanInjection(Type addOneType)
     {
-        foreach(var att in addOneType.GetCustomAttributes(true))
+        foreach (var att in addOneType.GetCustomAttributes(true))
         {
             if (att is SortIndexAttribute sortIndexAttribute)
                 return !sortIndexAttribute.IsDisabled();
@@ -207,18 +208,37 @@ public partial class App : Application
 
     private void InitTheme(AppUserConfig config)
     {
-        if (null == config)
-            return;
-        var theme = SukiTheme.GetInstance();
-        var colorTheme = new SukiUI.Models.SukiColorTheme(
-                                    config.Themes.ThemeColor.DisplayName,
-                                    Color.Parse(config.Themes.ThemeColor.Primary),
-                                    Color.Parse(config.Themes.ThemeColor.Accent)
-                                    );
-        if(theme.ColorThemes.FirstOrDefault(p=>p.DisplayName.ToLower() == colorTheme.DisplayName.ToLower()) == null)
-            theme.AddColorTheme(colorTheme);
-        theme.ChangeColorTheme(colorTheme);
-        Application.Current.RequestedThemeVariant = config.Themes.Theme;
+        //if (null == config)
+        //    return;
+        //var theme = SukiTheme.GetInstance();
+        //var colorTheme = new SukiUI.Models.SukiColorTheme(
+        //                            config.Themes.AccentColor.DisplayName,
+        //                            Color.Parse(config.Themes.AccentColor.Primary),
+        //                            Color.Parse(config.Themes.AccentColor.Accent)
+        //                            );
+        //if (theme.ColorThemes.FirstOrDefault(p => p.DisplayName.ToLower() == colorTheme.DisplayName.ToLower()) == null)
+        //    theme.AddColorTheme(colorTheme);
+        //theme.ChangeColorTheme(colorTheme);
+        //Application.Current.RequestedThemeVariant = config.Themes.Theme;
 
+        Application.Current.RequestedThemeVariant = GetThemeVariant(config.Themes.Theme.ToLower());
+
+        var faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
+        if(null != faTheme)
+            faTheme.CustomAccentColor = Color.Parse(config.Themes.AccentColor);
+
+    }
+
+    private ThemeVariant GetThemeVariant(string value)
+    {
+        switch (value)
+        {
+            case "light":
+                return ThemeVariant.Light;
+            case "dark":
+                return ThemeVariant.Dark;
+            default:
+                return ThemeVariant.Light;
+        }
     }
 }

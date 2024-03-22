@@ -1,37 +1,29 @@
-<suki:SukiWindow xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-                 xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
                  x:Class="NetX.RBAC.LoginWindow"
         
                  mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="400"
                  Width="650"
                  Height="400"
-                 CanMove="True"
-                 CanResize="False"
-                 IsTitleBarVisible="False">
+                 CanResize="False">
     <Grid Margin="1" Background="AliceBlue">
       <StackPanel 
         HorizontalAlignment="Right" 
         Margin="0,0,0,-10">
-        <suki:GlassCard Width="300" Margin="25,25,25,-25">
-          <suki:BusyArea Name="BusySignIn"
-                         BusyText="登录中..."
-                         IsBusy="{Binding IsLoggingIn}">
+        
             <StackPanel>
               <avalonia:MaterialIcon Width="30"
                                      Height="30"
                                      Margin="10"
                                      HorizontalAlignment="Center"
-                                     Foreground="{DynamicResource SukiPrimaryColor}"
                                      Kind="LoginVariant" />
               <TextBlock Margin="6,0,0,3"
                          FontWeight="DemiBold"
                          Text="用户名" />
-              <TextBox theme:TextBoxExtensions.Prefix="" 
+              <TextBox 
                        Watermark="用户名" 
                        MaxLength="10"
                        Text="{Binding UserName}" />
@@ -39,7 +31,6 @@
                          FontWeight="DemiBold"
                          Text="密码" />
               <TextBox Name="PasswordTextBox"
-                       theme:TextBoxExtensions.AddDeleteButton="False"
                        Watermark="密码"
                        PasswordChar="*"
                        MaxLength="10"
@@ -59,8 +50,7 @@
                 </Border>
               </StackPanel>
             </StackPanel>
-          </suki:BusyArea>
-        </suki:GlassCard>
+          
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
           <Button Name="ButtonSignIn"
                   Width="90"
@@ -89,4 +79,4 @@
         </StackPanel>
       </StackPanel>
     </Grid>
-</suki:SukiWindow>
+</Window>

@@ -1,8 +1,5 @@
 ﻿using Avalonia.Controls;
 using Material.Icons;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetX.AppCore.Contract;
 
@@ -16,12 +13,12 @@ public abstract class MenuPageViewModel : BaseViewModel, IMenuPageViewModel
     //public IEnumerable<IMenuPageViewModel> Children { get ; private set; }
 
     public MenuPageViewModel(
-        IControlCreator controlCreator, 
-        Type pageView, 
+        IControlCreator controlCreator,
+        Type pageView,
         string displayName,
         MaterialIconKind icon,
         int order)
-            : base(controlCreator,pageView)
+            : base(controlCreator, pageView)
     {
         Order = order;
         DisplayName = displayName;

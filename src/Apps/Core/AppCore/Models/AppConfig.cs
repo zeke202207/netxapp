@@ -1,14 +1,6 @@
-﻿using Avalonia.Media;
-using Avalonia.Styling;
-using Newtonsoft.Json;
-using Serilog;
-using Splat.ModeDetection;
+﻿using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetX.AppCore.Models
 {

@@ -1,9 +1,4 @@
-﻿using Avalonia.Controls;
-using Material.Icons;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using Material.Icons;
 
 namespace NetX.AppCore.Contract
 {

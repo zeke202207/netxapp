@@ -1,10 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="NetX.AppCore.App"
-             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:common="clr-namespace:NetX.AppCore;assembly=NetX.AppCore"
-             xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
-             RequestedThemeVariant="Default">
+             xmlns:sty="using:FluentAvalonia.Styling">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
   <Application.DataTemplates>
     <common:ViewLocator />
@@ -13,19 +11,18 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- add resource dictionary -->
+         <ResourceInclude Source="avares://NetX.AppCore/Styling/Resources.axaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
   
     <Application.Styles>
+<!-- 
         <FluentTheme />
-        <sukiUi:SukiTheme ThemeColor="Red" />
       <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
       <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
-
-      <!-- add style -->
-      <StyleInclude Source="avares://NetX.AppCore/Styles/FontStyles.axaml"/>
-      <StyleInclude Source="avares://NetX.AppCore/Styles/NavMenuStyle.axaml"/>
-      <avalonia:MaterialIconStyles/>
+-->
+      <sty:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />
+      <StyleInclude Source="avares://NetX.AppCore/Styling/ControlsGalleryStyles.axaml" />
     </Application.Styles>
 </Application>

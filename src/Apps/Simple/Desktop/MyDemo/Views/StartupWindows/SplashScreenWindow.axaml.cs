@@ -1,18 +1,19 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using SukiUI.Controls;
+using FluentAvalonia.UI.Windowing;
 
 namespace MyDemo.Views
 {
-    public partial class SplashScreenWindow : SukiWindow
+    public partial class SplashScreenWindow : AppWindow
     {
         public SplashScreenWindow()
         {
+            AvaloniaXamlLoader.Load(this);
 #if DEBUG
             this.AttachDevTools();
 #endif
-            AvaloniaXamlLoader.Load(this);
+
         }
     }
 }

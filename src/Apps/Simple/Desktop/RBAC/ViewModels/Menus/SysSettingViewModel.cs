@@ -2,12 +2,6 @@
 using Material.Icons;
 using NetX.AppCore.Contract;
 using NetX.RBAC.Views.Menus;
-using SukiUI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetX.RBAC.ViewModels.Menus
 {

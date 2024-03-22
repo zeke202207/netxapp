@@ -1,21 +1,16 @@
-﻿using Avalonia;
-using Avalonia.Automation.Peers;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using NetX.AppCore.Contract;
 using NetX.RBAC.RPCService;
 using ReactiveUI;
 using Serilog;
 using Splat;
-using SukiUI.Controls;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows.Input;
 
 namespace NetX.RBAC
 {
-    [SortIndex(LoginViewModel.Order, false)]
+    [SortIndex(LoginViewModel.Order, true)]
     [ViewModel(ServiceLifetime.Transient)]
     public class LoginViewModel : StartupWindowViewModel
     {
@@ -61,7 +56,7 @@ namespace NetX.RBAC
         /// <summary>
         /// 
         /// </summary>
-        public ReactiveCommand<Unit,Unit> LoginCommand { get; }
+        public ReactiveCommand<Unit, Unit> LoginCommand { get; }
         public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
         public ReactiveCommand<Unit, Task> RefreshCaptchaCommand { get; }
 
@@ -103,11 +98,11 @@ namespace NetX.RBAC
                     GotoNextWindow();
                 else
                 {
-                    SukiHost.ShowDialog(new DialogMessageViewModel(base._controlCreator)
-                    {
-                        MessageType = DialogMessageType.Error,
-                        Message = loginResult.Message,
-                    }, allowBackgroundClose: false);
+                    //SukiHost.ShowDialog(new DialogMessageViewModel(base._controlCreator)
+                    //{
+                    //    MessageType = DialogMessageType.Error,
+                    //    Message = loginResult.Message,
+                    //}, allowBackgroundClose: false);
                 }
             }
             catch (Exception ex)
@@ -154,13 +149,13 @@ namespace NetX.RBAC
         }
 
         private IObservable<bool>? CanExecute()
-        {            
-           return this.WhenAnyValue(
-                x => x.UserName,
-                x => x.Password,
-                x => x.Captcha,
-                (u, p, c) => !string.IsNullOrWhiteSpace(u) && !string.IsNullOrWhiteSpace(p) && !string.IsNullOrWhiteSpace(c) && c.Length == 4)
-                .DistinctUntilChanged();
+        {
+            return this.WhenAnyValue(
+                 x => x.UserName,
+                 x => x.Password,
+                 x => x.Captcha,
+                 (u, p, c) => !string.IsNullOrWhiteSpace(u) && !string.IsNullOrWhiteSpace(p) && !string.IsNullOrWhiteSpace(c) && c.Length == 4)
+                 .DistinctUntilChanged();
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);

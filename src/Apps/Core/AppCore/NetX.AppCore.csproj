@@ -5,14 +5,13 @@
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
-
-  
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
+    <None Remove="Assets\avalonia-logo.ico" />
+    <None Remove="Assets\CoreControlsGroups.json" />
+    <None Remove="Assets\default_avatar.png" />
+    <None Remove="Assets\FAControlsGroups.json" />
+    <None Remove="Assets\FAIcon.ico" />
+    <None Remove="Assets\FASymbolFontList.json" />
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Black.ttf" />
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Bold.ttf" />
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-ExtraBold.ttf" />
@@ -22,10 +21,111 @@
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Regular.ttf" />
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-SemiBold.ttf" />
     <None Remove="Assets\fonts\alibaba\AlibabaPuHuiTi-Thin.ttf" />
+    <None Remove="Assets\headerimage.jpeg" />
+    <None Remove="Assets\Icons\AppWindowIcon.png" />
+    <None Remove="Assets\Icons\BasicInputIcon.png" />
+    <None Remove="Assets\Icons\ColorPickerButtonIcon.png" />
+    <None Remove="Assets\Icons\ColorPickerIcon.png" />
+    <None Remove="Assets\Icons\CommandBarFlyoutIcon.png" />
+    <None Remove="Assets\Icons\CommandBarIcon.png" />
+    <None Remove="Assets\Icons\ContentDialogIcon.png" />
+    <None Remove="Assets\Icons\DataIcon.png" />
+    <None Remove="Assets\Icons\DateIcon.png" />
+    <None Remove="Assets\Icons\FAComboBoxIcon.png" />
+    <None Remove="Assets\Icons\FrameIcon.png" />
+    <None Remove="Assets\Icons\HyperlinkButtonIcon.png" />
+    <None Remove="Assets\Icons\IconsIcon.png" />
+    <None Remove="Assets\Icons\InfoBadgeIcon.png" />
+    <None Remove="Assets\Icons\InfoBarIcon.png" />
+    <None Remove="Assets\Icons\ListIcon.png" />
+    <None Remove="Assets\Icons\MenuIcon.png" />
+    <None Remove="Assets\Icons\MiscIcon.png" />
+    <None Remove="Assets\Icons\NavigationViewIcon.png" />
+    <None Remove="Assets\Icons\NumberBoxIcon.png" />
+    <None Remove="Assets\Icons\PickerFlyoutBaseIcon.png" />
+    <None Remove="Assets\Icons\RangeIcon.png" />
+    <None Remove="Assets\Icons\RangeSliderIcon.png" />
+    <None Remove="Assets\Icons\SettingsExpanderIcon.png" />
+    <None Remove="Assets\Icons\TabViewIcon.png" />
+    <None Remove="Assets\Icons\TaskDialogIcon.png" />
+    <None Remove="Assets\Icons\TeachingTipIcon.png" />
+    <None Remove="Assets\Icons\TextIcon.png" />
+    <None Remove="Assets\Icons\ViewIcon.png" />
+    <None Remove="Assets\Icons\XamlUICommandIcon.png" />
+    <None Remove="Assets\Images\AvGithub.png" />
+    <None Remove="Assets\Images\Documentation.png" />
+    <None Remove="Assets\Images\FAHeader2.png" />
+    <None Remove="Assets\Images\FAHeader2_Dark.png" />
+    <None Remove="Assets\Images\FAHeaderBackground.png" />
+    <None Remove="Assets\Images\FAHeaderBackground_Dark.png" />
+    <None Remove="Assets\Images\FAHeader_CoreControls.png" />
+    <None Remove="Assets\Images\FAHeader_CoreControls_Dark.png" />
+    <None Remove="Assets\Images\FAHeader_NewControls.png" />
+    <None Remove="Assets\Images\FAHeader_NewControls_Dark.png" />
+    <None Remove="Assets\Images\FluentDesign.png" />
+    <None Remove="Assets\Images\Github.png" />
+    <None Remove="Assets\rainier.jpg" />
   </ItemGroup>
-  
   <ItemGroup>
-    <EmbeddedResource Include="Assets\default_avatar.png" />
+    <AvaloniaResource Include="Assets\avalonia-logo.ico" />
+    <AvaloniaResource Include="Assets\CoreControlsGroups.json" />
+    <AvaloniaResource Include="Assets\default_avatar.png" />
+    <AvaloniaResource Include="Assets\FAControlsGroups.json" />
+    <AvaloniaResource Include="Assets\FAIcon.ico" />
+    <AvaloniaResource Include="Assets\FASymbolFontList.json" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Black.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Bold.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-ExtraBold.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Heavy.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Light.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Medium.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Regular.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-SemiBold.ttf" />
+    <AvaloniaResource Include="Assets\fonts\alibaba\AlibabaPuHuiTi-Thin.ttf" />
+    <AvaloniaResource Include="Assets\headerimage.jpeg" />
+    <AvaloniaResource Include="Assets\Icons\AppWindowIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\BasicInputIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\ColorPickerButtonIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\ColorPickerIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\CommandBarFlyoutIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\CommandBarIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\ContentDialogIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\DataIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\DateIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\FAComboBoxIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\FrameIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\HyperlinkButtonIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\IconsIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\InfoBadgeIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\InfoBarIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\ListIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\MenuIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\MiscIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\NavigationViewIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\NumberBoxIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\PickerFlyoutBaseIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\RangeIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\RangeSliderIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\SettingsExpanderIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\TabViewIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\TaskDialogIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\TeachingTipIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\TextIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\ViewIcon.png" />
+    <AvaloniaResource Include="Assets\Icons\XamlUICommandIcon.png" />
+    <AvaloniaResource Include="Assets\Images\AvGithub.png" />
+    <AvaloniaResource Include="Assets\Images\Documentation.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader2.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader2_Dark.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeaderBackground.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeaderBackground_Dark.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader_CoreControls.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader_CoreControls_Dark.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader_NewControls.png" />
+    <AvaloniaResource Include="Assets\Images\FAHeader_NewControls_Dark.png" />
+    <AvaloniaResource Include="Assets\Images\FluentDesign.png" />
+    <AvaloniaResource Include="Assets\Images\Github.png" />
+    <AvaloniaResource Include="Assets\rainier.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,7 +155,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppContract\NetX.AppCore.Contract.csproj" />
-    <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
+    <ProjectReference Include="..\FluentAvalonia\FluentAvalonia.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -73,5 +173,8 @@
     </None>
   </ItemGroup>
   
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+  
 </Project>

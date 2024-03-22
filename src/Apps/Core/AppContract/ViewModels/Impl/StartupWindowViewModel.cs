@@ -1,8 +1,4 @@
 ﻿using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 
 namespace NetX.AppCore.Contract
 {
@@ -20,7 +16,7 @@ namespace NetX.AppCore.Contract
             Order = order;
         }
 
-        public void SetResetEvent(AutoResetEvent resetEvent)=> AutoResetEvent = resetEvent;
+        public void SetResetEvent(AutoResetEvent resetEvent) => AutoResetEvent = resetEvent;
 
         public void GotoNextWindow() => AutoResetEvent.Set();
 

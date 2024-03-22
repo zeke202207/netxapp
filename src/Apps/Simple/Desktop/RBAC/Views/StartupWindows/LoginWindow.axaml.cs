@@ -1,14 +1,11 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using NetX.AppCore.Contract;
 using Serilog;
-using SukiUI.Controls;
 using System.Reactive.Linq;
 
 namespace NetX.RBAC
 {
-    public partial class LoginWindow : SukiWindow
+    public partial class LoginWindow : Window
     {
         public LoginWindow()
         {

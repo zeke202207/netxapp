@@ -1,13 +1,8 @@
-﻿using Avalonia.Media;
-using Avalonia.Styling;
+﻿using Avalonia.Styling;
 using Newtonsoft.Json;
 using Serilog;
-using Splat.ModeDetection;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetX.AppCore.Models
@@ -36,22 +31,20 @@ namespace NetX.AppCore.Models
 
     public class Themes
     {
-        public ThemeVariant Theme { get; set; }
-        public Themecolor ThemeColor { get; set; }
-    }
-
-    public class Themecolor
-    {
-        public string DisplayName { get; set; }
-        public string Primary { get; set; }
-        public string Accent { get; set; }
+        public string Theme { get; set; }
+        public bool IsCustomAccent { get; set; }
+        public string AccentColor { get; set; }
     }
 
     public class Layouts
     {
-        [JsonIgnore]
-        public bool AnimationsEnabled { get; set; }
-        public bool WindowLocked { get; set; }
-        public bool TitlebarVisible { get; set; }
+        public Navigationview Navigationview { get; set; }
     }
+
+    public class Navigationview
+    {
+        public string PaneDisplayMode { get; set; }
+        public bool CanToggle { get; set; }
+    }
+
 }

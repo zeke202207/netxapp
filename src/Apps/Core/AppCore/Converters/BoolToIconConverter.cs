@@ -1,7 +1,7 @@
-using System;
-using System.Globalization;
 using Avalonia.Data.Converters;
 using Material.Icons;
+using System;
+using System.Globalization;
 
 namespace NetX.AppCore.Converters
 {

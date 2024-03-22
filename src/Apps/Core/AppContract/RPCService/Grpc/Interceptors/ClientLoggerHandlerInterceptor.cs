@@ -1,8 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Serilog;
-using System;
-using System.Threading.Tasks;
 
 namespace NetX.AppCore.Contract.RPCService
 {

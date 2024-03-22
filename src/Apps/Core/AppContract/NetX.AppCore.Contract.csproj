@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SukiUI\SukiUI.csproj" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 
 </Project>
