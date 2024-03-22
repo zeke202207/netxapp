@@ -85,10 +85,6 @@ public partial class App : Application
 
         services.AddSingleton<IControlCreator, ActivatorControlCreator>();
         services.AddSingleton<AppBootstrap>();
-
-        //viewmodel
-        //services.AddTransient<IStartupWindowViewModel,WorkbenchViewModel>();
-        //services.AddSingleton<SettingPageViewModel>();
     }
 
     private void ConfigAddOneServices(ServiceCollection services)
@@ -121,22 +117,6 @@ public partial class App : Application
             }
         }
     }
-
-    //private void ConfigStartStepServices(ServiceCollection services)
-    //{
-    //    GetAllTypes<SortIndexAttribute>()
-    //        .Where(type => null != type.GetCustomAttribute<SortIndexAttribute>())
-    //        .OrderBy(type => type.GetCustomAttribute<SortIndexAttribute>()!.Order)
-    //        .ToList().ForEach(addOneType =>
-    //        {
-    //            if (!CanInjection(addOneType))
-    //                return;
-    //            addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
-    //            {
-    //                addOne.AddServices(services, addOneType);
-    //            });
-    //        });
-    //}
 
     private void ConfigViewModelServices(ServiceCollection services)
     {
@@ -182,7 +162,7 @@ public partial class App : Application
     {
         var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.MainWindow = appContainerViewModel!.Init();
+            desktop.MainWindow = appContainerViewModel!.StartupWindow();
         base.OnFrameworkInitializationCompleted();
     }
 }

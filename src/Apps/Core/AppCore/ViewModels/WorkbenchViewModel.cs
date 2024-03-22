@@ -7,12 +7,16 @@ using NetX.AppCore.Contract;
 using NetX.AppCore.Models;
 using NetX.AppCore.Views;
 using ReactiveUI;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NetX.AppCore.ViewModels
 {
+    /// <summary>
+    /// 工作太窗口视图模型
+    /// </summary>
     [ViewModel(ServiceLifetime.Singleton)]
     public class WorkbenchViewModel : StartupWindowViewModel
     {
@@ -20,6 +24,8 @@ namespace NetX.AppCore.ViewModels
         /// 全局唯一标识
         /// </summary>
         public static Guid Id = new Guid("00000000-0000-0000-0000-000000000003");
+
+        #region 依赖属性
 
         private readonly IDataTemplate _dataTemplate;
         private readonly IServiceProvider _serviceProvider;
@@ -58,6 +64,8 @@ namespace NetX.AppCore.ViewModels
             set => this.RaiseAndSetIfChanged(ref _nvCanToggle, value);
         }
 
+        #endregion
+
         public WorkbenchViewModel(
             IDataTemplate dataTemplate, 
             IServiceProvider serviceProvider,
@@ -70,27 +78,41 @@ namespace NetX.AppCore.ViewModels
             NavigationMenu = InitNavigateMenu(addoneOptions.Value.NavigationMenuConfig);
         }
 
-        private List<NavigationMenu> InitNavigateMenu(NavigationMenuConfig[] menus)
-        {
-            return menus.Select(menuConfig => new NavigationMenu
-            {
-                Id = new Guid(menuConfig.Id),
-                ParentId = new Guid(menuConfig.ParentId),
-                Title = menuConfig.Title,
-                ToolTip = menuConfig.Tooltip,
-                Icon = GetIcon(menuConfig.Icon),
-                ViewType = menuConfig.ViewModel,
-                TriggerInvoked = menuConfig.TriggerInvoked,
-                ChildMenu = menuConfig.Childrens != null && menuConfig.Childrens.Length > 0 ? InitNavigateMenu(menuConfig.Childrens) : null
-            }).ToList();
-        }
-
-        private Symbol GetIcon(string icon)
-        {
-            return Enum.Parse<Symbol>(icon);
-        }
+        #region 重写方法
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 初始化导航菜单
+        /// </summary>
+        /// <param name="menus"></param>
+        /// <returns></returns>
+        private List<NavigationMenu> InitNavigateMenu(NavigationMenuConfig[] menus)
+        {
+            try
+            {
+                return menus.Select(menuConfig => new NavigationMenu
+                {
+                    Id = new Guid(menuConfig.Id),
+                    ParentId = new Guid(menuConfig.ParentId),
+                    Title = menuConfig.Title,
+                    ToolTip = menuConfig.Tooltip,
+                    Icon = Enum.Parse<Symbol>(menuConfig.Icon),
+                    ViewType = menuConfig.ViewModel,
+                    TriggerInvoked = menuConfig.TriggerInvoked,
+                    ChildMenu = menuConfig.Childrens != null && menuConfig.Childrens.Length > 0 ? InitNavigateMenu(menuConfig.Childrens) : null
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "获取菜单失败");
+                return new List<NavigationMenu>();
+            }
+        }
 
         /// <summary>
         /// 设置当前页面
@@ -115,5 +137,8 @@ namespace NetX.AppCore.ViewModels
                 CurrentPage = _dataTemplate.Build(sm);
             }
         }
+
+        #endregion
+
     }
 }

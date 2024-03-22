@@ -21,6 +21,8 @@ namespace NetX.RBAC
         /// </summary>
         public static Guid Id = new Guid("00000000-0000-0000-0000-000000000002");
 
+        #region 依赖属性
+
         private bool _isLoggingIn;
         public bool IsLoggingIn
         {
@@ -86,6 +88,10 @@ namespace NetX.RBAC
             set => this.RaiseAndSetIfChanged(ref _barSeverity, value);
         }
 
+        #endregion
+
+        #region Command
+
         /// <summary>
         /// 
         /// </summary>
@@ -93,8 +99,19 @@ namespace NetX.RBAC
         public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
         public ReactiveCommand<Unit, Task> RefreshCaptchaCommand { get; }
 
+        #endregion
+
+        #region Remote Process Call
+
         private readonly IAccountRPC _accountRPC;
 
+        #endregion
+
+        /// <summary>
+        /// 登录viewmodel实例对象
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="accountRPC"></param>
         public LoginViewModel(IServiceProvider serviceProvider, IAccountRPC accountRPC)
             : base(LoginViewModel.Id, serviceProvider, typeof(LoginWindow))
         {
@@ -104,12 +121,21 @@ namespace NetX.RBAC
             RefreshCaptchaCommand = ReactiveCommand.Create(async () => await RefreshCaptcha());
         }
 
+        #region 私有方法
+
         /// <summary>
         /// 等出系统
         /// </summary>
         private void Logout()
         {
-            base.CloseApplication();
+            try
+            {
+                base.CloseApplication();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "退出系统失败");
+            }
         }
 
         /// <summary>
@@ -191,6 +217,12 @@ namespace NetX.RBAC
                  .DistinctUntilChanged();
         }
 
+        #endregion
+
+        #region 重写方法
+
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
+
+        #endregion
     }
 }

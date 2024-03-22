@@ -18,14 +18,25 @@ using System.Threading.Tasks;
 
 namespace NetX.AppCore.ViewModels
 {
+    /// <summary>
+    /// 内置系统配置页面视图模型
+    /// </summary>
     [ViewModel(ServiceLifetime.Singleton)]
     public class SettingPageViewModel : BaseViewModel
     {
+        private const string _system = "System";
+        private const string _dark = "Dark";
+        private const string _light = "Light";
+
+        private readonly FluentAvaloniaTheme _faTheme;
         private readonly AppUserConfig _appUserConfig;
+
+        #region 依赖属性
 
         public string[] AppThemes { get; } =
             new[] { _system, _light, _dark /*, FluentAvaloniaTheme.HighContrastTheme*/ };
 
+        private string _currentAppTheme = _system;
         public string CurrentAppTheme
         {
             get => _currentAppTheme;
@@ -49,20 +60,7 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
-        private ThemeVariant GetThemeVariant(string value)
-        {
-            switch (value)
-            {
-                case _light:
-                    return ThemeVariant.Light;
-                case _dark:
-                    return ThemeVariant.Dark;
-                case _system:
-                default:
-                    return null;
-            }
-        }
-
+        private bool _useCustomAccentColor;
         public bool UseCustomAccent
         {
             get => _useCustomAccentColor;
@@ -99,6 +97,7 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
+        private Color? _listBoxColor;
         // This is bound to the ListBox of predefined colors. It must be nullable or CompiledBindings will get angry
         // if we set a color here that isn't in the predef colors as SelectingItemsControl will try to bind back
         // null as the SelectedItem 
@@ -121,6 +120,7 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
+        private Color _customAccentColor = Colors.SlateBlue;
         // This is the custom accent color as chosen by the ColorPicker and is not one of the predefined colors
         public Color CustomAccentColor
         {
@@ -144,6 +144,28 @@ namespace NetX.AppCore.ViewModels
         public string CurrentAvaloniaVersion =>
             typeof(Application).Assembly.GetName().Version?.ToString();
 
+        #endregion
+
+        /// <summary>
+        /// 系统配置页面视图模型实例对象
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="option"></param>
+        public SettingPageViewModel(IServiceProvider serviceProvider, IOptions<AppUserConfig> option) 
+            : base(serviceProvider, typeof(SettingPage))
+        {
+            _appUserConfig = option.Value;
+            GetPredefColors();
+            _faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
+            CurrentAppTheme = _appUserConfig.Themes.Theme;
+            UseCustomAccent = _appUserConfig.Themes.IsCustomAccent;
+        }
+
+        #region 私有方法
+
+        /// <summary>
+        /// 系统预制色调
+        /// </summary>
         private void GetPredefColors()
         {
             PredefinedColors = new List<Color>
@@ -160,6 +182,10 @@ namespace NetX.AppCore.ViewModels
                 };
         }
 
+        /// <summary>
+        /// 更新系统色调
+        /// </summary>
+        /// <param name="color"></param>
         private void UpdateAppAccentColor(Color? color)
         {
             _faTheme.CustomAccentColor = color;
@@ -171,25 +197,21 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
-        private bool _useCustomAccentColor;
-        private Color _customAccentColor = Colors.SlateBlue;
-        private string _currentAppTheme = _system;
-        private Color? _listBoxColor;
-
-        private const string _system = "System";
-        private const string _dark = "Dark";
-        private const string _light = "Light";
-        private readonly FluentAvaloniaTheme _faTheme;
-
-        public SettingPageViewModel(IServiceProvider serviceProvider, IOptions<AppUserConfig> option) 
-            : base(serviceProvider, typeof(SettingPage))
+        private ThemeVariant GetThemeVariant(string value)
         {
-            _appUserConfig = option.Value;
-            GetPredefColors();
-            _faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
-            CurrentAppTheme = _appUserConfig.Themes.Theme;
-            UseCustomAccent = _appUserConfig.Themes.IsCustomAccent;
+            switch (value)
+            {
+                case _light:
+                    return ThemeVariant.Light;
+                case _dark:
+                    return ThemeVariant.Dark;
+                case _system:
+                default:
+                    return null;
+            }
         }
+
+        #endregion
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
     }

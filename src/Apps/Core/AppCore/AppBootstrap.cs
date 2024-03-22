@@ -19,6 +19,10 @@ using System.Linq;
 
 namespace NetX.AppCore.ViewModels
 {
+    /// <summary>
+    /// 应用程序启动引导程序
+    /// 负载启动项的配置和启动顺序
+    /// </summary>
     public class AppBootstrap
     {
         private Window? _windowSelf;
@@ -32,6 +36,14 @@ namespace NetX.AppCore.ViewModels
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
         private Stack<Window> windows = new Stack<Window>();
 
+        /// <summary>
+        /// 启动引导程序实例对象
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="appOption"></param>
+        /// <param name="addoneConfig"></param>
+        /// <param name="dataTemplate"></param>
+        /// <param name="serviceProvider"></param>
         public AppBootstrap(
             IOptions<AppUserConfig> option,
             IOptions<AppConfig> appOption,
@@ -48,15 +60,33 @@ namespace NetX.AppCore.ViewModels
             InitTheme(_appUserConfig);
         }
 
-        public Window Init()
+        #region 对外接口
+
+        /// <summary>
+        /// 获取启动窗口
+        /// </summary>
+        /// <returns></returns>
+        public Window StartupWindow()
         {
-            _windowSelf = InitFirestScreen();
-            ConfigWindows(_windowSelf);
-            InitEvent();
-            if (!_worker.IsBusy && _steps.Count() > 1)
-                _worker.RunWorkerAsync(_steps.Skip(1).Take(1).FirstOrDefault().Id);
-            return _windowSelf;
+            try
+            {
+                _windowSelf = InitFirestScreen();
+                ConfigWindows(_windowSelf);
+                InitEvent();
+                if (!_worker.IsBusy && _steps.Count() > 1)
+                    _worker.RunWorkerAsync(_steps.Skip(1).Take(1).FirstOrDefault().Id);
+                return _windowSelf;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "获取启动窗体失败");
+                return null;
+            }
         }
+
+        #endregion
+
+        #region 私有方法
 
         /// <summary>
         /// 根据配置文件，配置启动项启动顺序
@@ -67,13 +97,20 @@ namespace NetX.AppCore.ViewModels
         private IEnumerable<IStartupWindowViewModel> InitSteps(List<IStartupWindowViewModel> startups, StartupConfig[] startupConfig)
         {
             var result = new List<IStartupWindowViewModel>();
-            foreach (var config in startupConfig.Where(p=>p.IsEnabled).OrderBy(p => p.Order))
+            try
             {
-                var startup = startups.FirstOrDefault(p => p.Id == new Guid(config.Id));
-                if (null == startup)
-                    continue;
-                startup.SetResetEvent(_autoResetEvent);
-                result.Add(startup);
+                foreach (var config in startupConfig.Where(p => p.IsEnabled).OrderBy(p => p.Order))
+                {
+                    var startup = startups.FirstOrDefault(p => p.Id == new Guid(config.Id));
+                    if (null == startup)
+                        continue;
+                    startup.SetResetEvent(_autoResetEvent);
+                    result.Add(startup);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "配置启动顺序失败");
             }
             return result;
         }
@@ -83,10 +120,17 @@ namespace NetX.AppCore.ViewModels
         /// </summary>
         private void InitTheme(AppUserConfig config)
         {
-            Application.Current.RequestedThemeVariant = GetThemeVariant(config.Themes.Theme.ToLower());
-            var faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
-            if (null != faTheme)
-                faTheme.CustomAccentColor = Color.Parse(config.Themes.AccentColor);
+            try
+            {
+                Application.Current.RequestedThemeVariant = GetThemeVariant(config.Themes.Theme.ToLower());
+                var faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
+                if (null != faTheme)
+                    faTheme.CustomAccentColor = Color.Parse(config.Themes.AccentColor);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "初始化主题失败");
+            }
         }
 
         private ThemeVariant GetThemeVariant(string value)
@@ -225,5 +269,7 @@ namespace NetX.AppCore.ViewModels
             window.Title = _appConfig.Appinfo.Name;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+
+        #endregion
     }
 }
