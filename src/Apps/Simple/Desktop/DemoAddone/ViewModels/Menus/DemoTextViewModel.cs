@@ -12,14 +12,18 @@ using System.Threading.Tasks;
 
 namespace DemoAddone
 {
-    [SortIndex(1 , false)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class DemoTextViewModel : MenuPageViewModel
     {
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id = new Guid("D0000000-0000-0000-0000-000000000002");
+
         public ObservableCollection<NavMenuItem> MenuItems { get; set; }
 
         public DemoTextViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider, typeof(DemoTextView), "文本框示例", MaterialIconKind.Text, 1)
+            : base(DemoTextViewModel.Id,serviceProvider, typeof(DemoTextView))
         {
             // 示例：添加菜单项
             MenuItems = new ObservableCollection<NavMenuItem>

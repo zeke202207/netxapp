@@ -13,20 +13,24 @@ using System.Threading.Tasks;
 
 namespace DemoAddone
 {
-    [SortIndex(0)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class DemoButtonViewModel : MenuPageViewModel
     {
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id = new Guid("D0000000-0000-0000-0000-000000000001");
+
         private readonly IDemo _demo;
 
         public ReactiveCommand<Unit, Unit> RPCCallCommand { get; }
 
         public DemoButtonViewModel(IServiceProvider serviceProvider, IDemo demo)
-            : base(serviceProvider, typeof(DemoButtonView), "按钮示例", MaterialIconKind.Button, 0)
+            : base(DemoButtonViewModel.Id, serviceProvider, typeof(DemoButtonView))
         {
             _demo = demo;
 
-            RPCCallCommand = ReactiveCommand.Create(()=> DemoCommand());
+            RPCCallCommand = ReactiveCommand.Create(() => DemoCommand());
         }
 
         private void DemoCommand()

@@ -94,7 +94,6 @@ public partial class App : Application
     private void ConfigAddOneServices(ServiceCollection services)
     {
         ConfigInitialize(services);
-        ConfigStartStepServices(services);
         ConfigViewModelServices(services);
         ConfigEventBusServices(services);
     }
@@ -123,21 +122,21 @@ public partial class App : Application
         }
     }
 
-    private void ConfigStartStepServices(ServiceCollection services)
-    {
-        GetAllTypes<SortIndexAttribute>()
-            .Where(type => null != type.GetCustomAttribute<SortIndexAttribute>())
-            .OrderBy(type => type.GetCustomAttribute<SortIndexAttribute>()!.Order)
-            .ToList().ForEach(addOneType =>
-            {
-                if (!CanInjection(addOneType))
-                    return;
-                addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
-                {
-                    addOne.AddServices(services, addOneType);
-                });
-            });
-    }
+    //private void ConfigStartStepServices(ServiceCollection services)
+    //{
+    //    GetAllTypes<SortIndexAttribute>()
+    //        .Where(type => null != type.GetCustomAttribute<SortIndexAttribute>())
+    //        .OrderBy(type => type.GetCustomAttribute<SortIndexAttribute>()!.Order)
+    //        .ToList().ForEach(addOneType =>
+    //        {
+    //            if (!CanInjection(addOneType))
+    //                return;
+    //            addOneType.GetCustomAttributes(true).OfType<SortIndexAttribute>().ToList().ForEach(addOne =>
+    //            {
+    //                addOne.AddServices(services, addOneType);
+    //            });
+    //        });
+    //}
 
     private void ConfigViewModelServices(ServiceCollection services)
     {
@@ -145,8 +144,6 @@ public partial class App : Application
            .Where(type => null != type && type.GetCustomAttribute<ViewModelAttribute>() != null)
             .ToList().ForEach(addOneType =>
             {
-                if (!CanInjection(addOneType))
-                    return;
                 addOneType.GetCustomAttributes(true).OfType<ViewModelAttribute>().ToList().ForEach(addOne =>
                 {
                     addOne.AddServices(services, addOneType);
@@ -181,64 +178,11 @@ public partial class App : Application
         return allType.Distinct();
     }
 
-    /// <summary>
-    /// 是否可以注入
-    /// </summary>
-    /// <param name="addOneType"></param>
-    /// <returns></returns>
-    private bool CanInjection(Type addOneType)
-    {
-        foreach (var att in addOneType.GetCustomAttributes(true))
-        {
-            if (att is SortIndexAttribute sortIndexAttribute)
-                return !sortIndexAttribute.IsDisabled();
-        }
-        return true;
-    }
-
     public override void OnFrameworkInitializationCompleted()
     {
-        var config = _configuration.Get<AppUserConfig>();
-        InitTheme(config);
         var appContainerViewModel = _serviceProvider?.GetRequiredService<AppBootstrap>();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.MainWindow = appContainerViewModel!.Init();
         base.OnFrameworkInitializationCompleted();
-    }
-
-    private void InitTheme(AppUserConfig config)
-    {
-        //if (null == config)
-        //    return;
-        //var theme = SukiTheme.GetInstance();
-        //var colorTheme = new SukiUI.Models.SukiColorTheme(
-        //                            config.Themes.AccentColor.DisplayName,
-        //                            Color.Parse(config.Themes.AccentColor.Primary),
-        //                            Color.Parse(config.Themes.AccentColor.Accent)
-        //                            );
-        //if (theme.ColorThemes.FirstOrDefault(p => p.DisplayName.ToLower() == colorTheme.DisplayName.ToLower()) == null)
-        //    theme.AddColorTheme(colorTheme);
-        //theme.ChangeColorTheme(colorTheme);
-        //Application.Current.RequestedThemeVariant = config.Themes.Theme;
-
-        Application.Current.RequestedThemeVariant = GetThemeVariant(config.Themes.Theme.ToLower());
-
-        var faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
-        if(null != faTheme)
-            faTheme.CustomAccentColor = Color.Parse(config.Themes.AccentColor);
-
-    }
-
-    private ThemeVariant GetThemeVariant(string value)
-    {
-        switch (value)
-        {
-            case "light":
-                return ThemeVariant.Light;
-            case "dark":
-                return ThemeVariant.Dark;
-            default:
-                return ThemeVariant.Light;
-        }
     }
 }

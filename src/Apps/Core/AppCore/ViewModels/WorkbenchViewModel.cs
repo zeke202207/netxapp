@@ -2,25 +2,31 @@
 using Avalonia.Controls.Templates;
 using DynamicData;
 using FluentAvalonia.UI.Controls;
+using Microsoft.Extensions.Options;
 using NetX.AppCore.Contract;
+using NetX.AppCore.Models;
 using NetX.AppCore.Views;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NetX.AppCore.ViewModels
 {
-    [SortIndex(WorkbenchViewModel.Order)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class WorkbenchViewModel : StartupWindowViewModel
     {
-        public const int Order = int.MaxValue;
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id = new Guid("00000000-0000-0000-0000-000000000003");
+
         private readonly IDataTemplate _dataTemplate;
         private readonly IServiceProvider _serviceProvider;
 
-        private object _selectedCategory;
+        public List<NavigationMenu> NavigationMenu { get; }
 
-        public List<CategoryBase> Categories { get; }
+        private object _selectedCategory;
         public object SelectedCategory
         {
             get => _selectedCategory;
@@ -52,30 +58,36 @@ namespace NetX.AppCore.ViewModels
             set => this.RaiseAndSetIfChanged(ref _nvCanToggle, value);
         }
 
-        public WorkbenchViewModel(IDataTemplate dataTemplate, IServiceProvider serviceProvider)
-            : base(serviceProvider, typeof(WorkbenchWindow), WorkbenchViewModel.Order)
+        public WorkbenchViewModel(
+            IDataTemplate dataTemplate, 
+            IServiceProvider serviceProvider,
+            IOptions<AppAddoneConfig> addoneOptions)
+            : base(WorkbenchViewModel.Id,serviceProvider, typeof(WorkbenchWindow))
         {
             _serviceProvider = serviceProvider;
             _dataTemplate = dataTemplate;
-            Categories = new List<CategoryBase>();
-
-            Categories.Add(new Category { Name = "Category 1", Icon = Symbol.Home, ToolTip = "This is category 1", ViewType = "NetX.AppCore.ViewModels.TestViewModel", TriggerInvoked = true });
-            Categories.Add(new Category { Name = "Category 2", Icon = Symbol.Keyboard, ToolTip = "This is category 2", ViewType = "NetX.AppCore.ViewModels.TestViewModel", TriggerInvoked = true });
-            Categories.Add(new Separator());
-            Categories.Add(new Category { Name = "Category 3", Icon = Symbol.Library, ToolTip = "This is category 3", ViewType = "NetX.AppCore.ViewModels.TestViewModel", TriggerInvoked = true });
-            Categories.Add(new Category
-            {
-                Name = "Category 4",
-                Icon = Symbol.Mail,
-                ToolTip = "This is category 4",
-                TriggerInvoked = false,
-                Children = new List<CategoryBase>()
-                    {
-                        new Category { Name = "Item 1", Icon = Symbol.Home, ToolTip = "This is item 1", TriggerInvoked = false },
-                        new Category { Name = "Item 2", Icon = Symbol.Keyboard, ToolTip = "This is item 2", TriggerInvoked = true , ViewType="NetX.AppCore.ViewModels.TestViewModel" },
-                    }
-            });
             _serviceProvider = serviceProvider;
+            NavigationMenu = InitNavigateMenu(addoneOptions.Value.NavigationMenuConfig);
+        }
+
+        private List<NavigationMenu> InitNavigateMenu(NavigationMenuConfig[] menus)
+        {
+            return menus.Select(menuConfig => new NavigationMenu
+            {
+                Id = new Guid(menuConfig.Id),
+                ParentId = new Guid(menuConfig.ParentId),
+                Title = menuConfig.Title,
+                ToolTip = menuConfig.Tooltip,
+                Icon = GetIcon(menuConfig.Icon),
+                ViewType = menuConfig.ViewModel,
+                TriggerInvoked = menuConfig.TriggerInvoked,
+                ChildMenu = menuConfig.Childrens != null && menuConfig.Childrens.Length > 0 ? InitNavigateMenu(menuConfig.Childrens) : null
+            }).ToList();
+        }
+
+        private Symbol GetIcon(string icon)
+        {
+            return Enum.Parse<Symbol>(icon);
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView) => controlCreator.CreateControl(pageView);
@@ -86,7 +98,7 @@ namespace NetX.AppCore.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private void SetCurrentPage()
         {
-            if (SelectedCategory is Category cat)
+            if (SelectedCategory is NavigationMenu cat)
             {
                 if (null == cat) return;
                 if (!cat.TriggerInvoked)

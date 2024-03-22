@@ -2,7 +2,7 @@
 {
     public interface IStartupWindowViewModel
     {
-        public int Order { get; }
+        public Guid Id { get; }
 
         void SetResetEvent(AutoResetEvent resetEvent);
 

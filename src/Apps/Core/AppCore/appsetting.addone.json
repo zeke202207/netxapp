@@ -3,4 +3,90 @@
     "NetX.RBAC",
     "DemoAddone"
   ],
+  "startupconfig": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "order": 0,
+      "isenabled": true,
+      "des": "Splash窗体"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "order": 1,
+      "isenabled": false,
+      "des": "登录页"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "order": 2,
+      "isenabled": true,
+      "des": "工作台"
+    }
+  ],
+  "navigationmenuconfig": [
+    {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "parentid": "00000000-0000-0000-0000-000000000000",
+      "order": 0,
+      "title": "系统设置",
+      "tooltip": "系统设置",
+      "icon": "Setting",
+      "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+      "triggerinvoked": true
+    },
+    {
+      "id": "D0000000-0000-0000-0000-000000000001",
+      "parentid": "00000000-0000-0000-0000-000000000000",
+      "order": 100,
+      "title": "测试页",
+      "tooltip": "测试页",
+      "icon": "Library",
+      "viewmodel": "",
+      "triggerinvoked": false,
+      "childrens": [
+          {
+            "id": "D1000000-0000-0000-0000-000000000001",
+            "parentid": "D0000000-0000-0000-0000-000000000001",
+            "order": 0,
+            "title": "测试页1-1",
+            "tooltip": "测试页1",
+            "icon": "Home",
+            "viewmodel": "",
+            "triggerinvoked": false,
+            "childrens": [
+              {
+                "id": "D3000000-0000-0000-0000-000000000001",
+                "parentid": "D1000000-0000-0000-0000-000000000001",
+                "order": 0,
+                "title": "测试页1-1-1",
+                "tooltip": "测试页1-1-1",
+                "icon": "Setting",
+                "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+                "triggerinvoked": true
+              },
+              {
+                "id": "D3000000-0000-0000-0000-000000000002",
+                "parentid": "D1000000-0000-0000-0000-000000000001",
+                "order": 1,
+                "title": "测试页1-1-2",
+                "tooltip": "测试页1-1-2",
+                "icon": "Setting",
+                "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+                "triggerinvoked": true
+              }
+            ]
+          },
+        {
+          "id": "D1000000-0000-0000-0000-000000000002",
+          "parentid": "D0000000-0000-0000-0000-000000000001",
+          "order": 1,
+          "title": "测试页1-2",
+          "tooltip": "测试页1-2",
+          "icon": "Setting",
+          "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+          "triggerinvoked": true
+        }
+      ]
+    }
+  ]
 }

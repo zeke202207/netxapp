@@ -43,7 +43,7 @@ namespace NetX.RBAC.EventBusHandlers
         /// <param name="notification"></param>
         private void ShowRelogin(UserInfoEvent notification)
         {
-            notification.ViewModel.GotoStartupWindow(LoginViewModel.Order);
+            notification.ViewModel.GotoStartupWindow(LoginViewModel.Id);
         }
 
         /// <summary>

@@ -4,23 +4,23 @@ namespace NetX.AppCore.Contract
 {
     public abstract class StartupWindowViewModel : BaseViewModel, IStartupWindowViewModel, ICloseWindowViewModel
     {
-        public int Order { get; private set; }
-        public int GotoStep { get; private set; } = -1;
+        public Guid Id { get; private set; }
+        public Guid GotoStep { get; private set; } = Guid.Empty;
         public Window? Window => base.View as Window;
 
         private AutoResetEvent AutoResetEvent { get; set; }
 
-        public StartupWindowViewModel(IServiceProvider serviceProvider, Type pageView, int order)
+        public StartupWindowViewModel(Guid id ,IServiceProvider serviceProvider, Type pageView)
             : base(serviceProvider, pageView)
         {
-            Order = order;
+            Id = id;
         }
 
         public void SetResetEvent(AutoResetEvent resetEvent) => AutoResetEvent = resetEvent;
 
         public void GotoNextWindow() => AutoResetEvent.Set();
 
-        protected virtual void GotoWindow(int step) => GotoStep = step;
+        protected virtual void GotoWindow(Guid stepid) => GotoStep = stepid;
 
         protected override void ControlLoaded()
         {

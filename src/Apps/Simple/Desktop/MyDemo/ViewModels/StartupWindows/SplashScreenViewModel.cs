@@ -7,12 +7,14 @@ using System.ComponentModel;
 
 namespace MyDemo.ViewModels
 {
-    [SortIndex(SplashScreenViewModel.Order,true)]
     [ViewModel(ServiceLifetime.Transient)]
     public class SplashScreenViewModel : StartupWindowViewModel
     {
-        public const int Order = 0;
-
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id  = new Guid("00000000-0000-0000-0000-000000000001");
+        
         private bool _isSuccess = false;
         private BackgroundWorker bgWorker;
 
@@ -31,7 +33,7 @@ namespace MyDemo.ViewModels
         }
 
         public SplashScreenViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider, typeof(SplashScreenWindow), SplashScreenViewModel.Order)
+            : base(SplashScreenViewModel.Id ,serviceProvider, typeof(SplashScreenWindow))
         {
             bgWorker = new BackgroundWorker();
             bgWorker.WorkerReportsProgress = true;

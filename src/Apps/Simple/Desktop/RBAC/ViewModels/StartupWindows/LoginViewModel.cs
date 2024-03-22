@@ -10,11 +10,13 @@ using System.Reactive.Linq;
 
 namespace NetX.RBAC
 {
-    [SortIndex(LoginViewModel.Order, true)]
     [ViewModel(ServiceLifetime.Transient)]
     public class LoginViewModel : StartupWindowViewModel
     {
-        public const int Order = 1;
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id = new Guid("00000000-0000-0000-0000-000000000002");
 
         private bool _isLoggingIn;
         public bool IsLoggingIn
@@ -63,7 +65,7 @@ namespace NetX.RBAC
         private readonly IAccountRPC _accountRPC;
 
         public LoginViewModel(IServiceProvider serviceProvider, IAccountRPC accountRPC)
-            : base(serviceProvider, typeof(LoginWindow), LoginViewModel.Order)
+            : base(LoginViewModel.Id, serviceProvider, typeof(LoginWindow))
         {
             _accountRPC = accountRPC;
             LoginCommand = ReactiveCommand.Create(() => Login(), CanExecute());

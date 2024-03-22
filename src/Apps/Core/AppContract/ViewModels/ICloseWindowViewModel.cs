@@ -9,6 +9,6 @@
         /// 例如：1-》splaswidnow 2-》 loginwindow
         /// 2，则标识重新登录
         /// </summary>
-        public int GotoStep { get; }
+        public Guid GotoStep { get; }
     }
 }

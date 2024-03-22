@@ -2,6 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
+using Avalonia.Media;
+using Avalonia.Styling;
+using FluentAvalonia.Styling;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NetX.AppCore.Contract;
@@ -9,6 +12,7 @@ using NetX.AppCore.Models;
 using Serilog;
 using Splat;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,27 +23,29 @@ namespace NetX.AppCore.ViewModels
     {
         private Window? _windowSelf;
         private BackgroundWorker _worker;
-        private List<IStartupWindowViewModel> _steps;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDataTemplate _dataTemplate;
         private readonly AppConfig _appConfig;
+        private readonly AppUserConfig _appUserConfig;
+        private readonly AppAddoneConfig _addoneConfig;
+        private IEnumerable<IStartupWindowViewModel> _steps;
         private System.Threading.AutoResetEvent _autoResetEvent = new System.Threading.AutoResetEvent(false);
         private Stack<Window> windows = new Stack<Window>();
 
         public AppBootstrap(
             IOptions<AppUserConfig> option,
             IOptions<AppConfig> appOption,
+            IOptions<AppAddoneConfig> addoneConfig,
             IDataTemplate dataTemplate,
             IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _steps = _serviceProvider
-                .GetServices<IStartupWindowViewModel>()
-                .OrderBy(p => p.Order)
-                .ToList();
-            _steps.ForEach(step => step.SetResetEvent(_autoResetEvent));
             _dataTemplate = dataTemplate;
             _appConfig = appOption.Value;
+            _appUserConfig = option.Value;
+            _addoneConfig = addoneConfig.Value;
+            _steps = InitSteps(_serviceProvider.GetServices<IStartupWindowViewModel>().ToList(), _addoneConfig.StartupConfig);
+            InitTheme(_appUserConfig);
         }
 
         public Window Init()
@@ -47,9 +53,53 @@ namespace NetX.AppCore.ViewModels
             _windowSelf = InitFirestScreen();
             ConfigWindows(_windowSelf);
             InitEvent();
-            if (!_worker.IsBusy)
-                _worker.RunWorkerAsync(1);
+            if (!_worker.IsBusy && _steps.Count() > 1)
+                _worker.RunWorkerAsync(_steps.Skip(1).Take(1).FirstOrDefault().Id);
             return _windowSelf;
+        }
+
+        /// <summary>
+        /// 根据配置文件，配置启动项启动顺序
+        /// </summary>
+        /// <param name="startups"></param>
+        /// <param name="startupConfig"></param>
+        /// <returns></returns>
+        private IEnumerable<IStartupWindowViewModel> InitSteps(List<IStartupWindowViewModel> startups, StartupConfig[] startupConfig)
+        {
+            var result = new List<IStartupWindowViewModel>();
+            foreach (var config in startupConfig.Where(p=>p.IsEnabled).OrderBy(p => p.Order))
+            {
+                var startup = startups.FirstOrDefault(p => p.Id == new Guid(config.Id));
+                if (null == startup)
+                    continue;
+                startup.SetResetEvent(_autoResetEvent);
+                result.Add(startup);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void InitTheme(AppUserConfig config)
+        {
+            Application.Current.RequestedThemeVariant = GetThemeVariant(config.Themes.Theme.ToLower());
+            var faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
+            if (null != faTheme)
+                faTheme.CustomAccentColor = Color.Parse(config.Themes.AccentColor);
+        }
+
+        private ThemeVariant GetThemeVariant(string value)
+        {
+            switch (value)
+            {
+                case "light":
+                    return ThemeVariant.Light;
+                case "dark":
+                    return ThemeVariant.Dark;
+                default:
+                    return ThemeVariant.Light;
+            }
         }
 
         private Window InitFirestScreen()
@@ -72,7 +122,8 @@ namespace NetX.AppCore.ViewModels
         {
             try
             {
-                OpenStartupWindow(e.ProgressPercentage);
+                if (Guid.TryParse(e.UserState.ToString(), out Guid id))
+                    OpenStartupWindow(id);
             }
             catch (Exception ex)
             {
@@ -84,11 +135,15 @@ namespace NetX.AppCore.ViewModels
         {
             try
             {
-                int startIndex = (int)e.Argument;
-                for (int i = startIndex; i < _steps.Count; i++)
+                Guid strartId = new Guid(e.Argument.ToString());
+                bool isFind = false;
+                foreach(var step in _steps)
                 {
+                    if (step.Id != strartId && !isFind)
+                        continue;
+                    isFind = true;
                     _autoResetEvent.WaitOne();
-                    _worker.ReportProgress(_steps[i].Order);
+                    _worker.ReportProgress(1,step.Id);
                 }
             }
             catch (Exception ex)
@@ -108,9 +163,9 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
-        private void OpenStartupWindow(int order)
+        private void OpenStartupWindow(Guid id)
         {
-            var currentViewModel = _steps.FirstOrDefault(p => p.Order == order) as IViewModel;
+            var currentViewModel = _steps.FirstOrDefault(p => p.Id == id) as IViewModel;
             if (null == currentViewModel)
                 return;
             var window = _dataTemplate.Build(currentViewModel) as Window;
@@ -128,14 +183,11 @@ namespace NetX.AppCore.ViewModels
             try
             {
                 ((ViewLocator)_dataTemplate).ClearCache();
-                _steps = _serviceProvider
-                .GetServices<IStartupWindowViewModel>()
-                .OrderBy(p => p.Order)
-                .ToList();
+                _steps = InitSteps(_serviceProvider.GetServices<IStartupWindowViewModel>().ToList(), _addoneConfig.StartupConfig);
 
                 var window = sender as Window;
                 var closeModel = window?.DataContext as ICloseWindowViewModel;
-                if (null == closeModel || closeModel.GotoStep == -1)
+                if (null == closeModel || closeModel.GotoStep == Guid.Empty)
                 {
                     if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
                         desktopApp.Shutdown();
@@ -149,12 +201,12 @@ namespace NetX.AppCore.ViewModels
                         if (null == win)
                             continue;
                         var startupModel = win.DataContext as IStartupWindowViewModel;
-                        if (null != startupModel && startupModel.Order == closeModel.GotoStep)
+                        if (null != startupModel && startupModel.Id == closeModel.GotoStep)
                         {
                             win.Close();
                             _autoResetEvent.Set();
                             if (!_worker.IsBusy)
-                                _worker.RunWorkerAsync(1);
+                                _worker.RunWorkerAsync(_steps.FirstOrDefault()?.Id);
                             break;
                         }
                     }

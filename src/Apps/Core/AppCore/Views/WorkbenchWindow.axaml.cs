@@ -12,7 +12,6 @@ namespace NetX.AppCore.Views
             AvaloniaXamlLoader.Load(this);
 #if DEBUG
             this.AttachDevTools();
-            //DataContext = new NetX.AppCore.ViewModels.WorkbenchViewModel(null);
 #endif
 
         }

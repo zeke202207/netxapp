@@ -5,12 +5,16 @@ using NetX.RBAC.Views.Menus;
 
 namespace NetX.RBAC.ViewModels.Menus
 {
-    [SortIndex(2)]
     [ViewModel(ServiceLifetime.Singleton)]
     public class SysSettingViewModel : MenuPageViewModel
     {
+        /// <summary>
+        /// 全局唯一标识
+        /// </summary>
+        public static Guid Id = new Guid("10000000-0000-0000-0000-000000000001");
+
         public SysSettingViewModel(IServiceProvider serviceProvider)
-            : base(serviceProvider, typeof(SysSettingView), "系统设置", MaterialIconKind.Settings, 2)
+            : base(LoginViewModel.Id, serviceProvider, typeof(SysSettingView))
         {
         }
 

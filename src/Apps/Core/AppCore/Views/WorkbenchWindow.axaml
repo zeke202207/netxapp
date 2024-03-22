@@ -17,13 +17,18 @@
         x:Name="nvMenu"
         PaneDisplayMode="{Binding NVDisplayMode}"
         IsPaneToggleButtonVisible="{Binding NVCanToggle}"
-        MenuItemsSource="{Binding Categories}"
+        MenuItemsSource="{Binding NavigationMenu}"
         Content="{Binding CurrentPage}"
         SelectedItem="{Binding SelectedCategory}">
           <ui:NavigationView.MenuItemTemplateSelector>
             <vm:MenuItemTemplateSelector>
-              <DataTemplate DataType="{x:Type vm:Category}">
-                <ui:NavigationViewItem Content="{Binding Name}" IconSource="{Binding Icon}" ToolTip.Tip="{Binding ToolTip}" MenuItemsSource="{Binding Children}" SelectsOnInvoked="{Binding TriggerInvoked}" >
+              <DataTemplate DataType="{x:Type vm:NavigationMenu}">
+                <ui:NavigationViewItem 
+                  Content="{Binding Title}" 
+                  IconSource="{Binding Icon}" 
+                  ToolTip.Tip="{Binding ToolTip}" 
+                  MenuItemsSource="{Binding ChildMenu}" 
+                  SelectsOnInvoked="{Binding TriggerInvoked}" >
                 </ui:NavigationViewItem>
               </DataTemplate>
 
