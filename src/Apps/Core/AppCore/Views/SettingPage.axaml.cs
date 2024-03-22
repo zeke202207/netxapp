@@ -12,8 +12,6 @@ namespace NetX.AppCore.Views
         public SettingPage()
         {
             AvaloniaXamlLoader.Load(this);
-            if (Design.IsDesignMode)
-                DataContext = new NetX.AppCore.ViewModels.SettingPageViewModel(null, null);
         }
 
         /// <summary>
@@ -23,14 +21,15 @@ namespace NetX.AppCore.Views
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);
-
-            var dc = DataContext as SettingPageViewModel;
-
-            if (TryGetResource("SystemAccentColor", null, out var value))
+            if (!Design.IsDesignMode)
             {
-                var color = Unsafe.Unbox<Color>(value);
-                dc.CustomAccentColor = color;
-                dc.ListBoxColor = color;
+                var dc = DataContext as SettingPageViewModel;
+                if (TryGetResource("SystemAccentColor", null, out var value))
+                {
+                    var color = Unsafe.Unbox<Color>(value);
+                    dc.CustomAccentColor = color;
+                    dc.ListBoxColor = color;
+                }
             }
         }
     }

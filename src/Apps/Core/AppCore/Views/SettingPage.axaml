@@ -9,15 +9,10 @@
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
              x:Class="NetX.AppCore.Views.SettingPage">
 
-  <UserControl.DataTemplates>
-    <common:ViewLocator />
-  </UserControl.DataTemplates>
-
   <ScrollViewer Padding="{StaticResource SampleAppPageMargin}">
     <StackPanel Spacing="8">
       <Grid Margin="0 0 0 10"
            ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
-
         <DockPanel>
           <Image Source="/Assets/FAIcon.ico"
                  DockPanel.Dock="Left"
@@ -28,7 +23,6 @@
            
           </StackPanel>
         </DockPanel>
-
 
         <DockPanel Name="HeaderRightContent" Grid.Column="1" Opacity="1">
           <DockPanel.RenderTransform>

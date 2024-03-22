@@ -1,5 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using Avalonia.VisualTree;
+using FluentAvalonia.UI.Controls;
 using NetX.AppCore.Contract;
 using NetX.RBAC.RPCService;
 using ReactiveUI;
@@ -55,6 +58,34 @@ namespace NetX.RBAC
 
         private string _captchaId;
 
+        private string _barTitle;
+        public string BarTitle
+        {
+            get => _barTitle;
+            set => this.RaiseAndSetIfChanged(ref _barTitle, value);
+        }
+
+        private bool _barIsOpen = false;
+        public bool BarIsOpen
+        {
+            get => _barIsOpen;
+            set => this.RaiseAndSetIfChanged(ref _barIsOpen, value);
+        }
+
+        private string _barMessage;
+        public string BarMessage
+        {
+            get => _barMessage;
+            set => this.RaiseAndSetIfChanged(ref _barMessage, value);
+        }
+
+        private InfoBarSeverity _barSeverity = InfoBarSeverity.Informational;
+        public InfoBarSeverity BarSeverity
+        {
+            get => _barSeverity;
+            set => this.RaiseAndSetIfChanged(ref _barSeverity, value);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -88,6 +119,7 @@ namespace NetX.RBAC
         {
             try
             {
+                BarIsOpen = false;
                 IsLoggingIn = true;
                 var loginResult = await _accountRPC.LoginAsync(new LoginModel()
                 {
@@ -100,11 +132,10 @@ namespace NetX.RBAC
                     GotoNextWindow();
                 else
                 {
-                    //SukiHost.ShowDialog(new DialogMessageViewModel(base._controlCreator)
-                    //{
-                    //    MessageType = DialogMessageType.Error,
-                    //    Message = loginResult.Message,
-                    //}, allowBackgroundClose: false);
+                    BarTitle = "登录失败";
+                    BarMessage = loginResult.Message;
+                    BarSeverity = InfoBarSeverity.Error;
+                    BarIsOpen = true;
                 }
             }
             catch (Exception ex)
