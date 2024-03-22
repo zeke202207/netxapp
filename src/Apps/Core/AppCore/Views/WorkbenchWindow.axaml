@@ -18,8 +18,9 @@
         PaneDisplayMode="{Binding NVDisplayMode}"
         IsPaneToggleButtonVisible="{Binding NVCanToggle}"
         MenuItemsSource="{Binding NavigationMenu}"
-        Content="{Binding CurrentPage}"
-        SelectedItem="{Binding SelectedCategory}">
+        SelectedItem="{Binding SelectedCategory}"
+        IsSettingsVisible="False"
+        >
           <ui:NavigationView.MenuItemTemplateSelector>
             <vm:MenuItemTemplateSelector>
               <DataTemplate DataType="{x:Type vm:NavigationMenu}">
@@ -39,6 +40,50 @@
               </vm:MenuItemTemplateSelector.SeparatorTemplate>
             </vm:MenuItemTemplateSelector>
           </ui:NavigationView.MenuItemTemplateSelector>
+
+          <ui:NavigationView.Content>
+            <!--Content="{Binding CurrentPage}"-->
+            <ui:TabView
+              Name="NavigateTabView"
+              TabWidthMode="Equal"
+              CloseButtonOverlayMode="Always"
+              CanDragTabs="False"
+              IsAddTabButtonVisible="False"
+              CanReorderTabs="False"
+              TabItems="{Binding DocumentItems}"
+              SelectedItem="{Binding SelectedItem}"
+              SelectionChanged="NavigateTabView_SelectionChanged">
+              <ui:TabView.TabItemTemplate>
+                <DataTemplate DataType="vm:DocumentItem">
+                  <ui:TabViewItem Header="{Binding Header}"
+                                  Content="{Binding Content}"
+                                  IconSource="{Binding IconSource}"
+                                  IsClosable="{Binding IsClosable}"
+                                  />
+                </DataTemplate>
+              </ui:TabView.TabItemTemplate>
+            </ui:TabView>
+          </ui:NavigationView.Content>
+       
+          <ui:NavigationView.PaneFooter>
+            <StackPanel Name="FooterStackPanel" Orientation="Vertical" IsVisible="True">
+              <ui:NavigationViewItem 
+                Name="user"
+                IconSource="Contact" 
+                Content="账号" 
+                Tag="NetX.AppCore.ViewModels.TestViewModel" 
+                SelectsOnInvoked="True" 
+                PointerPressed="NavigationViewItem_PointerPressed"/>
+              <ui:NavigationViewItem 
+                Name="setting"
+                IconSource="Setting" 
+                Content="设置" 
+                Tag="NetX.AppCore.ViewModels.SettingPageViewModel"  
+                SelectsOnInvoked="True" 
+                PointerPressed="NavigationViewItem_PointerPressed"/>
+            </StackPanel>
+          </ui:NavigationView.PaneFooter>
+        
       </ui:NavigationView>
     </Border>
   </DockPanel>

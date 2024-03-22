@@ -27,6 +27,7 @@ public abstract partial class BaseViewModel : ReactiveObject, IViewModel
         }
     }
     public Type PageView { get; private set; }
+    public Guid Key { get; set; }
 
     public abstract Control CreateView(IControlCreator controlCreator, Type pageView);
 

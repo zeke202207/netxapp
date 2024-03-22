@@ -20,6 +20,11 @@ namespace NetX.AppCore.ViewModels
         public Guid ParentId { get; set; }
 
         /// <summary>
+        /// 排序
+        /// </summary>
+        public int Order { get; set; }
+
+        /// <summary>
         /// 菜单的名称
         /// </summary>
         public string Title { get; set; }
@@ -42,7 +47,7 @@ namespace NetX.AppCore.ViewModels
         /// <summary>
         /// 菜单对应页面的viewmodel类型
         /// </summary>
-        public string ViewType { get; set; }
+        public string ViewModelType { get; set; }
 
         /// <summary>
         /// 点击菜单是否触发导航

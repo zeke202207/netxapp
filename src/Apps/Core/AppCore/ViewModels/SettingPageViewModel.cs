@@ -159,6 +159,7 @@ namespace NetX.AppCore.ViewModels
             _faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
             CurrentAppTheme = _appUserConfig.Themes.Theme;
             UseCustomAccent = _appUserConfig.Themes.IsCustomAccent;
+            //base.Key = "SettingPage";
         }
 
         #region 私有方法

@@ -172,7 +172,7 @@ internal class SelectionModel : INotifyPropertyChanged, IDisposable
                                 if (index >= currentIndex && index < currentIndex + currentCount)
                                 {
                                     int targetIndex = node.SelectedIndices()[index - currentIndex];
-                                    item = node.ItemsSourceView.GetAt(targetIndex);
+                                    item = node.ItemsSourceView?.GetAt(targetIndex);
                                     break;
                                 }
 

@@ -4,9 +4,11 @@ namespace NetX.AppCore.Contract
 {
     public interface IViewModel
     {
-        public Type PageView { get; }
+        Guid Key { get; set; }
 
-        public Control View { get; }
+        Type PageView { get; }
+
+        Control View { get; }
 
         /// <summary>
         /// 根据ViewModel创建View
