@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
+using NetX.AppCore.ViewModels;
 using System;
 using System.Reactive.Linq;
 
@@ -17,6 +18,13 @@ namespace NetX.AppCore.Views
             this.AttachDevTools();
 #endif
 
+        }
+
+        private void CloseTabViewItem(TabViewItem item, TabViewTabCloseRequestedEventArgs args)
+        {
+            if (this.DataContext is ViewModels.WorkbenchViewModel workbenchViewModel)
+                workbenchViewModel.TabViewItemClosedCommand.Execute(args.Item as DocumentItem)
+                    .GetAwaiter().GetResult();
         }
 
         private void NavigateTabView_SelectionChanged(object sender, Avalonia.Controls.SelectionChangedEventArgs args)

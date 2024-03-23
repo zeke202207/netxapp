@@ -59,6 +59,7 @@
                                   Content="{Binding Content}"
                                   IconSource="{Binding IconSource}"
                                   IsClosable="{Binding IsClosable}"
+                                  CloseRequested="CloseTabViewItem"
                                   />
                 </DataTemplate>
               </ui:TabView.TabItemTemplate>

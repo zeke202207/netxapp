@@ -3,6 +3,7 @@ using Avalonia.Controls.Templates;
 using DynamicData;
 using FluentAvalonia.UI.Controls;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 using NetX.AppCore.Contract;
 using NetX.AppCore.Models;
 using NetX.AppCore.Views;
@@ -32,6 +33,8 @@ namespace NetX.AppCore.ViewModels
 
         public ReactiveCommand<DocumentItem, Unit> TabViewSelectedChangedCommand { get; }
         public ReactiveCommand<NavigationMenu, Unit> NavigationMenuSelectedCommand { get; }
+
+        public ReactiveCommand<DocumentItem,Unit> TabViewItemClosedCommand { get; }
 
         #endregion
 
@@ -104,6 +107,7 @@ namespace NetX.AppCore.ViewModels
             SelectedCategory = NavigationMenu.FirstOrDefault();
             TabViewSelectedChangedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewSelectedChanged(item));
             NavigationMenuSelectedCommand = ReactiveCommand.Create<NavigationMenu>(menu => NavigationMenuSelected(menu));
+            TabViewItemClosedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewItemClosed(item));
 
             //DocumentItems = new List<DocumentItem>()
             //{
@@ -122,6 +126,16 @@ namespace NetX.AppCore.ViewModels
         #endregion
 
         #region 私有方法
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void TabViewItemClosed(DocumentItem item)
+        {
+            DocumentItems.Remove(item);
+        }
 
         /// <summary>
         /// 初始化导航菜单
@@ -152,7 +166,10 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="menu"></param>
         private void NavigationMenuSelected(NavigationMenu menu)
         {
             var sm = _serviceProvider.GetService(Type.GetType(menu.ViewModelType)) as IViewModel;
