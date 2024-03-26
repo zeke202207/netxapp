@@ -7,13 +7,13 @@
     {
       "id": "00000000-0000-0000-0000-000000000001",
       "order": 0,
-      "isenabled": false,
+      "isenabled": true,
       "des": "Splash窗体"
     },
     {
       "id": "00000000-0000-0000-0000-000000000002",
       "order": 1,
-      "isenabled": false,
+      "isenabled": true,
       "des": "登录页"
     },
     {

@@ -6,6 +6,9 @@
                  x:Class="MyDemo.Views.SplashScreenWindow"
                  Width="650"
                  Height="400"
+                 CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
                  >
   <DockPanel LastChildFill="False">
 

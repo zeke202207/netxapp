@@ -5,10 +5,14 @@
                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
                  x:Class="NetX.RBAC.LoginWindow"
         xmlns:ui="using:FluentAvalonia.UI.Controls"
-                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+                 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="420"
                  Width="800"
-                 Height="500"
-                 CanResize="False">
+                 Height="420"
+                 CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        >
+  
     <Grid Margin="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
@@ -17,79 +21,86 @@
       <Grid.Background>
         <ImageBrush Source="/Assets/loginBg.png" Stretch="Uniform" Opacity="50"/>
       </Grid.Background>
-      
-      <StackPanel 
-        Grid.Row="0"
-        HorizontalAlignment="Right" 
-        Margin="10,60,10,10"
-        Background="Gainsboro">
+
+      <Border
+          Grid.Row="0"
+          HorizontalAlignment="Right"
+          Width="280"
+          Height="280"
+          Margin="10,60,10,10"
+          BorderThickness="1"
+          BorderBrush="Gray"
+          CornerRadius="10"
+          Background="White">
+        <StackPanel>
         
-          <StackPanel Margin="30">
+            <StackPanel Margin="30,20,30,0" Opacity="20">
             
-            <TextBlock Margin="6,0,0,3"
-                        FontWeight="DemiBold"
-                        Text="用户名" />
-            <TextBox 
-                      Watermark="用户名" 
-                      MaxLength="10"
-                      Classes="clearButton"
-                      Text="{Binding UserName}" />
+              <TextBlock Margin="6,0,0,3"
+                          FontWeight="DemiBold"
+                          Text="用户名" />
+              <TextBox 
+                        Watermark="用户名" 
+                        MaxLength="10"
+                        Classes="clearButton"
+                        Text="{Binding UserName}" />
             
-            <TextBlock Margin="6,8,0,3"
-                        FontWeight="DemiBold"
-                        Text="密码" />
-            <TextBox Name="PasswordTextBox"
-                      Watermark="密码"
-                      PasswordChar="&#x25CF;"
-                      Classes="revealPasswordButton" 
-                      MaxLength="10"
-                      Text="{Binding Password}"/>
+              <TextBlock Margin="6,8,0,3"
+                          FontWeight="DemiBold"
+                          Text="密码" />
+              <TextBox Name="PasswordTextBox"
+                        Watermark="密码"
+                        PasswordChar="&#x25CF;"
+                        Classes="revealPasswordButton" 
+                        MaxLength="10"
+                        Text="{Binding Password}"/>
 
-            <TextBlock Margin="6,8,0,3"
-                      FontWeight="DemiBold"
-                      Text="验证码" />
-            <StackPanel Orientation="Horizontal"
-                Margin="0,0,0,25">
-              <TextBox
-                Width="100"
-                Classes="clearButton"
-                Watermark="验证码"
-                MaxLength="4"
-                Text="{Binding Captcha}" />
-              <Border Margin="10,0,0,0" Height="35">
-                <Image Stretch="Uniform" Source="{Binding CaptchaImage}" Tapped="Captcha_Tapped"/>
-              </Border>
+              <TextBlock Margin="6,8,0,3"
+                        FontWeight="DemiBold"
+                        Text="验证码" />
+              <StackPanel Orientation="Horizontal"
+                  Margin="0,0,0,25">
+                <TextBox
+                  Width="100"
+                  Classes="clearButton"
+                  Watermark="验证码"
+                  MaxLength="4"
+                  Text="{Binding Captcha}" />
+                <Border Margin="10,0,0,0" Height="35">
+                  <Image Stretch="Uniform" Source="{Binding CaptchaImage}" Tapped="Captcha_Tapped"/>
+                </Border>
+              </StackPanel>
+            
             </StackPanel>
-            
-          </StackPanel>
           
-          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30">
-            <Button Name="ButtonSignIn"
-                    Width="90"
-                    Height="40"
-                    Margin="0,0,0,7"
-                    CornerRadius="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom" 
-                    Classes="accent"
-                    Command="{Binding LoginCommand}"
-                    FontWeight="DemiBold">
-              登录
-            </Button>
-            <Button
-              Width="90"
-              Height="40"
-              Margin="20,0,0,7"
-              CornerRadius="10"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Bottom"
-              FontWeight="DemiBold"
-              Command="{Binding LogoutCommand}">
-              退出
-            </Button>
-          </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0">
+              <Button Name="ButtonSignIn"
+                      Width="90"
+                      Height="40"
+                      Margin="0,0,0,7"
+                      CornerRadius="10"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Bottom" 
+                      Classes="accent"
+                      Command="{Binding LoginCommand}"
+                      FontWeight="DemiBold">
+                登录
+              </Button>
+              <Button
+                Width="90"
+                Height="40"
+                Margin="20,0,0,7"
+                CornerRadius="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="DemiBold"
+                Command="{Binding LogoutCommand}">
+                退出
+              </Button>
+            </StackPanel>
 
-      </StackPanel>
+        </StackPanel>
+      </Border>
       <Panel Grid.Row="1" HorizontalAlignment="Center">
         <ui:InfoBar
           Title="{Binding BarTitle}"
