@@ -28,7 +28,7 @@
       "id": "10000000-0000-0000-0000-000000000000",
       "parentid": "00000000-0000-0000-0000-000000000000",
       "order": 0,
-      "title": "首页",
+      "title": "首页    ",
       "tooltip": "首页",
       "icon": "Home",
       "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",

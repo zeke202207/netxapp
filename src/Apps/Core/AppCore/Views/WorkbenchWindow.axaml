@@ -54,7 +54,9 @@
               
               <ui:TabView
                 Name="NavigateTabView"
-                TabWidthMode="Equal"
+                TabWidthMode="SizeToContent"
+                TabStripHeader="   "
+                MinWidth="100"
                 CloseButtonOverlayMode="Always"
                 CanDragTabs="False"
                 IsAddTabButtonVisible="False"
