@@ -97,6 +97,21 @@ namespace NetX.AppCore.ViewModels
             }
         }
 
+        private bool _isSingleContentMode = false;
+        public bool IsSingleContentMode
+        {
+            get => _isSingleContentMode;
+            set
+            {
+                if (EqualityComparer<bool>.Default.Equals(_isSingleContentMode, value))
+                    return;
+                this.RaiseAndSetIfChanged(ref _isSingleContentMode, value);
+                _appUserConfig.Layouts.Navigationview.IsSingleContentPage = _isSingleContentMode;
+                _appUserConfig.Layouts.Navigationview.OnPropertyChange(nameof(_appUserConfig.Layouts.Navigationview.IsSingleContentPage));
+                _appUserConfig.Save();
+            }
+        }
+
         private Color? _listBoxColor;
         // This is bound to the ListBox of predefined colors. It must be nullable or CompiledBindings will get angry
         // if we set a color here that isn't in the predef colors as SelectingItemsControl will try to bind back
@@ -159,6 +174,7 @@ namespace NetX.AppCore.ViewModels
             _faTheme = App.Current.Styles[0] as FluentAvaloniaTheme;
             CurrentAppTheme = _appUserConfig.Themes.Theme;
             UseCustomAccent = _appUserConfig.Themes.IsCustomAccent;
+            _isSingleContentMode = _appUserConfig.Layouts.Navigationview.IsSingleContentPage;
             //base.Key = "SettingPage";
         }
 

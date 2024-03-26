@@ -46,36 +46,11 @@ namespace NetX.AppCore.Views
             {
                 if (this.DataContext is ViewModels.WorkbenchViewModel workbenchViewModel)
                 {
-                    workbenchViewModel.NavigationMenuSelectedCommand.Execute(new ViewModels.NavigationMenu()
-                    {
-                        Id = GetId(nvi.Name),
-                        Icon = GetIcon(nvi.Name),
-                        Title = nvi.Content.ToString(),
-                        ViewModelType = nvi.Tag.ToString()
-                    })
+                    var menu = nvi.Name.ToLower() == "user" ? WorkbenchViewModel.UserMenu : WorkbenchViewModel.SettingMenu;
+                    workbenchViewModel.NavigationMenuSelectedCommand.Execute(menu)
                         .GetAwaiter().GetResult();
                 }
             }
-        }
-
-        private Guid GetId(string name)
-        {
-            return name switch
-            {
-                "user" => new Guid("00000000-abcd-0000-0000-000000000001"),
-                "setting" => new Guid("00000000-abcd-0000-0000-000000000002"),
-                _ => Guid.Empty
-            };
-        }
-
-        private Symbol GetIcon(string name)
-        {
-            return name switch
-            {
-                "user" =>  Symbol.Contact,
-                "setting" =>  Symbol.Settings ,
-                _ => Symbol.Emoji
-            };
         }
     }
 }

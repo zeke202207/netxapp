@@ -474,4 +474,7 @@ public enum Symbol
     ZoomInFilled = 0xF8132,
     ZoomOut = 0xE1A4,
     ZoomOutFilled = 0xF8133,
+
+    //zeke
+    DevelopTools = 0xEC7A
 }

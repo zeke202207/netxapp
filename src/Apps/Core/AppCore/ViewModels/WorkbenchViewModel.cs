@@ -29,6 +29,10 @@ namespace NetX.AppCore.ViewModels
         /// </summary>
         public static Guid Id = new Guid("00000000-0000-0000-0000-000000000003");
 
+        private readonly IDataTemplate _dataTemplate;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly AppUserConfig _appUserConfig;
+
         #region Command
 
         public ReactiveCommand<DocumentItem, Unit> TabViewSelectedChangedCommand { get; }
@@ -42,8 +46,6 @@ namespace NetX.AppCore.ViewModels
 
         #region navigation menu
 
-        private readonly IDataTemplate _dataTemplate;
-        private readonly IServiceProvider _serviceProvider;
 
         public List<NavigationMenu> NavigationMenu { get; }
 
@@ -92,31 +94,46 @@ namespace NetX.AppCore.ViewModels
 
         #endregion
 
+        #region single view
+
+        private Control _currentPage;
+        public Control CurrentPage
+        {
+            get => _currentPage;
+            set => this.RaiseAndSetIfChanged(ref _currentPage, value);
+        }
+
+        #endregion
+
+        private bool _isSingleView = false;
+        public bool IsSingleView
+        {
+            get => _isSingleView;
+            set => this.RaiseAndSetIfChanged(ref _isSingleView,value);
+        }
+
         #endregion
 
         public WorkbenchViewModel(
             IDataTemplate dataTemplate, 
             IServiceProvider serviceProvider,
-            IOptions<AppAddoneConfig> addoneOptions)
+            IOptions<AppAddoneConfig> addoneOptions,
+            IOptions<AppUserConfig> userConfig)
             : base(WorkbenchViewModel.Id,serviceProvider, typeof(WorkbenchWindow))
         {
             _serviceProvider = serviceProvider;
             _dataTemplate = dataTemplate;
             _serviceProvider = serviceProvider;
+            _appUserConfig = userConfig.Value;
+            IsSingleView = _appUserConfig.Layouts.Navigationview.IsSingleContentPage;
+            _appUserConfig.Layouts.Navigationview.PropertyHasChanged += (propertyName, value) => LayoutPropertyChaned(propertyName, value);
+            
+
             NavigationMenu = InitNavigateMenu(addoneOptions.Value.NavigationMenuConfig);
             SelectedCategory = NavigationMenu.FirstOrDefault();
             TabViewSelectedChangedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewSelectedChanged(item));
             NavigationMenuSelectedCommand = ReactiveCommand.Create<NavigationMenu>(menu => NavigationMenuSelected(menu));
             TabViewItemClosedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewItemClosed(item));
-
-            //DocumentItems = new List<DocumentItem>()
-            //{
-            //    new DocumentItem(){ Header = "Tab1", IconSource = new SymbolIconSource { Symbol = Symbol.Star }, Content = new TextBlock(){ Text = "Tab1" } },
-            //    new DocumentItem(){ Header = "Tab2", IconSource = new SymbolIconSource { Symbol = Symbol.Home }, Content = new TextBlock(){ Text = "Tab2" } },
-            //    new DocumentItem(){ Header = "Tab3", IconSource = new SymbolIconSource { Symbol = Symbol.ZoomInFilled }, Content = new TextBlock(){ Text = "Tab3" } }
-            //};
-
-            //SelectedItem = DocumentItems[1];
         }
 
         #region 重写方法
@@ -126,6 +143,28 @@ namespace NetX.AppCore.ViewModels
         #endregion
 
         #region 私有方法
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        private void LayoutPropertyChaned(string propertyName, object value)
+        {
+            try
+            {
+                if (propertyName == nameof(_appUserConfig.Layouts.Navigationview.IsSingleContentPage))
+                {
+                    IsSingleView = (bool)value;
+                    ((ViewLocator)_dataTemplate).ClearCache();
+                    NavigationMenuSelected(WorkbenchViewModel.SettingMenu);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "布局属性变更失败");
+            }
+        }
 
         /// <summary>
         /// 
@@ -174,20 +213,27 @@ namespace NetX.AppCore.ViewModels
         {
             var sm = _serviceProvider.GetService(Type.GetType(menu.ViewModelType)) as IViewModel;
             var control = _dataTemplate.Build(sm);
-            var contentPage = DocumentItems.FirstOrDefault(p => p.NavigateMenuId == menu.Id);
-            if (null == contentPage)
+            if (!IsSingleView)
             {
-                contentPage = new DocumentItem()
+                var contentPage = DocumentItems.FirstOrDefault(p => p.NavigateMenuId == menu.Id);
+                if (null == contentPage)
                 {
-                    NavigateMenuId = menu.Id,
-                    Header = menu.Title,
-                    IconSource = new SymbolIconSource { Symbol = menu.Icon },
-                    Content = control,
-                    IsClosable = true
-                };
-                DocumentItems.Add(contentPage);
+                    contentPage = new DocumentItem()
+                    {
+                        NavigateMenuId = menu.Id,
+                        Header = menu.Title,
+                        IconSource = new SymbolIconSource { Symbol = menu.Icon },
+                        Content = control,
+                        IsClosable = true
+                    };
+                    DocumentItems.Add(contentPage);
+                }
+                SelectedItem = contentPage;
             }
-            SelectedItem = contentPage;
+            else
+            {
+                CurrentPage = control;
+            }
         }
 
         /// <summary>
@@ -207,32 +253,30 @@ namespace NetX.AppCore.ViewModels
                 sm.Key = cat.Id;
                 var contentPage = _dataTemplate.Build(sm);
                 OpenTabview(sm,contentPage);
+                CurrentPage = contentPage;
             }
-            //else if (SelectedCategory is NavigationViewItem nvi)
-            //{
-            //    var smpPage = $"NetX.AppCore.ViewModels.SettingPageViewModel";
-            //    var sm = _serviceProvider.GetService(Type.GetType(smpPage)) as IViewModel;
-            //    var contentPage = _dataTemplate.Build(sm);
-            //}
         }
 
         private void OpenTabview(IViewModel menuPageViewModel,Control control)
         {
-            var contentPage = DocumentItems.FirstOrDefault(p => p.NavigateMenuId == menuPageViewModel.Key);
-            if (null == contentPage)
+            if (!IsSingleView)
             {
-                var navMenu = FindMenuByViewModel(NavigationMenu,menuPageViewModel.Key);
-                contentPage = new DocumentItem()
+                var contentPage = DocumentItems.FirstOrDefault(p => p.NavigateMenuId == menuPageViewModel.Key);
+                if (null == contentPage)
                 {
-                    NavigateMenuId = menuPageViewModel.Key,
-                    Header = navMenu.Title,
-                    IconSource = new SymbolIconSource { Symbol = navMenu.Icon },
-                    Content = control,
-                    IsClosable = !(navMenu.ParentId == Guid.Empty && navMenu.Id == NavigationMenu.FirstOrDefault()?.Id)
-                };
-                DocumentItems.Add(contentPage);
+                    var navMenu = FindMenuByViewModel(NavigationMenu, menuPageViewModel.Key);
+                    contentPage = new DocumentItem()
+                    {
+                        NavigateMenuId = menuPageViewModel.Key,
+                        Header = navMenu.Title,
+                        IconSource = new SymbolIconSource { Symbol = navMenu.Icon },
+                        Content = control,
+                        IsClosable = !(navMenu.ParentId == Guid.Empty && navMenu.Id == NavigationMenu.FirstOrDefault()?.Id)
+                    };
+                    DocumentItems.Add(contentPage);
+                }
+                SelectedItem = contentPage;
             }
-            SelectedItem = contentPage;
         }
 
         private NavigationMenu FindMenuByViewModel(List<NavigationMenu> menus, Guid key)
@@ -251,7 +295,6 @@ namespace NetX.AppCore.ViewModels
             return null;
         }
 
-
         /// <summary>
         /// tabview切换选中项目
         /// </summary>
@@ -259,11 +302,82 @@ namespace NetX.AppCore.ViewModels
         private void TabViewSelectedChanged(DocumentItem documentItem)
         {
             var navMenu = FindMenuByViewModel(NavigationMenu, documentItem.NavigateMenuId);
-            if(null!= navMenu)
-                SelectedCategory = navMenu;
+            if (null != navMenu)
+            {
+                if (SelectedCategory is NavigationMenu && ((NavigationMenu)SelectedCategory)?.Id == documentItem.NavigateMenuId)
+                    return;
+                else
+                    SelectedCategory = navMenu;
+            }
         }
 
         #endregion
 
+        #region 
+
+        public static NavigationMenu UserMenu = new ViewModels.NavigationMenu()
+        {
+            Id = GetId(MenuType.User),
+            Icon = GetIcon(MenuType.User),
+            Title = GetTitle(MenuType.User),
+            ViewModelType = GetViewModel(MenuType.User)
+        };
+        public static NavigationMenu SettingMenu = new ViewModels.NavigationMenu()
+        {
+            Id = GetId(MenuType.Setting),
+            Icon = GetIcon(MenuType.Setting),
+            Title = GetTitle(MenuType.Setting),
+            ViewModelType = GetViewModel(MenuType.Setting)
+        };
+
+
+        private static string GetTitle(MenuType menuType)
+        {
+            return menuType switch
+            {
+                MenuType.User => "用户管理",
+                MenuType.Setting => "自定义设置",
+                _ => ""
+            };
+        }
+
+        private static Guid GetId(MenuType menuType)
+        {
+            return menuType switch
+            {
+                MenuType.User => new Guid("00000000-abcd-0000-0000-000000000001"),
+                MenuType.Setting => new Guid("00000000-abcd-0000-0000-000000000002"),
+                _ => Guid.Empty
+            };
+        }
+
+        private static Symbol GetIcon(MenuType menuType)
+        {
+            return menuType switch
+            {
+                MenuType.User => Symbol.Contact,
+                MenuType.Setting => Symbol.DevelopTools,
+                _ => Symbol.Emoji
+            };
+        }
+
+        private static string GetViewModel(MenuType menuType)
+        {
+            return menuType switch
+            {
+                MenuType.User => "NetX.AppCore.ViewModels.TestViewModel",
+                MenuType.Setting => "NetX.AppCore.ViewModels.SettingPageViewModel",
+                _ => ""
+            };
+        }
+
+
+        enum MenuType
+        {
+            User,
+            Setting
+        }
+
+        #endregion
     }
 }

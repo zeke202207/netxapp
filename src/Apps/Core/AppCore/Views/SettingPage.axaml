@@ -212,6 +212,16 @@
 
       </ui:SettingsExpander>
 
+      <ui:SettingsExpander Header="显示模式"
+                           IconSource="M622.277 39.385H401.723c-13.785 0-23.63 11.815-23.63 25.6v49.23c0 13.785 11.815 25.6 23.63 25.6h220.554c13.785 0 23.63-11.815 23.63-25.6v-49.23c1.97-13.785-9.845-25.6-23.63-25.6z m336.738 0H738.462c-13.785 0-25.6 11.815-25.6 25.6v49.23c0 13.785 11.815 25.6 25.6 25.6h220.553c13.785-1.969 25.6-11.815 25.6-25.6v-49.23c0-13.785-11.815-25.6-25.6-25.6z m0 165.415H334.77c-13.784 0-25.6-11.815-25.6-25.6V64.985c0-13.785-11.815-25.6-25.6-25.6H64.985c-13.785 0-25.6 11.815-25.6 25.6v896c0 11.815 11.815 23.63 25.6 23.63h894.03c13.785 0 25.6-11.815 25.6-25.6V230.4c0-13.785-11.815-25.6-25.6-25.6z">
+        <ui:SettingsExpander.Footer>
+          <StackPanel Orientation="Horizontal">
+            <RadioButton Content="多标签页模式" Margin="4" IsChecked="{Binding !IsSingleContentMode}"/>
+            <RadioButton Content="单页模式" Margin="4" IsChecked="{Binding IsSingleContentMode}" />
+          </StackPanel>
+        </ui:SettingsExpander.Footer>
+      </ui:SettingsExpander>
+      
       <ui:SettingsExpander Header="关于我们"
                            IconSource="M2 14C2 20.6274 7.37258 26 14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14ZM15.25 8C15.25 8.69036 14.6904 9.25 14 9.25C13.3096 9.25 12.75 8.69036 12.75 8C12.75 7.30964 13.3096 6.75 14 6.75C14.6904 6.75 15.25 7.30964 15.25 8ZM14 11C14.5523 11 15 11.4477 15 12L15 20C15 20.5523 14.5523 21 14 21C13.4477 21 13 20.5523 13 20L13 12C13 11.4477 13.4477 11 14 11Z">
         <ui:SettingsExpanderItem Content="Found a bug? Want a new feature, control, or sample?"

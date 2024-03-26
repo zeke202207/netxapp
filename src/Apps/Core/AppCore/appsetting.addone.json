@@ -25,6 +25,16 @@
   ],
   "navigationmenuconfig": [
     {
+      "id": "10000000-0000-0000-0000-000000000000",
+      "parentid": "00000000-0000-0000-0000-000000000000",
+      "order": 0,
+      "title": "首页",
+      "tooltip": "首页",
+      "icon": "Home",
+      "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+      "triggerinvoked": true
+    },
+    {
       "id": "10000000-0000-0000-0000-000000000001",
       "parentid": "00000000-0000-0000-0000-000000000000",
       "order": 0,
@@ -44,38 +54,38 @@
       "viewmodel": "",
       "triggerinvoked": false,
       "childrens": [
-          {
-            "id": "D1000000-0000-0000-0000-000000000001",
-            "parentid": "D0000000-0000-0000-0000-000000000001",
-            "order": 0,
-            "title": "测试页1-1",
-            "tooltip": "测试页1",
-            "icon": "Home",
-            "viewmodel": "",
-            "triggerinvoked": false,
-            "childrens": [
-              {
-                "id": "D3000000-0000-0000-0000-000000000001",
-                "parentid": "D1000000-0000-0000-0000-000000000001",
-                "order": 0,
-                "title": "测试页1-1-1",
-                "tooltip": "测试页1-1-1",
-                "icon": "Setting",
-                "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
-                "triggerinvoked": true
-              },
-              {
-                "id": "D3000000-0000-0000-0000-000000000002",
-                "parentid": "D1000000-0000-0000-0000-000000000001",
-                "order": 1,
-                "title": "测试页1-1-2",
-                "tooltip": "测试页1-1-2",
-                "icon": "Setting",
-                "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
-                "triggerinvoked": true
-              }
-            ]
-          },
+        {
+          "id": "D1000000-0000-0000-0000-000000000001",
+          "parentid": "D0000000-0000-0000-0000-000000000001",
+          "order": 0,
+          "title": "测试页1-1",
+          "tooltip": "测试页1",
+          "icon": "Home",
+          "viewmodel": "",
+          "triggerinvoked": false,
+          "childrens": [
+            {
+              "id": "D3000000-0000-0000-0000-000000000001",
+              "parentid": "D1000000-0000-0000-0000-000000000001",
+              "order": 0,
+              "title": "测试页1-1-1",
+              "tooltip": "测试页1-1-1",
+              "icon": "Setting",
+              "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+              "triggerinvoked": true
+            },
+            {
+              "id": "D3000000-0000-0000-0000-000000000002",
+              "parentid": "D1000000-0000-0000-0000-000000000001",
+              "order": 1,
+              "title": "测试页1-1-2",
+              "tooltip": "测试页1-1-2",
+              "icon": "Setting",
+              "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+              "triggerinvoked": true
+            }
+          ]
+        },
         {
           "id": "D1000000-0000-0000-0000-000000000002",
           "parentid": "D0000000-0000-0000-0000-000000000001",

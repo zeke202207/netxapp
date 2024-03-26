@@ -43,8 +43,17 @@ namespace NetX.AppCore.Models
 
     public class Navigationview
     {
+        [JsonIgnore]
+        public Action<string,object> PropertyHasChanged;
+
         public string PaneDisplayMode { get; set; }
         public bool CanToggle { get; set; }
+        public bool IsSingleContentPage { get; set; }
+
+        public void OnPropertyChange(string propertyName)
+        {
+            PropertyHasChanged?.Invoke(propertyName, IsSingleContentPage);
+        }
     }
 
 }

@@ -11,6 +11,12 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="NetX.AppCore.Views.WorkbenchWindow"
         Title="WorkbenchWindow">
+
+  <Window.Resources>
+    <SolidColorBrush x:Key="tabSelectedForeColor" Color="{DynamicResource SystemAccentColor}" />
+    <StaticResource x:Key="TabViewItemHeaderForegroundSelected" ResourceKey="tabSelectedForeColor" />
+  </Window.Resources>
+  
   <DockPanel>
     <Border BorderThickness="1" BorderBrush="Transparent" DockPanel.Dock="Top">
       <ui:NavigationView
@@ -42,28 +48,34 @@
           </ui:NavigationView.MenuItemTemplateSelector>
 
           <ui:NavigationView.Content>
-            <!--Content="{Binding CurrentPage}"-->
-            <ui:TabView
-              Name="NavigateTabView"
-              TabWidthMode="Equal"
-              CloseButtonOverlayMode="Always"
-              CanDragTabs="False"
-              IsAddTabButtonVisible="False"
-              CanReorderTabs="False"
-              TabItems="{Binding DocumentItems}"
-              SelectedItem="{Binding SelectedItem}"
-              SelectionChanged="NavigateTabView_SelectionChanged">
-              <ui:TabView.TabItemTemplate>
-                <DataTemplate DataType="vm:DocumentItem">
-                  <ui:TabViewItem Header="{Binding Header}"
-                                  Content="{Binding Content}"
-                                  IconSource="{Binding IconSource}"
-                                  IsClosable="{Binding IsClosable}"
-                                  CloseRequested="CloseTabViewItem"
-                                  />
-                </DataTemplate>
-              </ui:TabView.TabItemTemplate>
-            </ui:TabView>
+            <StackPanel>
+              
+              <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
+              
+              <ui:TabView
+                Name="NavigateTabView"
+                TabWidthMode="Equal"
+                CloseButtonOverlayMode="Always"
+                CanDragTabs="False"
+                IsAddTabButtonVisible="False"
+                CanReorderTabs="False"
+                TabItems="{Binding DocumentItems}"
+                SelectedItem="{Binding SelectedItem}"
+                SelectionChanged="NavigateTabView_SelectionChanged"
+                IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}">
+                <ui:TabView.TabItemTemplate>
+                  <DataTemplate DataType="vm:DocumentItem">
+                    <ui:TabViewItem Header="{Binding Header}"
+                                    Content="{Binding Content}"
+                                    IconSource="{Binding IconSource}"
+                                    IsClosable="{Binding IsClosable}"
+                                    CloseRequested="CloseTabViewItem"
+                                    />
+                  </DataTemplate>
+                </ui:TabView.TabItemTemplate>
+              </ui:TabView>
+            
+            </StackPanel>
           </ui:NavigationView.Content>
        
           <ui:NavigationView.PaneFooter>
@@ -77,7 +89,7 @@
                 PointerPressed="NavigationViewItem_PointerPressed"/>
               <ui:NavigationViewItem 
                 Name="setting"
-                IconSource="Setting" 
+                IconSource="DevelopTools" 
                 Content="设置" 
                 Tag="NetX.AppCore.ViewModels.SettingPageViewModel"  
                 SelectsOnInvoked="True" 
