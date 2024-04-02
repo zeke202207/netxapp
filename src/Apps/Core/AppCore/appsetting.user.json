@@ -7,7 +7,9 @@
   "layouts": {
     "navigationview": {
       "panedisplaymode": "Left",
-      "cantoggle": true
+      "cantoggle": true,
+      "issinglecontentpage": false,
+      "openpanelength": 260
     }
-    }
+  }
 }

@@ -49,6 +49,7 @@ namespace NetX.AppCore.Models
         public string PaneDisplayMode { get; set; }
         public bool CanToggle { get; set; }
         public bool IsSingleContentPage { get; set; }
+        public int OpenPaneLength { get; set; }
 
         public void OnPropertyChange(string propertyName)
         {

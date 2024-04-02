@@ -3,7 +3,7 @@
     "name": "一个演示程序",
     "version": "1.0.0.0",
     "description": "This is a demo app for the avalonia application.",
-    "icon": "avares://MyDemo/Assets/icon.png"
+    "icon": "icon.png"
   },
   "rpc": {
     "provider": "grpc",

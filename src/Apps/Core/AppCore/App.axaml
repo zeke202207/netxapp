@@ -24,5 +24,6 @@
 -->
       <sty:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />
       <StyleInclude Source="avares://NetX.AppCore/Styling/ControlsGalleryStyles.axaml" />
+      <StyleInclude Source="avares://NetX.AppCore/Styling/AppCoreStyle.axaml"/>
     </Application.Styles>
 </Application>

@@ -1,0 +1,42 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="using:FluentAvalonia.UI.Controls"
+                    x:CompileBindings="True">
+    <Design.PreviewWith>
+        <Border Padding="50" Width="300">
+            <!-- Add Controls for Previewer Here -->
+          <StackPanel Spacing="20">
+            <TextBox Classes="login user "  />
+            <TextBox Classes="login password" />
+           </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+  <Style Selector="TextBox.login.user">
+    <Style Selector="^ /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushFocused}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,2" />
+    </Style>
+    <Setter Property="InnerLeftContent">
+      <Template>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+          <ui:SymbolIcon Symbol="Contact" />
+        </StackPanel>
+      </Template>
+    </Setter>
+  </Style>
+  <Style Selector="TextBox.login.password">
+    <Style Selector="^ /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushFocused}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,2" />
+    </Style>
+    <Setter Property="InnerLeftContent">
+      <Template>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+          <ui:SymbolIcon Symbol="Permissions" />
+        </StackPanel>
+      </Template>
+    </Setter>
+  </Style>
+</Styles>

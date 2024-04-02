@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
 using NetX.AppCore.ViewModels;
@@ -14,10 +16,19 @@ namespace NetX.AppCore.Views
         public WorkbenchWindow()
         {
             AvaloniaXamlLoader.Load(this);
+            TitleBar.ExtendsContentIntoTitleBar = true;
+            TitleBar.TitleBarHitTestType =  TitleBarHitTestType.Complex;
 #if DEBUG
             this.AttachDevTools();
 #endif
 
+        }
+
+        protected override void OnLoaded(RoutedEventArgs e)
+        {
+            base.OnLoaded(e);
+            var iconImage = this.Get<Image>("WindowIcon");
+            iconImage.Source = base.Icon;
         }
 
         private void CloseTabViewItem(TabViewItem item, TabViewTabCloseRequestedEventArgs args)

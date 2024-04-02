@@ -477,5 +477,8 @@ public enum Symbol
 
     //zeke
     //https://www.flicon.io/
-    DevelopTools = 0xEC7A
+    DevelopTools = 0xEC7A,
+    Signin = 0xF286,
+    SignOut = 0xF3B1,
+
 }

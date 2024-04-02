@@ -34,30 +34,20 @@
           Background="White">
         <StackPanel>
         
-            <StackPanel Margin="30,20,30,0" Opacity="20">
-            
-              <TextBlock Margin="6,0,0,3"
-                          FontWeight="DemiBold"
-                          Text="用户名" />
+            <StackPanel Spacing="30" Margin="30,20,30,0">
               <TextBox 
                         Watermark="用户名" 
                         MaxLength="10"
-                        Classes="clearButton"
+                        Classes="login user clearButton" 
                         Text="{Binding UserName}" />
             
-              <TextBlock Margin="6,8,0,3"
-                          FontWeight="DemiBold"
-                          Text="密码" />
               <TextBox Name="PasswordTextBox"
                         Watermark="密码"
                         PasswordChar="&#x25CF;"
-                        Classes="revealPasswordButton" 
+                        Classes="login password revealPasswordButton" 
                         MaxLength="10"
                         Text="{Binding Password}"/>
-
-              <TextBlock Margin="6,8,0,3"
-                        FontWeight="DemiBold"
-                        Text="验证码" />
+              
               <StackPanel Orientation="Horizontal"
                   Margin="0,0,0,25">
                 <TextBox
@@ -83,7 +73,8 @@
                       VerticalAlignment="Bottom" 
                       Classes="accent"
                       Command="{Binding LoginCommand}"
-                      FontWeight="DemiBold">
+                      FontWeight="DemiBold"
+                      IsDefault="True">
                 登录
               </Button>
               <Button

@@ -6,6 +6,8 @@
         xmlns:ui="using:FluentAvalonia.UI.Controls"
         xmlns:ctrls="using:NetX.AppCore.Controls"
         xmlns:vm="using:NetX.AppCore.ViewModels"
+        xmlns:vmc="clr-namespace:NetX.AppCore.Contract.ViewModels;assembly=NetX.AppCore.Contract"
+        xmlns:conv="using:NetX.AppCore.Converters"
         x:DataType="vm:WorkbenchViewModel"
         
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -16,90 +18,160 @@
     <SolidColorBrush x:Key="tabSelectedForeColor" Color="{DynamicResource SystemAccentColor}" />
     <StaticResource x:Key="TabViewItemHeaderForegroundSelected" ResourceKey="tabSelectedForeColor" />
   </Window.Resources>
-  
-  <DockPanel>
-    <Border BorderThickness="1" BorderBrush="Transparent" DockPanel.Dock="Top">
-      <ui:NavigationView
-        x:Name="nvMenu"
-        PaneDisplayMode="{Binding NVDisplayMode}"
-        IsPaneToggleButtonVisible="{Binding NVCanToggle}"
-        MenuItemsSource="{Binding NavigationMenu}"
-        SelectedItem="{Binding SelectedCategory}"
-        IsSettingsVisible="False"
-        >
-          <ui:NavigationView.MenuItemTemplateSelector>
-            <vm:MenuItemTemplateSelector>
-              <DataTemplate DataType="{x:Type vm:NavigationMenu}">
-                <ui:NavigationViewItem 
-                  Content="{Binding Title}" 
-                  IconSource="{Binding Icon}" 
-                  ToolTip.Tip="{Binding ToolTip}" 
-                  MenuItemsSource="{Binding ChildMenu}" 
-                  SelectsOnInvoked="{Binding TriggerInvoked}" >
-                </ui:NavigationViewItem>
-              </DataTemplate>
 
-              <vm:MenuItemTemplateSelector.SeparatorTemplate>
-                <DataTemplate DataType="{x:Type vm:Separator}">
-                  <ui:NavigationViewItemSeparator />
-                </DataTemplate>
-              </vm:MenuItemTemplateSelector.SeparatorTemplate>
-            </vm:MenuItemTemplateSelector>
-          </ui:NavigationView.MenuItemTemplateSelector>
+  <Window.DataTemplates>
+    <DataTemplate
+      DataType="{x:Type vmc:IFlyoutMenuViewModel}">
+      <ui:MenuFlyoutItem 
+        Text="{Binding Title }" 
+        IconSource="{Binding IconSource}"
+        Command="{Binding ExcuteCommand}"/>
+    </DataTemplate>
+  </Window.DataTemplates>
 
-          <ui:NavigationView.Content>
-            <StackPanel>
-              
-              <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
-              
-              <ui:TabView
-                Name="NavigateTabView"
-                TabWidthMode="SizeToContent"
-                TabStripHeader="   "
-                MinWidth="100"
-                CloseButtonOverlayMode="Always"
-                CanDragTabs="False"
-                IsAddTabButtonVisible="False"
-                CanReorderTabs="False"
-                TabItems="{Binding DocumentItems}"
-                SelectedItem="{Binding SelectedItem}"
-                SelectionChanged="NavigateTabView_SelectionChanged"
-                IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}">
-                <ui:TabView.TabItemTemplate>
-                  <DataTemplate DataType="vm:DocumentItem">
-                    <ui:TabViewItem Header="{Binding Header}"
-                                    Content="{Binding Content}"
-                                    IconSource="{Binding IconSource}"
-                                    IsClosable="{Binding IsClosable}"
-                                    CloseRequested="CloseTabViewItem"
-                                    />
-                  </DataTemplate>
-                </ui:TabView.TabItemTemplate>
-              </ui:TabView>
+  <Grid RowDefinitions="Auto,*">
+    <Grid Name="TitleBarHost"
+              ColumnDefinitions="Auto,Auto,*,Auto"
+              Background="Transparent">
+      <Image Margin="50 0,10,0"
+                   IsHitTestVisible="False"
+                   Width="18" Height="18"
+                   DockPanel.Dock="Left"
+                   Name="WindowIcon"
+                   RenderOptions.BitmapInterpolationMode="HighQuality">
+      </Image>
+
+      <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                 FontSize="12"
+                 IsHitTestVisible="False"
+                 VerticalAlignment="Center"
+                 Grid.Column="1">
+        <TextBlock.IsVisible>
+          <OnPlatform Default="False">
+            <On Options="Windows" Content="True" />
+          </OnPlatform>
+        </TextBlock.IsVisible>
+      </TextBlock>
+
+      <Border Grid.Column="2">
+        <StackPanel 
+          Orientation="Horizontal" 
+          FlowDirection="RightToLeft"
+          Margin="10,0,140,0">
+          <Button FlowDirection="LeftToRight"
+                  Width="40"
+                  Height="40"
+                  Theme="{StaticResource TransparentButton}" >
+            <Button.Content>
+              <Border
+                  Width="30"
+                  Height="30"
+                  CornerRadius="15"
+                  BorderThickness="1"
+                  Padding="3"
+                  BorderBrush="{DynamicResource TextFillColorPrimaryBrush}"
+                  Opacity="50">
+                <Image 
+                  Stretch="UniformToFill"
+                  Source="{Binding Avatar}"/>
+              </Border>
+            </Button.Content>
             
-            </StackPanel>
-          </ui:NavigationView.Content>
-       
-          <ui:NavigationView.PaneFooter>
-            <StackPanel Name="FooterStackPanel" Orientation="Vertical" IsVisible="True">
-              <ui:NavigationViewItem 
-                Name="user"
-                IconSource="Contact" 
-                Content="账号" 
-                Tag="NetX.AppCore.ViewModels.TestViewModel" 
-                SelectsOnInvoked="True" 
-                PointerPressed="NavigationViewItem_PointerPressed"/>
-              <ui:NavigationViewItem 
-                Name="setting"
-                IconSource="DevelopTools" 
-                Content="设置" 
-                Tag="NetX.AppCore.ViewModels.SettingPageViewModel"  
-                SelectsOnInvoked="True" 
-                PointerPressed="NavigationViewItem_PointerPressed"/>
-            </StackPanel>
-          </ui:NavigationView.PaneFooter>
-        
-      </ui:NavigationView>
-    </Border>
-  </DockPanel>
+            <Button.Flyout>
+                <ui:FAMenuFlyout Placement="Bottom" ItemsSource="{Binding FlyoutMenus}">
+                     
+                </ui:FAMenuFlyout>
+            </Button.Flyout>
+          </Button>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <ui:NavigationView
+      x:Name="nvMenu"
+      Grid.RowSpan="2"
+      PaneDisplayMode="{Binding NVDisplayMode}"
+      IsPaneToggleButtonVisible="{Binding NVCanToggle}"
+      MenuItemsSource="{Binding NavigationMenu}"
+      SelectedItem="{Binding SelectedCategory}"
+      IsSettingsVisible="False"
+      OpenPaneLength="{Binding OpenPanelWidth}"
+      >
+      <ui:NavigationView.MenuItemTemplateSelector>
+        <vm:MenuItemTemplateSelector>
+          <DataTemplate DataType="{x:Type vm:NavigationMenu}">
+            <ui:NavigationViewItem
+              Content="{Binding Title}"
+              IconSource="{Binding Icon}"
+              ToolTip.Tip="{Binding ToolTip}"
+              MenuItemsSource="{Binding ChildMenu}"
+              SelectsOnInvoked="{Binding TriggerInvoked}"
+                >
+            </ui:NavigationViewItem>
+          </DataTemplate>
+
+          <vm:MenuItemTemplateSelector.SeparatorTemplate>
+            <DataTemplate DataType="{x:Type vm:Separator}">
+              <ui:NavigationViewItemSeparator />
+            </DataTemplate>
+          </vm:MenuItemTemplateSelector.SeparatorTemplate>
+        </vm:MenuItemTemplateSelector>
+      </ui:NavigationView.MenuItemTemplateSelector>
+
+      <ui:NavigationView.Content>
+        <StackPanel>
+
+          <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
+
+          <ui:TabView
+            Name="NavigateTabView"
+            TabWidthMode="SizeToContent"
+            TabStripHeader="   "
+            MinWidth="100"
+            CloseButtonOverlayMode="Always"
+            CanDragTabs="False"
+            IsAddTabButtonVisible="False"
+            CanReorderTabs="False"
+            TabItems="{Binding DocumentItems}"
+            SelectedItem="{Binding SelectedItem}"
+            SelectionChanged="NavigateTabView_SelectionChanged"
+            IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}">
+            <ui:TabView.TabItemTemplate>
+              <DataTemplate DataType="vm:DocumentItem">
+                <ui:TabViewItem Header="{Binding Header}"
+                                Content="{Binding Content}"
+                                IconSource="{Binding IconSource}"
+                                IsClosable="{Binding IsClosable}"
+                                CloseRequested="CloseTabViewItem"
+                                  />
+              </DataTemplate>
+            </ui:TabView.TabItemTemplate>
+          </ui:TabView>
+
+        </StackPanel>
+      </ui:NavigationView.Content>
+
+      <ui:NavigationView.PaneFooter>
+        <StackPanel Name="FooterStackPanel" Orientation="Vertical" IsVisible="True">
+          <ui:NavigationViewItem
+            Name="user"
+            IconSource="Contact"
+            Content="账号"
+            Tag="NetX.AppCore.ViewModels.TestViewModel"
+            SelectsOnInvoked="True"
+            IsVisible="False"
+            PointerPressed="NavigationViewItem_PointerPressed"/>
+          <ui:NavigationViewItem
+            Name="setting"
+            IconSource="Setting"
+            Content="设置"
+            Tag="NetX.AppCore.ViewModels.SettingPageViewModel"
+            SelectsOnInvoked="True"
+            PointerPressed="NavigationViewItem_PointerPressed"/>
+        </StackPanel>
+      </ui:NavigationView.PaneFooter>
+
+    </ui:NavigationView>
+   
+  </Grid>
 </Window>

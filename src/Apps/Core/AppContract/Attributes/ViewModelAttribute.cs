@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NetX.AppCore.Contract.ViewModels;
 
 namespace NetX.AppCore.Contract
 {
@@ -20,6 +21,8 @@ namespace NetX.AppCore.Contract
                 interfaces = typeof(IStartupWindowViewModel);
             else if (typeof(IMenuPageViewModel).IsAssignableFrom(SelftType))
                 interfaces = typeof(IMenuPageViewModel);
+            else if(typeof(IFlyoutMenuViewModel).IsAssignableFrom(SelftType))
+                interfaces = typeof(IFlyoutMenuViewModel);
             else
                 interfaces = SelftType;
             AddServices(services, SelftType, interfaces);

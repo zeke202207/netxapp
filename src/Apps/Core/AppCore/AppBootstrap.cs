@@ -3,8 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using FluentAvalonia.Styling;
+using FluentAvalonia.UI.Windowing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NetX.AppCore.Contract;
@@ -250,7 +252,7 @@ namespace NetX.AppCore.ViewModels
                             win.Close();
                             _autoResetEvent.Set();
                             if (!_worker.IsBusy)
-                                _worker.RunWorkerAsync(_steps.FirstOrDefault()?.Id);
+                                _worker.RunWorkerAsync(startupModel.Id);
                             break;
                         }
                     }
@@ -267,6 +269,10 @@ namespace NetX.AppCore.ViewModels
             if (null == window || window is not Window)
                 return;
             window.Title = _appConfig.Appinfo.Name;
+            if(window is AppWindow w)
+                w.Icon = new Bitmap(_appConfig.Appinfo.Icon);
+            else
+                window.Icon = new WindowIcon(_appConfig.Appinfo.Icon);
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 

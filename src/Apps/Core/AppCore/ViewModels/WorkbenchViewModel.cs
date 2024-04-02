@@ -1,10 +1,14 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using DynamicData;
 using FluentAvalonia.UI.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using NetX.AppCore.Contract;
+using NetX.AppCore.Contract.ViewModels;
 using NetX.AppCore.Models;
 using NetX.AppCore.Views;
 using ReactiveUI;
@@ -21,7 +25,7 @@ namespace NetX.AppCore.ViewModels
     /// <summary>
     /// 工作太窗口视图模型
     /// </summary>
-    [ViewModel(ServiceLifetime.Singleton)]
+    [ViewModel(Contract.ServiceLifetime.Transient)]
     public class WorkbenchViewModel : StartupWindowViewModel
     {
         /// <summary>
@@ -40,17 +44,32 @@ namespace NetX.AppCore.ViewModels
 
         public ReactiveCommand<DocumentItem,Unit> TabViewItemClosedCommand { get; }
 
+        public ReactiveCommand<Unit, Unit> ExitAppCommand { get; }
+
         #endregion
 
         #region 依赖属性
 
-        #region navigation menu
+        private Bitmap _avatar;
+        public Bitmap Avatar
+        {
+            get => _avatar;
+            set => this.RaiseAndSetIfChanged(ref _avatar, value);
+        }
 
+        private List<IFlyoutMenuViewModel> _flyoutMenus;
+        public List<IFlyoutMenuViewModel> FlyoutMenus
+        {
+            get => _flyoutMenus;
+            set => this.RaiseAndSetIfChanged(ref _flyoutMenus, value);
+        }
+
+        #region navigation menu
 
         public List<NavigationMenu> NavigationMenu { get; }
 
-        private object _selectedCategory;
-        public object SelectedCategory
+        private NavigationMenu _selectedCategory;
+        public NavigationMenu SelectedCategory
         {
             get => _selectedCategory;
             set
@@ -74,6 +93,13 @@ namespace NetX.AppCore.ViewModels
             set => this.RaiseAndSetIfChanged(ref _nvCanToggle, value);
         }
 
+        private int _openPanelWidth = 260;
+        public int OpenPanelWidth
+        {
+            get => _openPanelWidth;
+            set => this.RaiseAndSetIfChanged(ref _openPanelWidth, value);
+        }
+
         #endregion
 
         #region tabview
@@ -89,7 +115,7 @@ namespace NetX.AppCore.ViewModels
         public DocumentItem SelectedItem
         {
             get => _selectedItem;
-            set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            set =>this.RaiseAndSetIfChanged(ref _selectedItem, value);
         }
 
         #endregion
@@ -121,19 +147,24 @@ namespace NetX.AppCore.ViewModels
             IOptions<AppUserConfig> userConfig)
             : base(WorkbenchViewModel.Id,serviceProvider, typeof(WorkbenchWindow))
         {
+            FlyoutMenus = serviceProvider.GetServices<IFlyoutMenuViewModel>()?.ToList();
+            FlyoutMenus.ForEach(p => p.StartupWindow = this);
+
             _serviceProvider = serviceProvider;
             _dataTemplate = dataTemplate;
-            _serviceProvider = serviceProvider;
             _appUserConfig = userConfig.Value;
             IsSingleView = _appUserConfig.Layouts.Navigationview.IsSingleContentPage;
+            OpenPanelWidth = _appUserConfig.Layouts.Navigationview.OpenPaneLength;
             _appUserConfig.Layouts.Navigationview.PropertyHasChanged += (propertyName, value) => LayoutPropertyChaned(propertyName, value);
             
-
             NavigationMenu = InitNavigateMenu(addoneOptions.Value.NavigationMenuConfig);
             SelectedCategory = NavigationMenu.FirstOrDefault();
             TabViewSelectedChangedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewSelectedChanged(item));
             NavigationMenuSelectedCommand = ReactiveCommand.Create<NavigationMenu>(menu => NavigationMenuSelected(menu));
             TabViewItemClosedCommand = ReactiveCommand.Create<DocumentItem>(item => TabViewItemClosed(item));
+            ExitAppCommand = ReactiveCommand.Create(ExitApp);
+            
+            _avatar = new Bitmap(AssetLoader.Open(new Uri(@"avares://NetX.AppCore/Assets/default_avatar.png")));
         }
 
         #region 重写方法
@@ -242,19 +273,15 @@ namespace NetX.AppCore.ViewModels
         /// <exception cref="NotImplementedException"></exception>
         private void SetCurrentPage()
         {
-            if (SelectedCategory is NavigationMenu cat)
-            {
-                if (null == cat) return;
-                if (!cat.TriggerInvoked)
-                    return;
-                if(null == cat.ViewModelType)
-                    throw new ArgumentException($"viewtype为空，不能创建页面");
-                var sm = _serviceProvider.GetService(Type.GetType(cat.ViewModelType)) as IViewModel;
-                sm.Key = cat.Id;
-                var contentPage = _dataTemplate.Build(sm);
-                OpenTabview(sm,contentPage);
-                CurrentPage = contentPage;
-            }
+            if (null == SelectedCategory || !SelectedCategory.TriggerInvoked) 
+                return;
+            if (null == SelectedCategory.ViewModelType)
+                throw new ArgumentException($"viewtype为空，不能创建页面");
+            var sm = _serviceProvider.GetService(Type.GetType(SelectedCategory.ViewModelType)) as IViewModel;
+            sm.Key = SelectedCategory.Id;
+            var contentPage = _dataTemplate.Build(sm);
+            OpenTabview(sm, contentPage);
+            CurrentPage = contentPage;
         }
 
         private void OpenTabview(IViewModel menuPageViewModel,Control control)
@@ -304,12 +331,57 @@ namespace NetX.AppCore.ViewModels
             var navMenu = FindMenuByViewModel(NavigationMenu, documentItem.NavigateMenuId);
             if (null != navMenu)
             {
-                if (SelectedCategory is NavigationMenu && ((NavigationMenu)SelectedCategory)?.Id == documentItem.NavigateMenuId)
+                if (SelectedCategory?.Id == documentItem.NavigateMenuId)
                     return;
                 else
                     SelectedCategory = navMenu;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ExitApp()
+        {
+            try
+            {
+                base.CloseApplication();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "退出应用失败");
+            }
+        }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //private void ReLogin()
+        //{
+        //    try
+        //    {
+                
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex, "重新登录失败");
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //private void ChangePassword()
+        //{
+        //    try
+        //    {
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(ex, "修改密码是吧");
+        //    }
+        //}
 
         #endregion
 
@@ -357,7 +429,7 @@ namespace NetX.AppCore.ViewModels
             {
                 MenuType.User => Symbol.Contact,
                 MenuType.Setting => Symbol.DevelopTools,
-                _ => Symbol.Emoji
+                _ => Symbol.ContactPresence
             };
         }
 

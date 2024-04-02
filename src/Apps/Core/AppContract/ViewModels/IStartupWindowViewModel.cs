@@ -7,5 +7,7 @@
         void SetResetEvent(AutoResetEvent resetEvent);
 
         void GotoNextWindow();
+
+        void GotoWindow(Guid stepid);
     }
 }

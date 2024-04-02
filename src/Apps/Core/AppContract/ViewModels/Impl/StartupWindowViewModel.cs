@@ -20,7 +20,11 @@ namespace NetX.AppCore.Contract
 
         public void GotoNextWindow() => AutoResetEvent.Set();
 
-        protected virtual void GotoWindow(Guid stepid) => GotoStep = stepid;
+        public virtual void GotoWindow(Guid stepid)
+        {
+            GotoStep = stepid;
+            base.CloseApplication();
+        }
 
         protected override void ControlLoaded()
         {
