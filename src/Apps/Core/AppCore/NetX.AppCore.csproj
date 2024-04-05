@@ -177,4 +177,8 @@
     <Folder Include="Pages\" />
   </ItemGroup>
   
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Styling\BreadCrumb.axaml" />
+  </ItemGroup>
+  
 </Project>

@@ -1,1 +1,1 @@
-﻿
+﻿CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"

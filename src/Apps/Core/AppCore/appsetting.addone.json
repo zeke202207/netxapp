@@ -37,11 +37,11 @@
     {
       "id": "10000000-0000-0000-0000-000000000001",
       "parentid": "00000000-0000-0000-0000-000000000000",
-      "order": 0,
+      "order": 2,
       "title": "系统设置",
       "tooltip": "系统设置",
       "icon": "DevelopTools",
-      "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+      "viewmodel": "NetX.RBAC.ViewModels.Menus.SysSettingViewModel, NetX.RBAC",
       "triggerinvoked": true
     },
     {
@@ -97,6 +97,16 @@
           "triggerinvoked": true
         }
       ]
+    },
+    {
+      "id": "AA000000-0000-0000-0000-000000000001",
+      "parentid": "00000000-0000-0000-0000-000000000000",
+      "order": 1,
+      "title": "BiliBli",
+      "tooltip": "BiliBli",
+      "icon": "Video",
+      "viewmodel": "DemoAddone.ViewModels.FileExplorerViewModel, DemoAddone, Version=1.0.0.0, Culture=neutral",
+      "triggerinvoked": true
     }
   ]
 }

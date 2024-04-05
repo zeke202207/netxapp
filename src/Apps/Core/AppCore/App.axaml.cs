@@ -13,6 +13,7 @@ using NetX.AppCore.Contract;
 using NetX.AppCore.Extentions;
 using NetX.AppCore.Models;
 using NetX.AppCore.ViewModels;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -89,6 +90,7 @@ public partial class App : Application
 
     private void ConfigAddOneServices(ServiceCollection services)
     {
+        LoadAddoneAssembly();
         ConfigInitialize(services);
         ConfigViewModelServices(services);
         ConfigEventBusServices(services);
@@ -156,6 +158,21 @@ public partial class App : Application
                 allType.AddRange(addoneTypes);
         }
         return allType.Distinct();
+    }
+
+    private void LoadAddoneAssembly()
+    {
+        foreach (var assembly in _addoneAssemblies)
+        {
+            try
+            {
+                Assembly.Load(assembly);
+            }
+            catch (Exception ex)
+            {
+               Log.Error(ex, $"加载插件{assembly}失败");
+            }
+        }
     }
 
     public override void OnFrameworkInitializationCompleted()

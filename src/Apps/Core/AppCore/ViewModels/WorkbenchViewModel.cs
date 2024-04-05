@@ -277,11 +277,21 @@ namespace NetX.AppCore.ViewModels
                 return;
             if (null == SelectedCategory.ViewModelType)
                 throw new ArgumentException($"viewtype为空，不能创建页面");
-            var sm = _serviceProvider.GetService(Type.GetType(SelectedCategory.ViewModelType)) as IViewModel;
+            var sm = GetCurrentPageViewModel();
+            //var sm = _serviceProvider.GetService(Type.GetType(SelectedCategory.ViewModelType)) as IViewModel;
             sm.Key = SelectedCategory.Id;
             var contentPage = _dataTemplate.Build(sm);
             OpenTabview(sm, contentPage);
             CurrentPage = contentPage;
+        }
+
+        private IViewModel GetCurrentPageViewModel()
+        {
+            var currentCategory = Type.GetType(SelectedCategory.ViewModelType);
+            var sm = _serviceProvider.GetService(Type.GetType(SelectedCategory.ViewModelType)) as IViewModel;
+            if(null!=sm)
+                return sm;
+            return _serviceProvider.GetServices<IMenuPageViewModel>().FirstOrDefault(p => p.GetType() == Type.GetType(SelectedCategory.ViewModelType)) as IViewModel;
         }
 
         private void OpenTabview(IViewModel menuPageViewModel,Control control)

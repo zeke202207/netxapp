@@ -17,12 +17,7 @@
   </Application.Resources>
   
     <Application.Styles>
-<!-- 
-        <FluentTheme />
-      <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
-      <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
--->
-      <sty:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />
+      <sty:FluentAvaloniaTheme  />
       <StyleInclude Source="avares://NetX.AppCore/Styling/ControlsGalleryStyles.axaml" />
       <StyleInclude Source="avares://NetX.AppCore/Styling/AppCoreStyle.axaml"/>
     </Application.Styles>

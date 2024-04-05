@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NetX.AppCore.Contract;
 using NetX.RBAC.RPCService;
+using NetX.RBAC.ViewModels.Menus;
 
 namespace NetX.RBAC
 {

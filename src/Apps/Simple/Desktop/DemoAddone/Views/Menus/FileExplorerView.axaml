@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoAddone.Views.Menus.FileExplorerView">
+  <UserControl.Styles>
+    <Style Selector="Border#itemelement:pointerover">
+      <Setter Property="Background">
+        <SolidColorBrush Color="#bb7b7b7d" Opacity="0.1"></SolidColorBrush>
+      </Setter>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+        </Transitions>
+      </Setter>
+    </Style>
+  </UserControl.Styles>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="45"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <!-- breadcrumb-->
+    <ItemsRepeater Grid.Row="0" ItemsSource="{Binding BreadCrumbs}" Margin="20,0,0,0">
+      <ItemsRepeater.Layout>
+        <StackLayout Orientation="Horizontal"/>
+      </ItemsRepeater.Layout>
+      <ItemsRepeater.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal">
+            <RepeatButton 
+              Theme="{StaticResource BreadCrumb}"
+              Content="{Binding Name}"
+              Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
+              Tapped="RepeatButton_Tapped"
+              />
+            <TextBlock Text="/" TextAlignment="Center" VerticalAlignment="Center" />
+          </StackPanel>
+        </DataTemplate>
+      </ItemsRepeater.ItemTemplate>
+    </ItemsRepeater>
+    
+    <!-- items -->
+    <ItemsRepeater Grid.Row="1" ItemsSource="{Binding CurrentDirectoryContents}" Margin="10,0,10,0">
+      <ItemsRepeater.Layout>
+        <WrapLayout Orientation="Horizontal" />
+      </ItemsRepeater.Layout>
+      <ItemsRepeater.ItemTemplate>
+        <DataTemplate>
+            <Border Name="itemelement" DoubleTapped="Category_Tapped" Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}">
+              <StackPanel Spacing="10" Margin="10">
+                <Image Source="{Binding Icon}" Width="105" Height="85" />
+                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
+              </StackPanel>
+            </Border>
+        </DataTemplate>
+      </ItemsRepeater.ItemTemplate>
+    </ItemsRepeater>
+  </Grid>
+</UserControl>
