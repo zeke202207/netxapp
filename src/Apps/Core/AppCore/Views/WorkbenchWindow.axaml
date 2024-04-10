@@ -96,6 +96,7 @@
       SelectedItem="{Binding SelectedCategory}"
       IsSettingsVisible="False"
       OpenPaneLength="{Binding OpenPanelWidth}"
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
       >
       <ui:NavigationView.MenuItemTemplateSelector>
         <vm:MenuItemTemplateSelector>
@@ -119,36 +120,39 @@
       </ui:NavigationView.MenuItemTemplateSelector>
 
       <ui:NavigationView.Content>
-        <StackPanel>
+        <ScrollViewer>
+          <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <!--单视图-->
+            <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            <!--Tab视图-->
+            <ui:TabView
+              Name="NavigateTabView"
+              TabWidthMode="SizeToContent"
+              TabStripHeader="   "
+              MinWidth="100"
+              CloseButtonOverlayMode="Always"
+              CanDragTabs="False"
+              IsAddTabButtonVisible="False"
+              CanReorderTabs="False"
+              TabItems="{Binding DocumentItems}"
+              SelectedItem="{Binding SelectedItem}"
+              SelectionChanged="NavigateTabView_SelectionChanged"
+              IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}"
+              ScrollViewer.VerticalScrollBarVisibility="Auto">
+              <ui:TabView.TabItemTemplate>
+                <DataTemplate DataType="vm:DocumentItem">
+                  <ui:TabViewItem Header="{Binding Header}"
+                                  Content="{Binding Content}"
+                                  IconSource="{Binding IconSource}"
+                                  IsClosable="{Binding IsClosable}"
+                                  CloseRequested="CloseTabViewItem"
+                                    />
+                </DataTemplate>
+              </ui:TabView.TabItemTemplate>
+            </ui:TabView>
 
-          <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
-
-          <ui:TabView
-            Name="NavigateTabView"
-            TabWidthMode="SizeToContent"
-            TabStripHeader="   "
-            MinWidth="100"
-            CloseButtonOverlayMode="Always"
-            CanDragTabs="False"
-            IsAddTabButtonVisible="False"
-            CanReorderTabs="False"
-            TabItems="{Binding DocumentItems}"
-            SelectedItem="{Binding SelectedItem}"
-            SelectionChanged="NavigateTabView_SelectionChanged"
-            IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}">
-            <ui:TabView.TabItemTemplate>
-              <DataTemplate DataType="vm:DocumentItem">
-                <ui:TabViewItem Header="{Binding Header}"
-                                Content="{Binding Content}"
-                                IconSource="{Binding IconSource}"
-                                IsClosable="{Binding IsClosable}"
-                                CloseRequested="CloseTabViewItem"
-                                  />
-              </DataTemplate>
-            </ui:TabView.TabItemTemplate>
-          </ui:TabView>
-
-        </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
       </ui:NavigationView.Content>
 
       <ui:NavigationView.PaneFooter>

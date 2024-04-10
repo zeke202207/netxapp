@@ -310,7 +310,10 @@ namespace NetX.AppCore.ViewModels
                         Content = control,
                         IsClosable = !(navMenu.ParentId == Guid.Empty && navMenu.Id == NavigationMenu.FirstOrDefault()?.Id)
                     };
-                    DocumentItems.Add(contentPage);
+                    if (contentPage.IsClosable)
+                        DocumentItems.Add(contentPage);
+                    else
+                        DocumentItems.Insert(0, contentPage);
                 }
                 SelectedItem = contentPage;
             }

@@ -20,7 +20,7 @@ namespace DemoAddone.Views.Menus
                 this.DataContext = new FileExplorerViewModel(
                     new ServiceCollection().BuildServiceProvider(), 
                     new LocalFileExplorerManager(), 
-                    new Data.BilibiliDataContext(null))
+                    new Data.BilibiliDataContext(new DbContextOptions<DemoAddone.Data.BilibiliDataContext>()))
                 {
                     CurrentDirectoryContents = new System.Collections.ObjectModel.ObservableCollection<FileViewModel>()
                          {
