@@ -85,7 +85,7 @@ namespace DemoAddone.ViewModels
             {
                 if (string.IsNullOrEmpty(paths[i]))
                     continue;
-                BreadCrumbs.Add(new BreadCrumbItem() { Name = paths[i], Path = $"{string.Join("/", paths.Take(i + 1))}" });
+                BreadCrumbs.Add(new BreadCrumbItem() { Name = paths[i], Path = $"{string.Join("/", paths.Take(i + 1))}" , IsLast = i== paths.Length -1 });
             }
         }
 

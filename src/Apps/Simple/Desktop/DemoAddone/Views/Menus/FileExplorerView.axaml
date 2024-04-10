@@ -21,10 +21,10 @@
     </Style>
   </UserControl.Styles>
   
-  <Grid RowDefinitions="Auto,Auto,*">
+  <Grid RowDefinitions="Auto,*">
 
     <!-- breadcrumb-->
-    <ItemsRepeater Grid.Row="0" ItemsSource="{Binding BreadCrumbs}" Margin="20,0,0,0">
+    <ItemsRepeater Grid.Row="0" ItemsSource="{Binding BreadCrumbs}" Margin="20,20,0,20">
       <ItemsRepeater.Layout>
         <StackLayout Orientation="Horizontal"/>
       </ItemsRepeater.Layout>
@@ -37,33 +37,37 @@
               Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
               Tapped="RepeatButton_Tapped"
               />
-            <TextBlock Text="/" TextAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Text=">" TextAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !IsLast}"/>
           </StackPanel>
         </DataTemplate>
       </ItemsRepeater.ItemTemplate>
     </ItemsRepeater>
     
     <!-- items -->
-    <ItemsRepeater 
-      x:Name="explorer"
-      Grid.Row="1" 
-      ItemsSource="{Binding CurrentDirectoryContents}" 
-      Margin="10,0,10,0">
-      <ItemsRepeater.Layout>
-        <WrapLayout />
-      </ItemsRepeater.Layout>
-      <ItemsRepeater.ItemTemplate>
-        <DataTemplate>
-          <Border Name="itemelement" 
-                  DoubleTapped="Category_Tapped" 
-                  Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}">
-            <StackPanel Spacing="10" Margin="10">
-              <Image Source="{Binding Icon}" Width="105" Height="85" />
-              <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
-            </StackPanel>
-          </Border>
-        </DataTemplate>
-      </ItemsRepeater.ItemTemplate>
-    </ItemsRepeater>
+    <ScrollViewer Grid.Row="1">
+      <ItemsRepeater 
+        Grid.Row="1"
+        x:Name="explorer"
+        ItemsSource="{Binding CurrentDirectoryContents}" 
+        Margin="10,0,10,0"
+        ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ItemsRepeater.Layout>
+          <WrapLayout />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate>
+            <Border Name="itemelement" 
+                    ToolTip.Tip="{Binding Name}"
+                    DoubleTapped="Category_Tapped" 
+                    Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}">
+              <StackPanel Spacing="10" Margin="10" Width="130" Height="120">
+                <Image Source="{Binding Icon}" Width="105" Height="85" />
+                <TextBlock Text="{Binding Name}" TextAlignment="Center" TextTrimming="CharacterEllipsis" />
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+    </ScrollViewer>
   </Grid>
 </UserControl>

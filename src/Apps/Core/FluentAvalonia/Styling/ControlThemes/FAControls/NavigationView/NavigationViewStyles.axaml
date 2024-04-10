@@ -377,13 +377,15 @@
                                                         VerticalContentAlignment="Stretch"
                                                         HorizontalContentAlignment="Stretch"
                                                         Theme="{StaticResource NavigationViewTitleHeaderContentControlTextStyle}" />
-
+                                      
                                         <ContentPresenter Grid.Row="2"
                                                           Grid.ColumnSpan="2"
                                                           Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                                           ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ContentTemplate}"
                                                           Margin="{DynamicResource NavigationViewContentPresenterMargin}"
-                                                          Name="ContentPresenter" />
+                                                          Name="ContentPresenter"
+                                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                          />
 
                                     </Grid>
                                 </Border>

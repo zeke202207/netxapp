@@ -120,10 +120,9 @@
       </ui:NavigationView.MenuItemTemplateSelector>
 
       <ui:NavigationView.Content>
-        <ScrollViewer>
-          <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <Panel>
             <!--单视图-->
-            <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
             <!--Tab视图-->
             <ui:TabView
               Name="NavigateTabView"
@@ -137,8 +136,7 @@
               TabItems="{Binding DocumentItems}"
               SelectedItem="{Binding SelectedItem}"
               SelectionChanged="NavigateTabView_SelectionChanged"
-              IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}"
-              ScrollViewer.VerticalScrollBarVisibility="Auto">
+              IsVisible="{Binding Path=!IsVisible ,ElementName=singlepageview}">
               <ui:TabView.TabItemTemplate>
                 <DataTemplate DataType="vm:DocumentItem">
                   <ui:TabViewItem Header="{Binding Header}"
@@ -151,8 +149,7 @@
               </ui:TabView.TabItemTemplate>
             </ui:TabView>
 
-          </StackPanel>
-        </ScrollViewer>
+          </Panel>
       </ui:NavigationView.Content>
 
       <ui:NavigationView.PaneFooter>
