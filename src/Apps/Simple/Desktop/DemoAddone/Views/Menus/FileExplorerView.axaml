@@ -45,6 +45,8 @@
     
     <!-- items -->
     <ScrollViewer Grid.Row="1">
+
+      <!-- Floder View -->
       <ItemsRepeater 
         Grid.Row="1"
         x:Name="explorer"
@@ -68,6 +70,9 @@
           </DataTemplate>
         </ItemsRepeater.ItemTemplate>
       </ItemsRepeater>
+
+      <!-- Video View -->
+      
     </ScrollViewer>
   </Grid>
 </UserControl>

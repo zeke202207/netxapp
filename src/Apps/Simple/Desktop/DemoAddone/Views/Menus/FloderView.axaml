@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:DemoAddone.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoAddone.Views.Menus.FloderView">
+  <ItemsRepeater
+        Grid.Row="1"
+        x:Name="explorer"
+        ItemsSource="{Binding Contents}"
+        Margin="10,0,10,0"
+        ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <ItemsRepeater.Layout>
+      <WrapLayout />
+    </ItemsRepeater.Layout>
+    <ItemsRepeater.ItemTemplate>
+      <DataTemplate x:DataType="vm:FileViewModel">
+        <Border Name="itemelement"
+                ToolTip.Tip="{Binding Name}"
+                Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}">
+          <StackPanel Spacing="10" Margin="10" Width="130" Height="120">
+            <Image Source="{Binding Icon}" Width="105" Height="85" />
+            <TextBlock Text="{Binding Name}" TextAlignment="Center" TextTrimming="CharacterEllipsis" />
+          </StackPanel>
+        </Border>
+      </DataTemplate>
+    </ItemsRepeater.ItemTemplate>
+  </ItemsRepeater>
+</UserControl>

@@ -8,6 +8,7 @@ using FluentAvalonia.UI.Controls;
 using Microsoft.EntityFrameworkCore;
 using NetX.AppCore.Contract;
 using ReactiveUI;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,7 +54,24 @@ namespace DemoAddone.ViewModels
 
         private void CategoryClick(FileViewModel item)
         {
-            OpenFolder($"{item.ParentPath}/{item.Name}");
+            try
+            {
+                switch(item.ExportType)
+                {
+                    case ExportType.Floder:
+                        OpenFolder($"{item.ParentPath}/{item.Name}");
+                        break;
+                    case ExportType.Mp4:
+                        OpenVideo($"{item.ParentPath}/{item.Name}");
+                        break;
+                    default:
+                        throw new NotSupportedException($"不支持的文件格式:{item.ExportType.ToString()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "打开失败");
+            }            
         }
 
         private IEnumerable<FileViewModel> GetDirectoryContents(string path)
@@ -73,11 +91,12 @@ namespace DemoAddone.ViewModels
             OpenFolder($"{item.Path}");
         }
 
-        private void OpenFolder(string path)
+        /// <summary>
+        /// 重构面包屑导航
+        /// </summary>
+        /// <param name="path"></param>
+        private void GenBreadCrumbsNav(string path)
         {
-            var fileViewModels = GetDirectoryContents($"{path}");
-            CurrentDirectoryContents.Clear();
-            CurrentDirectoryContents.AddRange(fileViewModels);
             BreadCrumbs.Clear();
             var paths = path.Split('/');
             //添加到Breadcrumb导航中
@@ -85,8 +104,30 @@ namespace DemoAddone.ViewModels
             {
                 if (string.IsNullOrEmpty(paths[i]))
                     continue;
-                BreadCrumbs.Add(new BreadCrumbItem() { Name = paths[i], Path = $"{string.Join("/", paths.Take(i + 1))}" , IsLast = i== paths.Length -1 });
+                BreadCrumbs.Add(new BreadCrumbItem() { Name = paths[i], Path = $"{string.Join("/", paths.Take(i + 1))}", IsLast = i == paths.Length - 1 });
             }
+        }
+
+        /// <summary>
+        /// 打开文件夹 
+        /// </summary>
+        /// <param name="path"></param>
+        private void OpenFolder(string path)
+        {
+            GenBreadCrumbsNav(path);
+            var fileViewModels = GetDirectoryContents($"{path}");
+            CurrentDirectoryContents.Clear();
+            CurrentDirectoryContents.AddRange(fileViewModels);
+        }
+
+        /// <summary>
+        /// 打开视频文件
+        /// </summary>
+        /// <param name="videoFile"></param>
+        private void OpenVideo(string videoFile)
+        {
+            GenBreadCrumbsNav(videoFile);
+            
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView)=> controlCreator.CreateControl(pageView);
