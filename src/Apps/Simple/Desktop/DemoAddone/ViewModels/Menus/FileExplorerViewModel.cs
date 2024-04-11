@@ -31,6 +31,13 @@ namespace DemoAddone.ViewModels
 
         private readonly IFileExplorerManager _fileExplorerManager;
         private readonly BilibiliDataContext _dbContext;
+        private ExportType _exportType = ExportType.Floder;
+
+        public ExportType ExportType
+        {
+            get => _exportType;
+            set => this.RaiseAndSetIfChanged(ref _exportType, value);
+        }
 
         public ObservableCollection<FileViewModel> CurrentDirectoryContents { get; set; } = new();
         public ObservableCollection<BreadCrumbItem> BreadCrumbs { get; set; } = new();
@@ -57,13 +64,13 @@ namespace DemoAddone.ViewModels
         {
             try
             {
-                switch(item.ExportType)
+                switch (item.ExportType)
                 {
                     case ExportType.Floder:
                         OpenFolder($"{item.ParentPath}/{item.Name}");
                         break;
                     case ExportType.Mp4:
-                        OpenVideo($"{item.ParentPath}/{item.Name}");
+                        OpenVideo($"{item.ParentPath}/{item.Name}", item.ExportType);
                         break;
                     default:
                         throw new NotSupportedException($"不支持的文件格式:{item.ExportType.ToString()}");
@@ -115,6 +122,7 @@ namespace DemoAddone.ViewModels
         /// <param name="path"></param>
         private void OpenFolder(string path)
         {
+            ExportType =  ExportType.Floder;
             GenBreadCrumbsNav(path);
             var fileViewModels = GetDirectoryContents($"{path}");
             CurrentDirectoryContents.Clear();
@@ -125,10 +133,10 @@ namespace DemoAddone.ViewModels
         /// 打开视频文件
         /// </summary>
         /// <param name="videoFile"></param>
-        private void OpenVideo(string videoFile)
+        private void OpenVideo(string videoFile, ExportType videoType)
         {
+            ExportType = videoType;
             GenBreadCrumbsNav(videoFile);
-            
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView)=> controlCreator.CreateControl(pageView);

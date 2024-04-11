@@ -1,0 +1,33 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DemoAddone.ViewModels"
+              xmlns:controls="using:DemoAddone.UI">
+  
+    <Design.PreviewWith>
+        <Border Padding="500">
+            <!-- Add Controls for Previewer Here -->
+          <controls:VideoView Width="500" />
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+  <Style Selector="controls|VideoView">
+    <Setter Property="CornerRadius" Value="10"/>
+
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel>
+          <Grid RowDefinitions="30,Auto">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft">
+              <Button>x</Button>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+              <Button>sdf</Button>
+            </StackPanel>
+          </Grid>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

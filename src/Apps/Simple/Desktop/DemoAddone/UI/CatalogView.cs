@@ -12,12 +12,6 @@ using System.Windows.Input;
 namespace DemoAddone.UI
 {
     public partial class CatalogView : TemplatedControl
-    {   
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            //base.OnApplyTemplate(e);
-            //var test = e.NameScope.Find<ItemsRepeater>("CatalogItem");
-        }
+    {  
     }
 }

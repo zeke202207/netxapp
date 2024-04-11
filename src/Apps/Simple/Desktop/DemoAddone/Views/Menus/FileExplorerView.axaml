@@ -3,14 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:locConvert="using:DemoAddone.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DemoAddone.Views.Menus.FileExplorerView"
              xmlns:controls="using:DemoAddone.UI"
              ScrollViewer.VerticalScrollBarVisibility="Auto"
              >
+  <UserControl.Resources>
+    <locConvert:ExportTypeToVisibleConvert x:Key="expConvert"/>
+  </UserControl.Resources>
   
   <UserControl.Styles>
     <StyleInclude Source="/Styles/CatalogViewStyles.axaml"/>
+    <StyleInclude Source="/Styles/VideoViewStyle.axaml"/>
   </UserControl.Styles>
   
   <Grid RowDefinitions="Auto,*">
@@ -37,14 +42,18 @@
     
     <!-- items -->
     <ScrollViewer Grid.Row="1">
-      <!-- Floder View -->
-      <controls:CatalogView 
-        CatalogSource="{Binding CurrentDirectoryContents}"
-        ItemClickCommand="{Binding CategoryCommand}"
-        Grid.Row="1"/>
+      <StackPanel>
+        <!-- Floder View -->
+        <controls:CatalogView 
+          CatalogSource="{Binding CurrentDirectoryContents}"
+          ItemClickCommand="{Binding CategoryCommand}"
+          Grid.Row="1"
+          IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Floder;a}}"/>
 
-      <!-- Video View -->
-      
+        <!-- Video View -->
+        <controls:VideoView Grid.Row="1" 
+          IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Mp4;ts}"/>
+      </StackPanel>
     </ScrollViewer>
   </Grid>
 </UserControl>
