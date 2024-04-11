@@ -45,6 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Menus\ExplorerView.axaml.cs">
+      <DependentUpon>ExplorerView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="bilibili.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

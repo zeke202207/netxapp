@@ -1,0 +1,60 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DemoAddone.ViewModels"
+              xmlns:controls="using:DemoAddone.UI">
+  <Design.PreviewWith>
+    <controls:CatalogView >
+
+    </controls:CatalogView>
+  </Design.PreviewWith>
+
+  <Style Selector="controls|CatalogView">
+    <Setter Property="CornerRadius" Value="10"/>
+    
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel>
+          <ItemsRepeater
+          Grid.Row="1"
+          x:Name="explorer"
+          ItemsSource="{TemplateBinding CatalogSource}"
+          Margin="10,0,10,0"
+          ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ItemsRepeater.Layout>
+              <WrapLayout />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate x:DataType="vm:FileViewModel">
+                    <StackPanel Spacing="10" Margin="10"
+                                 Width="130" Height="120">
+                      <RepeatButton Name="CatalogItem"
+                                    Command="{TemplateBinding ItemClickCommand}"
+                                    Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
+                                    ToolTip.Tip="{Binding Name}">
+                        <StackPanel>
+                          <Image Source="{Binding Icon}" Width="105" Height="85" />
+                          <TextBlock Text="{Binding Name}" TextAlignment="Center" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                      </RepeatButton>
+                    </StackPanel>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  
+  <Style Selector="RepeatButton#CatalogItem:pointerover">
+    <Setter Property="Background">
+      <SolidColorBrush Color="#bb7b7b7d" Opacity="0.1"></SolidColorBrush>
+    </Setter>
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+      </Transitions>
+    </Setter>
+  </Style>
+  
+</Styles>
