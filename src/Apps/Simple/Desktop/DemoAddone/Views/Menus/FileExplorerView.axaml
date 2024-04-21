@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:locConvert="using:DemoAddone.Converters"
+             xmlns:media="using:NetX.Controls.Media"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DemoAddone.Views.Menus.FileExplorerView"
              xmlns:controls="using:DemoAddone.UI"
              ScrollViewer.VerticalScrollBarVisibility="Auto"
+        xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
              >
   <UserControl.Resources>
     <locConvert:ExportTypeToVisibleConvert x:Key="expConvert"/>
@@ -15,7 +17,6 @@
   
   <UserControl.Styles>
     <StyleInclude Source="/Styles/CatalogViewStyles.axaml"/>
-    <StyleInclude Source="/Styles/VideoViewStyle.axaml"/>
   </UserControl.Styles>
   
   <Grid RowDefinitions="Auto,*">
@@ -41,19 +42,31 @@
     </ItemsRepeater>
     
     <!-- items -->
-    <ScrollViewer Grid.Row="1">
-      <StackPanel>
-        <!-- Floder View -->
+    <!-- Floder View -->
+    <ScrollViewer Grid.Row="1"
+          IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Floder;a}}">
         <controls:CatalogView 
           CatalogSource="{Binding CurrentDirectoryContents}"
           ItemClickCommand="{Binding CategoryCommand}"
-          Grid.Row="1"
-          IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Floder;a}}"/>
-
-        <!-- Video View -->
-        <controls:VideoView Grid.Row="1" 
-          IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Mp4;ts}"/>
-      </StackPanel>
+          Grid.Row="1"/>
     </ScrollViewer>
+    <!-- Video View -->
+    <Border
+      Grid.Row="1"
+      Padding="10"
+      Margin="10"
+      CornerRadius="10"
+      Background="Black"
+      IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Mp4;ts}"
+      >
+      <media:VideoView
+        x:Name="prevideo"
+        Source="{Binding Source}"
+        IsClose="{Binding IsClose}"
+        Background="Black"
+        >
+        <media:MediaPlayerControls Background="Transparent" />
+      </media:VideoView>
+    </Border>
   </Grid>
 </UserControl>

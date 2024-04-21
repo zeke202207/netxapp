@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoService", "Services\Sim
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAvalonia", "Apps\Core\FluentAvalonia\FluentAvalonia.csproj", "{7F7511AE-E08C-4E90-A098-75EB601FCD43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetX.Controls.Media", "Apps\Core\NetX.Controls.Media\NetX.Controls.Media.csproj", "{50118579-885B-4AAD-B198-088D117CD759}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{7F7511AE-E08C-4E90-A098-75EB601FCD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F7511AE-E08C-4E90-A098-75EB601FCD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F7511AE-E08C-4E90-A098-75EB601FCD43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50118579-885B-4AAD-B198-088D117CD759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50118579-885B-4AAD-B198-088D117CD759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50118579-885B-4AAD-B198-088D117CD759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50118579-885B-4AAD-B198-088D117CD759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +116,7 @@ Global
 		{3E0500E7-DB39-4D65-8D40-FDC44C834B9B} = {6A8865AD-70EF-4D88-8371-F5D08D553E72}
 		{E9B68A6B-3F55-474E-960C-EA2F57062E54} = {6A8865AD-70EF-4D88-8371-F5D08D553E72}
 		{7F7511AE-E08C-4E90-A098-75EB601FCD43} = {225D0A29-6BD6-4410-B33C-B9013821A02F}
+		{50118579-885B-4AAD-B198-088D117CD759} = {225D0A29-6BD6-4410-B33C-B9013821A02F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC4FF38D-16BF-43FA-A6A2-D37DC86B8226}

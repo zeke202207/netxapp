@@ -26,6 +26,5 @@ namespace DemoAddone.UI
             get => GetValue(CatalogSourceProperty);
             set => SetValue(CatalogSourceProperty, value);
         }
-
     }
 }

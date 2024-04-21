@@ -1,9 +1,13 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using DemoAddone.RPCService;
 using DemoAddone.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NetX.Controls.Media;
 using Serilog;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
@@ -23,14 +27,31 @@ namespace DemoAddone.Views.Menus
             {
                 if(this.DataContext is FileExplorerViewModel fileExplorerViewModel && sender is RepeatButton btn)
                 {
-                    if(btn.Tag is BreadCrumbItem breadCrumbItem)
+                    if (btn.Tag is BreadCrumbItem breadCrumbItem)
+                    {
+                        ReleaseResource();
                         fileExplorerViewModel.BreadCrumbCommand.Execute(breadCrumbItem)
                             .GetAwaiter().GetResult();
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Ãæ°üÐ¼µ¼º½Ê§°Ü");
+            }
+        }
+
+        protected override void OnUnloaded(RoutedEventArgs e)
+        {
+            ReleaseResource();
+            base.OnUnloaded(e);
+        }
+
+        private void ReleaseResource()
+        {
+            if (this.DataContext is FileExplorerViewModel fileExplorerViewModel)
+            {
+                fileExplorerViewModel.ReleasePlayerCommand.Execute().GetAwaiter().GetResult();
             }
         }
     }

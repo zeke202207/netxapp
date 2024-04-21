@@ -22,7 +22,7 @@ using System.Windows.Input;
 namespace DemoAddone.ViewModels
 {
     [ViewModel(ServiceLifetime.Transient)]
-    public class FileExplorerViewModel : MenuPageViewModel
+    public partial class FileExplorerViewModel : MenuPageViewModel
     {
         /// <summary>
         /// 全局唯一标识
@@ -51,6 +51,7 @@ namespace DemoAddone.ViewModels
             BilibiliDataContext bilibiliDataContext)
             : base(FileExplorerViewModel.Id, serviceProvider, typeof(FileExplorerView))
         {
+            ReleasePlayerCommand = ReactiveCommand.Create(()=> ReleasePlayer());
             BreadCrumbCommand = ReactiveCommand.Create<BreadCrumbItem>(item => BreadCrumbClick(item));
             CategoryCommand = ReactiveCommand.Create<FileViewModel>(item => CategoryClick(item));
             _fileExplorerManager = fileExplorerManager;
@@ -136,7 +137,9 @@ namespace DemoAddone.ViewModels
         private void OpenVideo(string videoFile, ExportType videoType)
         {
             ExportType = videoType;
+            CurrentDirectoryContents.Clear();
             GenBreadCrumbsNav(videoFile);
+            Play(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"test.mp4"));
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView)=> controlCreator.CreateControl(pageView);

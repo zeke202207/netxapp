@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>WinExe</OutputType>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\AppContract\NetX.AppCore.Contract.csproj" />
     <ProjectReference Include="..\..\..\Core\AppCore\NetX.AppCore.csproj" />
+    <ProjectReference Include="..\..\..\Core\NetX.Controls.Media\NetX.Controls.Media.csproj" />
     <ProjectReference Include="..\DemoAddone\DemoAddone.csproj" />
     <ProjectReference Include="..\RBAC\NetX.RBAC.csproj" />
   </ItemGroup>
