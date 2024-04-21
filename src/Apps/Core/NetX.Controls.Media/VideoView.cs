@@ -116,7 +116,7 @@ namespace NetX.Controls.Media
             set
             {
                 SetAndRaise(SourceProperty, ref _source, value);
-                if (_source != null)
+                if (!string.IsNullOrWhiteSpace(_source))
                     MediaPlayer.Media = new vlc.Media(_libVLC, new Uri(Source));
             }
         }

@@ -37,7 +37,7 @@ namespace DemoAddone.ViewModels
             try
             {
                 IsClose = false;
-               Source = "D:\\big_buck_bunny.mp4";
+               Source = $"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.mp4")}";
             }
             catch (Exception ex)
             {
