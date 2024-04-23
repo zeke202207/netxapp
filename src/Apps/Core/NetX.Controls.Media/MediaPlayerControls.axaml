@@ -7,40 +7,37 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="NetX.Controls.Media.MediaPlayerControls">
 
-
-  <Panel x:Name="Controls" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
-    <Grid VerticalAlignment="Center" ColumnDefinitions="Auto, Auto, Auto, Auto, *, Auto, Auto">
-      <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <local:MediaPlayerViewModel />
-      </Design.DataContext>
-
-      <Button Classes="PlayButton" Grid.Column="0" Command="{Binding Play}" Margin="4" IsEnabled="{Binding !IsPlaying}"  >
-        <ic:SymbolIcon Symbol="Play" FontSize="20" IsFilled="{Binding !IsPlaying}"/>
-      </Button>
-
-      <Button Classes="PauseButton" Grid.Column="1" Command="{Binding Pause}" Margin="4"  IsEnabled="{Binding IsPlaying}" >
-        <ic:SymbolIcon Symbol="Pause" FontSize="20" IsFilled="{Binding IsPlaying}"/>
-      </Button>
-
-      <Button Classes="StopButton" Grid.Column="2" Command="{Binding Stop}" Margin="4"  IsEnabled="{Binding IsPlaying}">
-        <ic:SymbolIcon Symbol="Stop" FontSize="20" IsFilled="{Binding IsPlaying}"/>
-      </Button>
-
-      <Button Classes="MuteButton" Grid.Column="3" Command="{Binding ToggleMute}" Margin="4" >
-        <Grid>
-          <ic:SymbolIcon Symbol="Speaker2" FontSize="20" IsFilled="true" IsVisible="{Binding !IsMuted}"/>
-          <ic:SymbolIcon Symbol="SpeakerMute" FontSize="20" IsFilled="false" IsVisible="{Binding IsMuted}"/>
-        </Grid>
-      </Button>
-
-      <Slider Classes="Time" Grid.Column="4" Minimum="0" Maximum="{Binding Length}" VerticalAlignment="Center"
-              Margin="4 0 4 0"
-              SmallChange="1000" LargeChange="10000" TickPlacement="None"
-              IsEnabled="{Binding IsPlaying}" Value="{Binding Time}" />
-
-      <Button Classes="MoreButton" Grid.Column="5" Margin="4" >
+  
+    <StackPanel 
+      x:Name="Controls" 
+      Spacing="0" 
+      VerticalAlignment="Bottom" 
+      Margin="0,0,0,30" 
+      Height="75" 
+      Width="520">
+      <Panel>
+          <Slider Classes="Time" Minimum="0" Maximum="{Binding Length}" VerticalAlignment="Center"
+            Margin="4 0 4 0"
+            SmallChange="1000" LargeChange="10000" TickPlacement="None"
+            IsEnabled="{Binding IsPlaying}" Value="{Binding Time}" />
+       </Panel>
+      <StackPanel Orientation="Horizontal">
+        <Button Classes="PlayButton" Command="{Binding Play}" Margin="4" IsEnabled="{Binding !IsPlaying}"  >
+          <ic:SymbolIcon Symbol="Play" FontSize="20" IsFilled="{Binding !IsPlaying}"/>
+        </Button>
+        <Button Classes="PauseButton" Command="{Binding Pause}" Margin="4"  IsEnabled="{Binding IsPlaying}" >
+          <ic:SymbolIcon Symbol="Pause" FontSize="20" IsFilled="{Binding IsPlaying}"/>
+        </Button>
+        <Button Classes="StopButton" Command="{Binding Stop}" Margin="4"  IsEnabled="{Binding IsPlaying}">
+          <ic:SymbolIcon Symbol="Stop" FontSize="20" IsFilled="{Binding IsPlaying}"/>
+        </Button>
+        <Button Classes="MuteButton" Command="{Binding ToggleMute}" Margin="4" >
+          <Grid>
+            <ic:SymbolIcon Symbol="Speaker2" FontSize="20" IsFilled="true" IsVisible="{Binding !IsMuted}"/>
+            <ic:SymbolIcon Symbol="SpeakerMute" FontSize="20" IsFilled="false" IsVisible="{Binding IsMuted}"/>
+          </Grid>
+        </Button>
+        <Button Classes="MoreButton" Margin="4" >
         <ic:SymbolIcon Symbol="MoreHorizontal" FontSize="20" />
         <Button.Flyout>
           <MenuFlyout>
@@ -70,6 +67,6 @@
           </MenuFlyout>
         </Button.Flyout>
       </Button>
-    </Grid>
-  </Panel>
+      </StackPanel>
+    </StackPanel>  
 </UserControl>

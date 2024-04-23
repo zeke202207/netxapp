@@ -239,7 +239,7 @@ namespace NetX.Controls.Media
             var topLeft = new Point();
             //var window = this.FindAncestorOfType<Window>();
             //var topLeft = (Point)this.TranslatePoint(new Point(0, 0), window);
-            var child = _floatingContent.Presenter?.Child;            
+            var child = _floatingContent.Presenter?.Child;
             if (child?.IsArrangeValid == true)
             {
                 if(child is UserControl u && u.Background == null)
@@ -294,7 +294,7 @@ namespace NetX.Controls.Media
 
 
             //ZEKE:控制区放在最底下，设置固定高度
-            int controlPannelHeight = 70;
+            int controlPannelHeight = 100;
             _floatingContent.MaxHeight = controlPannelHeight;
             _floatingContent.Height = controlPannelHeight;
 
