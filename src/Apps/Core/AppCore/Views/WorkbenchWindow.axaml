@@ -122,13 +122,17 @@
       <ui:NavigationView.Content>
           <Panel>
             <!--单视图-->
-            <ContentControl Name="singlepageview" Content="{Binding CurrentPage}" IsVisible="{Binding IsSingleView}" />
+            <ContentControl 
+              Name="singlepageview" 
+              Content="{Binding CurrentPage}" 
+              IsVisible="{Binding IsSingleView}" />
             <!--Tab视图-->
             <ui:TabView
               Name="NavigateTabView"
               TabWidthMode="SizeToContent"
               TabStripHeader="   "
               MinWidth="100"
+              MinHeight="700"
               CloseButtonOverlayMode="Always"
               CanDragTabs="False"
               IsAddTabButtonVisible="False"

@@ -294,7 +294,7 @@ namespace NetX.Controls.Media
 
 
             //ZEKE:控制区放在最底下，设置固定高度
-            int controlPannelHeight = 70;
+            int controlPannelHeight = 100;
             _floatingContent.MaxHeight = controlPannelHeight;
             _floatingContent.Height = controlPannelHeight;
 
