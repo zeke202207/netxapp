@@ -3,25 +3,22 @@
   "root": true,
   "dependentFileProviders": {
     "add": {
-      "fileToFile": {
+      "fileSuffixToExtension": {
         "add": {
-          "appsetting.user.json": [
-            "appsetting.json"
+          ".user.json": [
+            ".json"
           ],
-          "appsetting.log.json": [
-            "appsetting.json"
+          ".log.json": [
+            ".json"
           ],
-          "appsetting.addone.json": [
-            "appsetting.json"
+          ".addone.json": [
+            ".json"
           ],
-          "AppUserConfig.cs": [
-            "AppConfig.cs"
+          ".addone.cs": [
+            ".cs"
           ],
-          "AppAddoneConfig.cs": [
-            "AppConfig.cs"
-          ],
-          "AppServiceConfig.cs": [
-            "AppConfig.cs"
+          ".user.cs": [
+            ".cs"
           ]
         }
       }

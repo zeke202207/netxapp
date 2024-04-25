@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using DemoAddone;
 using MyDemo.Views;
 using NetX.AppCore.Contract;
 using ReactiveUI;
@@ -49,10 +50,18 @@ namespace MyDemo.ViewModels
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    bgWorker.ReportProgress(i, "正在加载资源...");
-                    Thread.Sleep(10);
+                    if(i==10)
+                    {
+                        bgWorker.ReportProgress(i, "正在加载播放器资源...");
+                        SplashInitializer.InitVlcLib();
+                    }
+                    else
+                    {
+                        bgWorker.ReportProgress(i, "正在加载资源...");
+                        Thread.Sleep(10);
+                    }
                 }
-                bgWorker.ReportProgress(100, "资源加载完成");
+                bgWorker.ReportProgress(100, "资源加载完成...");
                 _isSuccess = true;
             }
             catch (Exception ex)

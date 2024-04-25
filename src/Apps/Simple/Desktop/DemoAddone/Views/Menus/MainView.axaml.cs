@@ -14,9 +14,9 @@ using System.Reactive.Linq;
 
 namespace DemoAddone.Views.Menus
 {
-    public partial class FileExplorerView : UserControl
+    public partial class MainView : UserControl
     {
-        public FileExplorerView()
+        public MainView()
         {
             AvaloniaXamlLoader.Load(this);
         }
@@ -25,7 +25,7 @@ namespace DemoAddone.Views.Menus
         {
             try
             {
-                if(this.DataContext is FileExplorerViewModel fileExplorerViewModel && sender is RepeatButton btn)
+                if(this.DataContext is MainViewModel fileExplorerViewModel && sender is RepeatButton btn)
                 {
                     if (btn.Tag is BreadCrumbItem breadCrumbItem)
                     {
@@ -49,7 +49,7 @@ namespace DemoAddone.Views.Menus
 
         private void ReleaseResource()
         {
-            if (this.DataContext is FileExplorerViewModel fileExplorerViewModel)
+            if (this.DataContext is MainViewModel fileExplorerViewModel)
             {
                 fileExplorerViewModel.ReleasePlayerCommand.Execute().GetAwaiter().GetResult();
             }

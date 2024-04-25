@@ -16,15 +16,15 @@ using System.Windows.Input;
 
 namespace DemoAddone.UI
 {
-    public partial class CatalogView
+    public partial class BreadCrumb
     {
-        public static readonly StyledProperty<IEnumerable> CatalogSourceProperty =
-          AvaloniaProperty.Register<CatalogView, IEnumerable>(nameof(CatalogSource));
+        public static readonly StyledProperty<IEnumerable> SourceProperty =
+          AvaloniaProperty.Register<BreadCrumb, IEnumerable>(nameof(Source));
 
-        public IEnumerable CatalogSource
+        public IEnumerable Source
         {
-            get => GetValue(CatalogSourceProperty);
-            set => SetValue(CatalogSourceProperty, value);
+            get => GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
         }
     }
 }

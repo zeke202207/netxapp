@@ -52,8 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Menus\FileExplorerView.axaml.cs">
-      <DependentUpon>FileExplorerView.axaml</DependentUpon>
+    <Compile Update="Views\Menus\MainView.axaml.cs">
+      <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

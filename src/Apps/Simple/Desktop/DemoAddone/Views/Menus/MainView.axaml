@@ -6,7 +6,7 @@
              xmlns:locConvert="using:DemoAddone.Converters"
              xmlns:media="using:NetX.Controls.Media"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="DemoAddone.Views.Menus.FileExplorerView"
+             x:Class="DemoAddone.Views.Menus.MainView"
              xmlns:controls="using:DemoAddone.UI"
              ScrollViewer.VerticalScrollBarVisibility="Auto"
         xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
@@ -16,7 +16,7 @@
   </UserControl.Resources>
   
   <UserControl.Styles>
-    <StyleInclude Source="/Styles/CatalogViewStyles.axaml"/>
+    <StyleInclude Source="/Styles/BreadCrumbStyles.axaml"/>
   </UserControl.Styles>
   
   <Grid RowDefinitions="Auto,*">
@@ -45,8 +45,8 @@
     <!-- Floder View -->
     <ScrollViewer Grid.Row="1"
           IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Floder;a}}">
-        <controls:CatalogView 
-          CatalogSource="{Binding CurrentDirectoryContents}"
+      <controls:BreadCrumb
+          Source="{Binding CurrentDirectoryContents}"
           ItemClickCommand="{Binding CategoryCommand}"
           Grid.Row="1"/>
     </ScrollViewer>

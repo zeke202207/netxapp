@@ -22,7 +22,7 @@ using System.Windows.Input;
 namespace DemoAddone.ViewModels
 {
     [ViewModel(ServiceLifetime.Transient)]
-    public partial class FileExplorerViewModel : MenuPageViewModel
+    public partial class MainViewModel : MenuPageViewModel
     {
         /// <summary>
         /// 全局唯一标识
@@ -39,21 +39,21 @@ namespace DemoAddone.ViewModels
             set => this.RaiseAndSetIfChanged(ref _exportType, value);
         }
 
-        public ObservableCollection<FileViewModel> CurrentDirectoryContents { get; set; } = new();
+        public ObservableCollection<CategoryModel> CurrentDirectoryContents { get; set; } = new();
         public ObservableCollection<BreadCrumbItem> BreadCrumbs { get; set; } = new();
 
         public ReactiveCommand<BreadCrumbItem, Unit> BreadCrumbCommand { get; }
-        public ReactiveCommand<FileViewModel, Unit> CategoryCommand { get; }
+        public ReactiveCommand<CategoryModel, Unit> CategoryCommand { get; }
 
-        public FileExplorerViewModel(
+        public MainViewModel(
             IServiceProvider serviceProvider, 
             IFileExplorerManager fileExplorerManager,
             BilibiliDataContext bilibiliDataContext)
-            : base(FileExplorerViewModel.Id, serviceProvider, typeof(FileExplorerView))
+            : base(MainViewModel.Id, serviceProvider, typeof(MainView))
         {
             ReleasePlayerCommand = ReactiveCommand.Create(()=> ReleasePlayer());
             BreadCrumbCommand = ReactiveCommand.Create<BreadCrumbItem>(item => BreadCrumbClick(item));
-            CategoryCommand = ReactiveCommand.Create<FileViewModel>(item => CategoryClick(item));
+            CategoryCommand = ReactiveCommand.Create<CategoryModel>(item => CategoryClick(item));
             _fileExplorerManager = fileExplorerManager;
             _dbContext = bilibiliDataContext;
             var fileViewModels = GetDirectoryContents("/Home");
@@ -61,7 +61,7 @@ namespace DemoAddone.ViewModels
             BreadCrumbs.Add(new BreadCrumbItem() { Name = "Home", Path = "/Home" });
         }
 
-        private void CategoryClick(FileViewModel item)
+        private void CategoryClick(CategoryModel item)
         {
             try
             {
@@ -83,11 +83,11 @@ namespace DemoAddone.ViewModels
             }            
         }
 
-        private IEnumerable<FileViewModel> GetDirectoryContents(string path)
+        private IEnumerable<CategoryModel> GetDirectoryContents(string path)
         {
             var fileViewModels = _dbContext?.Categories
                 .Where(p => p.ParentPath == path)
-                .Select(p =>new FileViewModel(p.Name, p.CategoryType == 0 ? ExportType.Floder : ExportType.Mp4) {  ParentPath = p.ParentPath});
+                .Select(p =>new CategoryModel(p.Name, p.CategoryType == 0 ? ExportType.Floder : ExportType.Mp4) {  ParentPath = p.ParentPath});
             return fileViewModels;
         }
 

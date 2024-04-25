@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace DemoAddone.UI
 {
-    public partial class CatalogView : TemplatedControl
+    public partial class BreadCrumb : TemplatedControl
     {  
     }
 }

@@ -1,20 +1,13 @@
 {
   "addoneassembly": [
-    "NetX.RBAC",
     "DemoAddone"
   ],
   "startupconfig": [
     {
       "id": "00000000-0000-0000-0000-000000000001",
       "order": 0,
-      "isenabled": false,
+      "isenabled": true,
       "des": "Splash窗体"
-    },
-    {
-      "id": "00000000-0000-0000-0000-000000000002",
-      "order": 1,
-      "isenabled": false,
-      "des": "登录页"
     },
     {
       "id": "00000000-0000-0000-0000-000000000003",
@@ -25,78 +18,14 @@
   ],
   "navigationmenuconfig": [
     {
-      "id": "10000000-0000-0000-0000-000000000000",
+      "id": "AA000000-0000-0000-0000-000000000000",
       "parentid": "00000000-0000-0000-0000-000000000000",
       "order": 0,
       "title": "首页    ",
       "tooltip": "首页",
       "icon": "Home",
-      "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
+      "viewmodel": "DemoAddone.ViewModels.HomeViewModel, DemoAddone, Version=1.0.0.0, Culture=neutral",
       "triggerinvoked": true
-    },
-    {
-      "id": "10000000-0000-0000-0000-000000000001",
-      "parentid": "00000000-0000-0000-0000-000000000000",
-      "order": 2,
-      "title": "系统设置",
-      "tooltip": "系统设置",
-      "icon": "DevelopTools",
-      "viewmodel": "NetX.RBAC.ViewModels.Menus.SysSettingViewModel, NetX.RBAC",
-      "triggerinvoked": true
-    },
-    {
-      "id": "D0000000-0000-0000-0000-000000000001",
-      "parentid": "00000000-0000-0000-0000-000000000000",
-      "order": 100,
-      "title": "测试页",
-      "tooltip": "测试页",
-      "icon": "Library",
-      "viewmodel": "",
-      "triggerinvoked": false,
-      "childrens": [
-        {
-          "id": "D1000000-0000-0000-0000-000000000001",
-          "parentid": "D0000000-0000-0000-0000-000000000001",
-          "order": 0,
-          "title": "测试页1-1",
-          "tooltip": "测试页1",
-          "icon": "Home",
-          "viewmodel": "",
-          "triggerinvoked": false,
-          "childrens": [
-            {
-              "id": "D3000000-0000-0000-0000-000000000001",
-              "parentid": "D1000000-0000-0000-0000-000000000001",
-              "order": 0,
-              "title": "测试页1-1-1",
-              "tooltip": "测试页1-1-1",
-              "icon": "Setting",
-              "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
-              "triggerinvoked": true
-            },
-            {
-              "id": "D3000000-0000-0000-0000-000000000002",
-              "parentid": "D1000000-0000-0000-0000-000000000001",
-              "order": 1,
-              "title": "测试页1-1-2",
-              "tooltip": "测试页1-1-2",
-              "icon": "Setting",
-              "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
-              "triggerinvoked": true
-            }
-          ]
-        },
-        {
-          "id": "D1000000-0000-0000-0000-000000000002",
-          "parentid": "D0000000-0000-0000-0000-000000000001",
-          "order": 1,
-          "title": "测试页1-2",
-          "tooltip": "测试页1-2",
-          "icon": "Setting",
-          "viewmodel": "NetX.AppCore.ViewModels.TestViewModel",
-          "triggerinvoked": true
-        }
-      ]
     },
     {
       "id": "AA000000-0000-0000-0000-000000000001",
@@ -105,7 +34,17 @@
       "title": "BiliBli",
       "tooltip": "BiliBli",
       "icon": "Video",
-      "viewmodel": "DemoAddone.ViewModels.FileExplorerViewModel, DemoAddone, Version=1.0.0.0, Culture=neutral",
+      "viewmodel": "DemoAddone.ViewModels.MainViewModel, DemoAddone, Version=1.0.0.0, Culture=neutral",
+      "triggerinvoked": true
+    },
+    {
+      "id": "AA000000-0000-0000-0000-000000000002",
+      "parentid": "00000000-0000-0000-0000-000000000000",
+      "order": 1,
+      "title": "任务管理",
+      "tooltip": "任务管理",
+      "icon": "TaskList",
+      "viewmodel": "DemoAddone.ViewModels.JobsViewModel, DemoAddone, Version=1.0.0.0, Culture=neutral",
       "triggerinvoked": true
     }
   ]

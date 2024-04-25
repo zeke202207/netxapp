@@ -3,12 +3,12 @@
              xmlns:vm="using:DemoAddone.ViewModels"
               xmlns:controls="using:DemoAddone.UI">
   <Design.PreviewWith>
-    <controls:CatalogView >
+    <controls:BreadCrumb>
 
-    </controls:CatalogView>
+    </controls:BreadCrumb>
   </Design.PreviewWith>
 
-  <Style Selector="controls|CatalogView">
+  <Style Selector="controls|BreadCrumb">
     <Setter Property="CornerRadius" Value="10"/>
     
     <!-- Set Defaults -->
@@ -18,14 +18,14 @@
           <ItemsRepeater
           Grid.Row="1"
           x:Name="explorer"
-          ItemsSource="{TemplateBinding CatalogSource}"
+          ItemsSource="{TemplateBinding Source}"
           Margin="10,0,10,0"
           ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ItemsRepeater.Layout>
               <WrapLayout />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
-              <DataTemplate x:DataType="vm:FileViewModel">
+              <DataTemplate x:DataType="vm:CategoryModel">
                     <StackPanel Spacing="10" Margin="10"
                                  Width="130" Height="120">
                       <RepeatButton Name="CatalogItem"

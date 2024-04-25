@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DemoAddone.ViewModels
 {
-    public partial class FileExplorerViewModel
+    public partial class MainViewModel
     {
         private bool _isClosed = false;
         private string _source;

@@ -16,9 +16,9 @@ namespace DemoAddone.UI
     /// <summary>
     /// 
     /// </summary>
-    public partial class CatalogView
+    public partial class BreadCrumb
     {
-        public CatalogView()
+        public BreadCrumb()
         {
             ItemClickCommandProperty.Changed.AddClassHandler<Interactive>(HandleCommandChanged);
         }
@@ -27,7 +27,7 @@ namespace DemoAddone.UI
         /// 标识<seealso cref="CommandProperty"/> avalonia附加属性。
         /// </summary>
         /// <value>提供一个派生自<see cref="ICommand"/>的对象或绑定。</value>
-        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<CatalogView, Interactive, ICommand>(
+        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<BreadCrumb, Interactive, ICommand>(
             "ItemClickCommand", default(ICommand), false, BindingMode.OneTime);
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace DemoAddone.UI
                     var repeatBtn = GetRepeat(e.Source as Control);
                     if (null == repeatBtn || null == repeatBtn.Tag)
                         return;
-                    var catalogItem = repeatBtn.Tag as FileViewModel;
+                    var catalogItem = repeatBtn.Tag as CategoryModel;
                     ICommand commandValue = interactElem.GetValue(ItemClickCommandProperty); 
                     commandValue?.Execute(catalogItem);
                 }
