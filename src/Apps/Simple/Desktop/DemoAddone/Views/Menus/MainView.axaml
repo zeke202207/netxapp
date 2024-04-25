@@ -17,30 +17,17 @@
   
   <UserControl.Styles>
     <StyleInclude Source="/Styles/CategoryStyles.axaml"/>
+    <StyleInclude Source="/Styles/BreadCrumbStyles.axaml"/>
   </UserControl.Styles>
   
   <Grid RowDefinitions="Auto,*">
 
-    <!-- breadcrumb-->
-    <ItemsRepeater Grid.Row="0" ItemsSource="{Binding BreadCrumbs}" Margin="20,20,0,20">
-      <ItemsRepeater.Layout>
-        <StackLayout Orientation="Horizontal"/>
-      </ItemsRepeater.Layout>
-      <ItemsRepeater.ItemTemplate>
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal">
-            <RepeatButton 
-              Theme="{StaticResource BreadCrumb}"
-              Content="{Binding Name}"
-              Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
-              IsEnabled="{Binding CanClick}"
-              Tapped="RepeatButton_Tapped"
-              />
-            <TextBlock Text=">" TextAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !IsLast}"/>
-          </StackPanel>
-        </DataTemplate>
-      </ItemsRepeater.ItemTemplate>
-    </ItemsRepeater>
+    <!--bread crumb navigate-->
+    <controls:BreadCrumbNavigate
+      Grid.Row="0"
+      Source="{Binding BreadCrumbs}"
+      ItemClickCommand="{Binding BreadCrumbCommand}"
+      />
     
     <!-- items -->
     <!-- Floder View -->

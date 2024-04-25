@@ -16,7 +16,6 @@
       <ControlTemplate>
         <StackPanel>
           <ItemsRepeater
-          Grid.Row="1"
           x:Name="explorer"
           ItemsSource="{TemplateBinding Source}"
           Margin="10,0,10,0"

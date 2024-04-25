@@ -1,24 +1,21 @@
-﻿using Avalonia.Data;
+﻿using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia;
+using DemoAddone.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia.Controls;
-using DemoAddone.ViewModels;
 
 namespace DemoAddone.UI
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public partial class Category
+    public partial class BreadCrumbNavigate
     {
-        public Category()
+        public BreadCrumbNavigate()
         {
             ItemClickCommandProperty.Changed.AddClassHandler<Interactive>(HandleCommandChanged);
         }
@@ -27,7 +24,7 @@ namespace DemoAddone.UI
         /// 标识<seealso cref="CommandProperty"/> avalonia附加属性。
         /// </summary>
         /// <value>提供一个派生自<see cref="ICommand"/>的对象或绑定。</value>
-        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<Category, Interactive, ICommand>(
+        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<BreadCrumbNavigate, Interactive, ICommand>(
             "ItemClickCommand", default(ICommand), false, BindingMode.OneTime);
 
         /// <summary>
@@ -55,9 +52,9 @@ namespace DemoAddone.UI
         {
             // 添加非空值
             if (args.NewValue is ICommand commandValue)
-                interactElem.AddHandler(InputElement.DoubleTappedEvent, Handler);
+                interactElem.AddHandler(InputElement.TappedEvent, Handler);
             else// 删除之前的值
-                interactElem.RemoveHandler(InputElement.DoubleTappedEvent, Handler);
+                interactElem.RemoveHandler(InputElement.TappedEvent, Handler);
             // 本地处理函数
             static void Handler(object s, RoutedEventArgs e)
             {
@@ -66,8 +63,8 @@ namespace DemoAddone.UI
                     var repeatBtn = GetRepeat(e.Source as Control);
                     if (null == repeatBtn || null == repeatBtn.Tag)
                         return;
-                    var catalogItem = repeatBtn.Tag as CategoryModel;
-                    ICommand commandValue = interactElem.GetValue(ItemClickCommandProperty); 
+                    var catalogItem = repeatBtn.Tag as BreadCrumbItem;
+                    ICommand commandValue = interactElem.GetValue(ItemClickCommandProperty);
                     commandValue?.Execute(catalogItem);
                 }
             }

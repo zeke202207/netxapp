@@ -1,0 +1,54 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:controls="using:DemoAddone.UI"
+             xmlns:vm="using:DemoAddone.ViewModels"
+        xmlns:ui="using:FluentAvalonia.UI.Controls">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+          <controls:BreadCrumbNavigate>
+            
+          </controls:BreadCrumbNavigate>
+        
+      </Border>
+    </Design.PreviewWith>
+
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://DemoAddone/Styles/BreadCrumbItemStyle.axaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+    <!-- Add Styles Here -->
+  <Style Selector="controls|BreadCrumbNavigate">
+    <Setter Property="Margin" Value="20,20,0,20"/>
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel>
+          <ItemsRepeater
+            ItemsSource="{TemplateBinding Source}">
+            <ItemsRepeater.Layout>
+              <StackLayout Orientation="Horizontal"/>
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+              <DataTemplate x:DataType="vm:BreadCrumbItem">
+                <StackPanel Orientation="Horizontal">
+                  <RepeatButton
+                    Theme="{StaticResource BCItem}"
+                    Content="{Binding Name}"
+                    IsEnabled="{Binding CanClick}"
+                    Command="{TemplateBinding ItemClickCommand}"
+                    Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
+                   />
+                  <TextBlock Text=">" TextAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !IsLast}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+          </ItemsRepeater>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
