@@ -16,10 +16,10 @@ using System.Windows.Input;
 
 namespace DemoAddone.UI
 {
-    public partial class BreadCrumb
+    public partial class Category
     {
         public static readonly StyledProperty<IEnumerable> SourceProperty =
-          AvaloniaProperty.Register<BreadCrumb, IEnumerable>(nameof(Source));
+          AvaloniaProperty.Register<Category, IEnumerable>(nameof(Source));
 
         public IEnumerable Source
         {

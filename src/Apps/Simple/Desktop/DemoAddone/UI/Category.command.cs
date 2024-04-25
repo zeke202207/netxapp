@@ -16,9 +16,9 @@ namespace DemoAddone.UI
     /// <summary>
     /// 
     /// </summary>
-    public partial class BreadCrumb
+    public partial class Category
     {
-        public BreadCrumb()
+        public Category()
         {
             ItemClickCommandProperty.Changed.AddClassHandler<Interactive>(HandleCommandChanged);
         }
@@ -27,7 +27,7 @@ namespace DemoAddone.UI
         /// 标识<seealso cref="CommandProperty"/> avalonia附加属性。
         /// </summary>
         /// <value>提供一个派生自<see cref="ICommand"/>的对象或绑定。</value>
-        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<BreadCrumb, Interactive, ICommand>(
+        public static readonly AttachedProperty<ICommand> ItemClickCommandProperty = AvaloniaProperty.RegisterAttached<Category, Interactive, ICommand>(
             "ItemClickCommand", default(ICommand), false, BindingMode.OneTime);
 
         /// <summary>

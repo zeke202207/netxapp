@@ -3,12 +3,12 @@
              xmlns:vm="using:DemoAddone.ViewModels"
               xmlns:controls="using:DemoAddone.UI">
   <Design.PreviewWith>
-    <controls:BreadCrumb>
+    <controls:Category>
 
-    </controls:BreadCrumb>
+    </controls:Category>
   </Design.PreviewWith>
 
-  <Style Selector="controls|BreadCrumb">
+  <Style Selector="controls|Category">
     <Setter Property="CornerRadius" Value="10"/>
     
     <!-- Set Defaults -->

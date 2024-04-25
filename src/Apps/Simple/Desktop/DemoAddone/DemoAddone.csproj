@@ -58,10 +58,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="bilibili.db">
+    <None Update="Storage\database\bilibili.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="test.mp4">
+    <None Update="Storage\data\netcore.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

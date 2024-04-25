@@ -85,10 +85,15 @@ namespace DemoAddone.ViewModels
 
         private IEnumerable<CategoryModel> GetDirectoryContents(string path)
         {
-            var fileViewModels = _dbContext?.Categories
+            if (!Design.IsDesignMode)
+            {
+                var fileViewModels = _dbContext?.Categories
                 .Where(p => p.ParentPath == path)
-                .Select(p =>new CategoryModel(p.Name, p.CategoryType == 0 ? ExportType.Floder : ExportType.Mp4) {  ParentPath = p.ParentPath});
-            return fileViewModels;
+                .Select(p => new CategoryModel(p.Name, p.CategoryType == 0 ? ExportType.Floder : ExportType.Mp4) { ParentPath = p.ParentPath });
+                return fileViewModels;
+            }
+            else
+                return Enumerable.Empty<CategoryModel>();
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace DemoAddone.ViewModels
         /// 重构面包屑导航
         /// </summary>
         /// <param name="path"></param>
-        private void GenBreadCrumbsNav(string path)
+        private void GenBreadCrumbsNav(string path, bool canClick)
         {
             BreadCrumbs.Clear();
             var paths = path.Split('/');
@@ -113,7 +118,15 @@ namespace DemoAddone.ViewModels
             {
                 if (string.IsNullOrEmpty(paths[i]))
                     continue;
-                BreadCrumbs.Add(new BreadCrumbItem() { Name = paths[i], Path = $"{string.Join("/", paths.Take(i + 1))}", IsLast = i == paths.Length - 1 });
+                var item = new BreadCrumbItem()
+                {
+                    Name = paths[i],
+                    Path = $"{string.Join("/", paths.Take(i + 1))}",
+                    IsLast = i == paths.Length - 1,
+                };
+                if(item.IsLast)
+                    item.CanClick = canClick;
+                BreadCrumbs.Add(item);
             }
         }
 
@@ -124,7 +137,7 @@ namespace DemoAddone.ViewModels
         private void OpenFolder(string path)
         {
             ExportType =  ExportType.Floder;
-            GenBreadCrumbsNav(path);
+            GenBreadCrumbsNav(path, true);
             var fileViewModels = GetDirectoryContents($"{path}");
             CurrentDirectoryContents.Clear();
             CurrentDirectoryContents.AddRange(fileViewModels);
@@ -138,8 +151,8 @@ namespace DemoAddone.ViewModels
         {
             ExportType = videoType;
             CurrentDirectoryContents.Clear();
-            GenBreadCrumbsNav(videoFile);
-            Play(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"test.mp4"));
+            GenBreadCrumbsNav(videoFile, false);
+            Play(Path.GetFileName(videoFile));
         }
 
         public override Control CreateView(IControlCreator controlCreator, Type pageView)=> controlCreator.CreateControl(pageView);

@@ -10,6 +10,7 @@ namespace DemoAddone.ViewModels
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public bool CanClick { get; set; } = true;
         public bool IsLast { get; set; } = true;
     }
 }

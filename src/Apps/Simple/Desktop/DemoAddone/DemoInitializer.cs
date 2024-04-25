@@ -1,4 +1,5 @@
-﻿using DemoAddone.Data;
+﻿using Avalonia.Controls;
+using DemoAddone.Data;
 using DemoAddone.GrpcClients;
 using DemoAddone.RPCService;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace NetX.RBAC
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BilibiliDataContext>(opt=>opt.UseSqlite("Data Source=bilibili.db"));
+            services.AddDbContext<BilibiliDataContext>(opt => opt.UseSqlite(@"Data Source=Storage\database\bilibili.db"));
             GrpcRegister(services);
         }
 

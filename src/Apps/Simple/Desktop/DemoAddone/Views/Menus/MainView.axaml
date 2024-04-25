@@ -16,7 +16,7 @@
   </UserControl.Resources>
   
   <UserControl.Styles>
-    <StyleInclude Source="/Styles/BreadCrumbStyles.axaml"/>
+    <StyleInclude Source="/Styles/CategoryStyles.axaml"/>
   </UserControl.Styles>
   
   <Grid RowDefinitions="Auto,*">
@@ -33,6 +33,7 @@
               Theme="{StaticResource BreadCrumb}"
               Content="{Binding Name}"
               Tag="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}}"
+              IsEnabled="{Binding CanClick}"
               Tapped="RepeatButton_Tapped"
               />
             <TextBlock Text=">" TextAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !IsLast}"/>
@@ -45,7 +46,7 @@
     <!-- Floder View -->
     <ScrollViewer Grid.Row="1"
           IsVisible="{Binding ExportType ,Converter={StaticResource expConvert}, ConverterParameter= Floder;a}}">
-      <controls:BreadCrumb
+      <controls:Category
           Source="{Binding CurrentDirectoryContents}"
           ItemClickCommand="{Binding CategoryCommand}"
           Grid.Row="1"/>
