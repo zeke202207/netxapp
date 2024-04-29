@@ -102,6 +102,7 @@ namespace DemoAddone.ViewModels
         /// <param name="path"></param>
         private void BreadCrumbClick(BreadCrumbItem item)
         {
+            ReleasePlayer();
             OpenFolder($"{item.Path}");
         }
 
