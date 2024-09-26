@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Metadata;
+using FFMpegCore;
 using LibVLCSharp.Shared;
 using ReactiveUI;
 using System.Diagnostics;
@@ -132,6 +133,42 @@ namespace NetX.Controls.Media
         public void Download()
         {
             Process.Start(new ProcessStartInfo() { FileName = this.MediaPlayer.Media.Mrl, UseShellExecute = true });
+        }
+
+        public void Snapshot(object duration)
+        {
+            try
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        //TODO:config the snap param
+                        var path = "";
+                        var input = this.MediaPlayer.Media.Mrl;
+                        int start = 0;
+                        int end = 0;
+
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
+                        var result = FFMpegArguments
+                                       .FromFileInput(input)
+                                       .OutputToFile($"{Path.Combine(path, "image_%04d.jpg")}", false, option =>
+                                       {
+                                           option.WithCustomArgument($"-vf fps=1/1 -ss {start} -to {end}");
+                                       })
+                                       .ProcessSynchronously(true);                       
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

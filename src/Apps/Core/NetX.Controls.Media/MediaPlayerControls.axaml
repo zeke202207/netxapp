@@ -143,6 +143,16 @@
                   </MenuItem>
 
                 </MenuItem>
+
+                <MenuItem Header="抓拍">
+                  <MenuItem.Icon>
+                    <ic:SymbolIcon Symbol="Camera" FontSize="20"/>
+                  </MenuItem.Icon>
+                  <MenuItem Header="前后5s" Command="{Binding Snapshot}" CommandParameter="5"></MenuItem>
+                  <MenuItem Header="前后10s" Command="{Binding Snapshot}" CommandParameter="10"></MenuItem>
+                  <MenuItem Header="前后15s" Command="{Binding Snapshot}" CommandParameter="15"></MenuItem>
+                </MenuItem>
+                
                 <MenuItem Header="Download" Command="{Binding Download}" >
                   <MenuItem.Icon>
                     <ic:SymbolIcon Symbol="ArrowDownload" FontSize="20" />
